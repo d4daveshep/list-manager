@@ -3,22 +3,31 @@ package daveshep.gtd;
 import java.util.HashSet;
 import java.util.Set;
 
-import daveshep.gtd.domain.Task;
-
+import daveshep.gtd.domain.ListItem;
 
 public class ListManager {
 	
-	private Set tasks;
+	private Set items;
 	
 	public ListManager() {
-		tasks = new HashSet();
+		items = new HashSet();
 	}
 	
 	public static void main( String args[] ) {
 		System.out.println( "GTD List Manager" );
 	}
 	
-	public void addTask( Task aTask ) {
-		tasks.add(aTask);
+	public Set getItems() {
+		return items;
 	}
+
+	public void setItems(Set items) {
+		this.items = items;
+	}
+
+	public void addListItem( ListItem item ) {
+		items.add(item);
+	}
+	
+	// TODO: add factory methods for creating list items (set manager in constructor)
 }

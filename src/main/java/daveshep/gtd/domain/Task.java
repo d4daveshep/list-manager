@@ -1,37 +1,19 @@
 package daveshep.gtd.domain;
 
-public class Task {
-	
-	private Long id;
-	private String description;
+public class Task extends ListItem {
 	
 	public Task() {
-		
+		super();
+		this.setType(ListItemType.TASK);
 	}
 	
-	public Task( String desc ) {
+	public Task(String desc) {
 		this();
-		setDescription( desc );
-	}
-	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setDescription( String desc ) {
-		description = desc;
-	}
-	
-	public String getDescription() {
-		return description;
+		this.setDescription(desc);
 	}
 	
 	public String toString() {
-		return "Task: " + description;
+		return "Task: " + this.getDescription();
 	}
 	
 }

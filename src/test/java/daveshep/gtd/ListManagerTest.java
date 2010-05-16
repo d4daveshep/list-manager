@@ -1,5 +1,8 @@
 package daveshep.gtd;
 
+import daveshep.gtd.domain.ListItem;
+import daveshep.gtd.domain.ListItemType;
+import daveshep.gtd.domain.Project;
 import daveshep.gtd.domain.Task;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -15,11 +18,35 @@ public class ListManagerTest extends TestCase {
         return new TestSuite( ListManagerTest.class );
     }
 
-    public void testAddTask() {
-
+    public void testAddListItem() {
     	ListManager manager = new ListManager();
-    	manager.addTask( new Task("My first task") );
+    	ListItem li = new ListItem();
+    	li.setManager(manager);
+    	li.setType(ListItemType.TASK);
+    	li.setDescription("My first list item");
+    	manager.addListItem(li);
     	assertTrue( true );
+    }
+    
+    public void testAddTask() {
+    	ListManager manager = new ListManager();
+    	Task t = new Task();
+    	t.setManager(manager);
+    	t.setDescription("My first task");
+    	manager.addListItem(t);
+    	assertTrue( true );
+    }
+    
+    public void testAddProjectWithSubtasks() {
+    	ListManager manager = new ListManager();
+    	Project p = new Project("My first project");
+    	p.setManager(manager);
+    	Task t1 = new Task("My first subtask");
+    	Task t2 = new Task("My second subtask");
+    	p.addItem(t1);
+    	p.addItem(t2);
+    	manager.addListItem(p);
     	
+    	assertTrue(manager.getItems().size()==3);
     }
 }
