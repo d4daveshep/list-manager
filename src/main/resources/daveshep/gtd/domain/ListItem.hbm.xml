@@ -17,9 +17,7 @@
                 <generator class="native"/>
 
             </id>
-<!--
-            <property name="date" type="timestamp" column="EVENT_DATE"/>
--->
+            <property name="type" column="ITEM_TYPE"/>
             <property name="description" column="DESCRIPTION"/>
 
         </class>

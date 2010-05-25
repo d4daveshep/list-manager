@@ -55,7 +55,7 @@ public class ListItem {
 	}
 
 	public String toString() {
-		return this.getType() + " " + description;
+		return this.getId() + " " + this.getType() + " " + description;
 	}
 	
 }

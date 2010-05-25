@@ -1,5 +1,9 @@
 package daveshep.gtd;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
 import daveshep.gtd.domain.ListItem;
 import daveshep.gtd.domain.ListItemType;
 import daveshep.gtd.domain.Project;
@@ -28,6 +32,16 @@ public class ListManagerTest extends TestCase {
     	assertTrue( true );
     }
     
+    public void testGetListItems() {
+    	ListManager manager = new ListManager();
+    	List items = manager.getItems();
+    	for(Iterator<ListItem> iter=items.iterator();iter.hasNext();) {
+    		System.out.println(iter.next().toString());
+    	}
+    	assertTrue( true );
+    	
+    }
+    
     public void testAddTask() {
     	ListManager manager = new ListManager();
     	Task t = new Task();
@@ -36,7 +50,7 @@ public class ListManagerTest extends TestCase {
     	manager.addListItem(t);
     	assertTrue( true );
     }
-    
+/*    
     public void testAddProjectWithSubtasks() {
     	ListManager manager = new ListManager();
     	Project p = new Project("My first project");
@@ -49,4 +63,5 @@ public class ListManagerTest extends TestCase {
     	
     	assertTrue(manager.getItems().size()==3);
     }
+*/
 }

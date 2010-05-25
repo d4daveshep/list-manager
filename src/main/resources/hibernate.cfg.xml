@@ -65,6 +65,7 @@
 
 
         <mapping resource="daveshep/gtd/domain/ListItem.hbm.xml"/>
+        <mapping resource="daveshep/gtd/domain/Task.hbm.xml"/>
 
 
     </session-factory>
