@@ -2,8 +2,9 @@ package daveshep.gtd;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import org.hibernate.Session;
 import daveshep.gtd.domain.ListItem;
+import daveshep.gtd.util.HibernateUtil;
 
 public class ListManager {
 	
@@ -26,7 +27,14 @@ public class ListManager {
 	}
 
 	public void addListItem( ListItem item ) {
-		items.add(item);
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+
+        session.save(item);
+        session.getTransaction().commit();
+
+//		items.add(item);
 	}
 	
 	// TODO: add factory methods for creating list items (set manager in constructor)

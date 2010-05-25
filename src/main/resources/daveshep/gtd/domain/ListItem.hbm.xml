@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+
+<hibernate-mapping package="daveshep.gtd.domain">
+
+        <class name="ListItem" table="LIST_ITEMS">
+
+            <id name="id" column="ITEM_ID">
+
+                <generator class="native"/>
+
+            </id>
+<!--
+            <property name="date" type="timestamp" column="EVENT_DATE"/>
+-->
+            <property name="description" column="DESCRIPTION"/>
+
+        </class>
+
+</hibernate-mapping>
