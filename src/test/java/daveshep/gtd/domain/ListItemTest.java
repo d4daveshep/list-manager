@@ -1,0 +1,128 @@
+package daveshep.gtd.domain;
+
+import daveshep.gtd.domain.ListItem;
+
+import java.util.ArrayList;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+public class ListItemTest extends TestCase {
+
+    public ListItemTest( String testName ) {
+        super( testName );
+    }
+
+    public static Test suite() {
+        return new TestSuite( ListItemTest.class );
+    }
+
+    public void testEquals() {
+    	
+    	ListItem li1 = new ListItem();
+    	li1.setId(Long.valueOf(12));
+    	
+    	ListItem li2 = new ListItem();
+    	li2.setId(Long.valueOf(13));
+    	
+    	assertFalse(li1.equals(li2));
+    	
+    	li2.setId(Long.valueOf(12));
+    	
+    	assertTrue(li1.equals(li2));
+    	
+    }
+    
+    public void testAddRemoveChildItems() {
+    	
+    	// create an item and add 2 children
+    	ListItem li = new ListItem();
+    	li.setChildItems( new ArrayList());
+    	li.setDescription("parent1");
+    	
+    	ListItem cli1 = new ListItem();
+    	cli1.setDescription("child1");
+    	li.addChildItem(cli1);
+    	
+    	ListItem cli2 = new ListItem();
+    	cli2.setDescription("child2");
+    	li.addChildItem(cli2);
+    	
+    	assertTrue(li.getChildItems().size()==2);
+    	assertTrue(cli1.getParentItem()==li);
+    	assertTrue(li.getChildItems().contains(cli1));
+    	assertTrue(cli2.getParentItem()==li);
+    	assertTrue(li.getChildItems().contains(cli2));
+    	
+    	// remove one of the children
+    	li.removeChildItem(cli1);
+    	
+    	assertTrue(li.getChildItems().size()==1);
+    	assertFalse(cli1.getParentItem()==li);
+    	assertFalse(li.getChildItems().contains(cli1));
+    	assertTrue(cli2.getParentItem()==li);
+    	assertTrue(li.getChildItems().contains(cli2));
+    	
+    }
+    
+    public void testSelfChildItem() {
+    	// shouldn't be able to add self to self
+    	ListItem li = new ListItem();
+    	li.setChildItems(new ArrayList());
+    	try {
+    		li.addChildItem(li);
+    		fail("Shouldn't be able to add self child items");
+    	} catch (IllegalArgumentException e) {
+    		
+    	}
+    }
+    
+    public void testIsAncestorOf() {
+    	ListItem grandparent = new ListItem();
+    	grandparent.setId(Long.valueOf(100));
+    	grandparent.setChildItems(new ArrayList());
+
+    	ListItem parent = new ListItem();
+    	parent.setId(Long.valueOf(35));
+    	parent.setChildItems(new ArrayList());
+
+    	ListItem child = new ListItem();
+    	child.setId(Long.valueOf(5));
+    	child.setChildItems(new ArrayList());
+    	
+    	parent.addChildItem(child);
+    	grandparent.addChildItem(parent);
+    	
+    	assertTrue(grandparent.isAncestorOf(child));
+    	assertTrue(parent.isAncestorOf(child));
+    	assertTrue(grandparent.isAncestorOf(child));
+    	
+    	assertFalse(child.isAncestorOf(parent));
+    	assertFalse(child.isAncestorOf(grandparent));
+    	assertFalse(parent.isAncestorOf(grandparent));
+    	
+    	
+    }
+/*    
+    public void testCircularChildItems() {
+    	// shouldn't be able to add circular references
+    	ListItem li1 = new ListItem();
+    	li1.setChildItems(new ArrayList());
+    	
+    	ListItem li2 = new ListItem();
+    	li2.setChildItems(new ArrayList());
+    	
+    	try {
+    		li1.addChildItem(li2);
+    		li2.addChildItem(li1);
+    		fail("Shouldn't be able to add circular references");
+    	} catch (IllegalArgumentException e) {
+    		
+    	}
+    	
+    	
+    }
+    
+*/    
+    
+}

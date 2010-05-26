@@ -16,4 +16,9 @@ public class Task extends ListItem {
 		return "Task: " + this.getDescription();
 	}
 	
+	public void addSubTask(Task subTask) {
+		this.addChildItem(subTask);
+	}
+	
+	
 }
