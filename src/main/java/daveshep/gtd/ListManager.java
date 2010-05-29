@@ -1,48 +1,38 @@
 package daveshep.gtd;
 
-import java.util.HashSet;
 import java.util.List;
-//import java.util.Set;
-import org.hibernate.Session;
+
+import daveshep.gtd.domain.Goal;
 import daveshep.gtd.domain.ListItem;
-import daveshep.gtd.util.HibernateUtil;
+import daveshep.gtd.domain.Project;
+import daveshep.gtd.domain.ProjectStatus;
+import daveshep.gtd.domain.ReferenceItem;
+import daveshep.gtd.domain.Task;
+import daveshep.gtd.domain.TaskStatus;
 
-public class ListManager {
+public interface ListManager {
 	
-//	private Set items;
+	// factory methods
+	public Task createTask();
+	public Project createProject();
+	public Goal createGoal();
+	public ReferenceItem createRefItem();
+
+	// search methods
 	
-	public ListManager() {
-//		items = new HashSet();
-	}
+	// general search
+	public List<ListItem> findItemsByFolder(String folder);
+	public List<ListItem> findItemsByStarflag(boolean flag);
+	public List<ListItem> findItemsByDone(boolean done);
 	
-	public static void main( String args[] ) {
-		System.out.println( "GTD List Manager" );
-	}
+	// task search
+	public List<Task> getTasks();
+	public List<Task> findTasksByContext(String context);
+	public List<Task> findTasksByStatus(TaskStatus status);
 	
-	public List getItems() {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        List result = session.createQuery("from ListItem").list();
-        session.getTransaction().commit();
-
-		return result;
-	}
-/*
-	public void setItems(Set items) {
-		this.items = items;
-	}
-*/
-	public void addListItem( ListItem item ) {
-
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-
-        session.save(item);
-        session.getTransaction().commit();
-
-//		items.add(item);
-	}
-	
-	// TODO: add factory methods for creating list items (set manager in constructor)
+	// project search
+	public List<Project> getProjects();
+	public List<Project> findProjectsByStatus(ProjectStatus status);
+	public List<Project> findProjectsWithNoChildren();
+	public List<Project> findActiveProjectsWithNoNextAction();
 }

@@ -19,11 +19,9 @@ public class ListItemTest extends TestCase {
 
     public void testEquals() {
     	
-    	ListItem li1 = new ListItem();
-    	li1.setId(Long.valueOf(12));
+    	ListItem li1 = new ListItem(12);
     	
-    	ListItem li2 = new ListItem();
-    	li2.setId(Long.valueOf(13));
+    	ListItem li2 = new ListItem(13);
     	
     	assertFalse(li1.equals(li2));
     	
@@ -36,15 +34,15 @@ public class ListItemTest extends TestCase {
     public void testAddRemoveChildItems() {
     	
     	// create an item and add 2 children
-    	ListItem li = new ListItem();
+    	ListItem li = new ListItem(35);
     	li.setChildItems( new ArrayList());
     	li.setDescription("parent1");
     	
-    	ListItem cli1 = new ListItem();
+    	ListItem cli1 = new ListItem(12);
     	cli1.setDescription("child1");
     	li.addChildItem(cli1);
     	
-    	ListItem cli2 = new ListItem();
+    	ListItem cli2 = new ListItem(13);
     	cli2.setDescription("child2");
     	li.addChildItem(cli2);
     	
@@ -67,7 +65,7 @@ public class ListItemTest extends TestCase {
     
     public void testSelfChildItem() {
     	// shouldn't be able to add self to self
-    	ListItem li = new ListItem();
+    	ListItem li = new ListItem(12);
     	li.setChildItems(new ArrayList());
     	try {
     		li.addChildItem(li);
@@ -78,16 +76,16 @@ public class ListItemTest extends TestCase {
     }
     
     public void testIsAncestorOf() {
-    	ListItem grandparent = new ListItem();
-    	grandparent.setId(Long.valueOf(100));
+    	ListItem grandparent = new ListItem(100);
+    	grandparent.setDescription("grandparent");
     	grandparent.setChildItems(new ArrayList());
 
-    	ListItem parent = new ListItem();
-    	parent.setId(Long.valueOf(35));
+    	ListItem parent = new ListItem(35);
+    	parent.setDescription("parent");
     	parent.setChildItems(new ArrayList());
 
-    	ListItem child = new ListItem();
-    	child.setId(Long.valueOf(5));
+    	ListItem child = new ListItem(5);
+    	child.setDescription("child");
     	child.setChildItems(new ArrayList());
     	
     	parent.addChildItem(child);
@@ -103,13 +101,13 @@ public class ListItemTest extends TestCase {
     	
     	
     }
-/*    
+    
     public void testCircularChildItems() {
     	// shouldn't be able to add circular references
-    	ListItem li1 = new ListItem();
+    	ListItem li1 = new ListItem(12);
     	li1.setChildItems(new ArrayList());
     	
-    	ListItem li2 = new ListItem();
+    	ListItem li2 = new ListItem(13);
     	li2.setChildItems(new ArrayList());
     	
     	try {
@@ -123,6 +121,6 @@ public class ListItemTest extends TestCase {
     	
     }
     
-*/    
+    
     
 }

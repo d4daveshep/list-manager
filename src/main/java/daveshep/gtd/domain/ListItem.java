@@ -1,12 +1,7 @@
 package daveshep.gtd.domain;
 
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
-
-import daveshep.gtd.ListManager;
-
-
 
 public class ListItem {
 	
@@ -15,8 +10,22 @@ public class ListItem {
 	private String description;
 	private List childItems;
 	private ListItem parentItem;
+	private String folder;
+	private boolean starflag;
+	private boolean done;
+	private Date dueDate;
+	private String notes;
 	
 	public ListItem() {
+	}
+
+	//package level constructors for testing purposes
+	ListItem(Long id) {
+		this.setId(id);
+	}
+	
+	ListItem(long id) {
+		this.setId(Long.valueOf(id));
 	}
 	
 	public ListItem( String desc ) {
@@ -48,6 +57,47 @@ public class ListItem {
 		return description;
 	}
 	
+	public String getFolder() {
+		return folder;
+	}
+
+	public void setFolder(String folder) {
+		this.folder = folder;
+	}
+
+	public boolean isStarflag() {
+		return starflag;
+	}
+
+	public void setStarflag(boolean starflag) {
+		this.starflag = starflag;
+	}
+
+	protected boolean isDone() {
+		return done;
+	}
+
+	protected void setDone(boolean done) {
+		this.done = done;
+	}
+
+	protected Date getDueDate() {
+		return dueDate;
+	}
+
+	protected void setDueDate(Date dueDate) {
+		this.dueDate = dueDate;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	@Override
 	public String toString() {
 		return this.getId() + " " + this.getType() + " " + description;
 	}
@@ -65,36 +115,38 @@ public class ListItem {
 	}
 
 
-	public List getChildItems() {
+	List getChildItems() {
 		return childItems;
 	}
 
-	public void setChildItems(List childItems) {
+	void setChildItems(List childItems) {
 		this.childItems = childItems;
 	}
 
-	public boolean isAncestorOf(ListItem child) {
+	boolean isAncestorOf(ListItem child) {
 		// is this item an ancestor of param child item
-		System.out.println(child.toString());
-		ListItem parent = this.getParentItem();
-		while (parent!=null) {
-			System.out.println(parent.toString());
-			if (parent.equals(child)) {
+		ListItem ancestor = child.getParentItem();
+		while (ancestor!=null) {
+			if (this.equals(ancestor)) {
 				return true;
 			}
-			parent = parent.getParentItem();
+			ancestor = ancestor.getParentItem();
 		}
 		return false;
 		
 	}
 	
-	public void addChildItem(ListItem childItem) {
+	void addChildItem(ListItem childItem) {
 		if (childItem==null) {
 			throw new IllegalArgumentException("Null child item");
 		}
 		if (childItem==this) {
 			throw new IllegalArgumentException("Can't add self to self");
 		}
+		if (childItem.isAncestorOf(this)) {
+			throw new IllegalArgumentException("Can't add circular references");
+		}
+		
 		if (childItem.getParentItem()!=null) {
 			childItem.getParentItem().removeChildItem(childItem);
 		}
@@ -102,7 +154,7 @@ public class ListItem {
 		getChildItems().add(childItem);
 	}
 
-	public void removeChildItem(ListItem childItem) {
+	void removeChildItem(ListItem childItem) {
 		if (childItem==null) {
 			throw new IllegalArgumentException("Null child item");
 		}
@@ -117,7 +169,7 @@ public class ListItem {
 		return parentItem;
 	}
 
-	public void setParentItem(ListItem parentItem) {
+	void setParentItem(ListItem parentItem) {
 		this.parentItem = parentItem;
 	}
 
