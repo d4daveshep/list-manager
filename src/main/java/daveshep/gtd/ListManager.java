@@ -35,4 +35,10 @@ public interface ListManager {
 	public List<Project> findProjectsByStatus(ProjectStatus status);
 	public List<Project> findProjectsWithNoChildren();
 	public List<Project> findActiveProjectsWithNoNextAction();
+	
+	// goal search
+	public List<Goal> getGoals();
+	
+	// remove methods
+	public void removeAll();
 }
