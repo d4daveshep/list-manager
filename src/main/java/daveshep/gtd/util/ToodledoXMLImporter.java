@@ -48,11 +48,14 @@ public class ToodledoXMLImporter {
 			Document document = documentBuilder.parse(file);
 			
 			NodeList items = document.getElementsByTagName("item");
+			System.out.println(items.getLength() + " items");
+			
 			Node item;
 			for (int i=0;i<items.getLength();i++) {
 				item = items.item(i);
 				
 				NodeList itemNodes = item.getChildNodes();
+				
 				
 				
 			}
