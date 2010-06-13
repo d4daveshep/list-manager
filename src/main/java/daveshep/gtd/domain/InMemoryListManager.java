@@ -24,6 +24,10 @@ public class InMemoryListManager implements ListManager {
 		item.setChildItems(new ArrayList<ListItem>());
 	}
 	
+	private void createTagContainer(ListItem item) {
+		item.setTags(new ArrayList<String>());
+	}
+	
 	@Override
 	public Goal createGoal() {
 		Goal goal = new Goal();
@@ -51,20 +55,25 @@ public class InMemoryListManager implements ListManager {
 	public Project createProject() {
 		Project project = new Project();
 		createChildContainer(project);
+		createTagContainer(project);
 		storage.add(project);
 		return project;	
 	}
 
 	@Override
 	public ReferenceItem createRefItem() {
-		// TODO Auto-generated method stub
-		return null;
+		ReferenceItem refItem = new ReferenceItem();
+		createChildContainer(refItem);
+		createTagContainer(refItem);
+		storage.add(refItem);
+		return refItem;
 	}
 
 	@Override
 	public Task createTask() {
 		Task task = new Task();
 		createChildContainer(task);
+		createTagContainer(task);
 		storage.add(task);
 		return task;	
 	}
@@ -147,6 +156,28 @@ public class InMemoryListManager implements ListManager {
 	@Override
 	public void removeAll() {
 		storage.clear();
+	}
+
+	@Override
+	public ListItem findItemById(Long id) {
+		for(Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
+			ListItem item = iterator.next();
+			if(item.getId().equals(id)) {
+				return item;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public Task findTaskById(Long id) {
+		for(Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
+			ListItem item = iterator.next();
+			if(item.getId().equals(id) && item.getType()==ListItemType.TASK) {
+				return (Task)item;
+			}
+		}
+		return null;
 	}
 
 }

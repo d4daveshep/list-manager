@@ -19,6 +19,7 @@ public class InMemoryListManagerTest extends TestCase {
     public static Test suite() {
         return new TestSuite( InMemoryListManagerTest.class );
     }
+    
     public void testCreateGoal() {
     	
     	ListManager manager = InMemoryListManager.getInstance();
@@ -86,8 +87,25 @@ public class InMemoryListManagerTest extends TestCase {
     	
     	assertTrue(project1.getSubProjectsOrTasks().size()==3);
     	
+    }
+    
+    public void testFindItemById() {
 
+    	ListManager manager = InMemoryListManager.getInstance();
+    	manager.removeAll();
     	
+    	Task task1 = manager.createTask();
+    	task1.setId(Long.valueOf("12345"));
+    	task1.setDescription("task1");
+    	
+    	Task task2 = manager.createTask();
+    	task2.setDescription("task2");
+    	task2.setId(Long.valueOf("67890"));
+    	
+    	ListItem find1 = manager.findItemById(Long.valueOf("12345"));
+    	
+    	assertTrue(find1.equals(task1));
+    	    	
     }
     
     

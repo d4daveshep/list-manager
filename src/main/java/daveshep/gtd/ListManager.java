@@ -21,12 +21,14 @@ public interface ListManager {
 	// search methods
 	
 	// general search
+	public ListItem findItemById(Long id);
 	public List<ListItem> findItemsByFolder(String folder);
 	public List<ListItem> findItemsByStarflag(boolean flag);
 	public List<ListItem> findItemsByDone(boolean done);
 	
 	// task search
 	public List<Task> getTasks();
+	public Task findTaskById(Long id);
 	public List<Task> findTasksByContext(String context);
 	public List<Task> findTasksByStatus(TaskStatus status);
 	

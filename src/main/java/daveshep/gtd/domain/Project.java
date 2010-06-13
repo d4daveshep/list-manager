@@ -15,6 +15,7 @@ public class Project extends ListItem {
 	public Project() {
 		super();
 		this.setType(ListItemType.PROJECT);
+		this.setStatus(ProjectStatus.NONE);
 	}
 
 	public ProjectStatus getStatus() {
@@ -43,6 +44,18 @@ public class Project extends ListItem {
 
 	public void removeSubTask(Task subTask) {
 		this.removeChildItem(subTask);
+	}
+
+	@Override
+	public boolean isDone() {
+		// TODO Auto-generated method stub
+		return super.isDone();
+	}
+
+	@Override
+	public void setDone(boolean done) {
+		// TODO Auto-generated method stub
+		super.setDone(done);
 	}
 	
 

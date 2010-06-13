@@ -1,7 +1,9 @@
 package daveshep.gtd.domain;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 public class ListItem {
 	
@@ -12,9 +14,10 @@ public class ListItem {
 	private ListItem parentItem;
 	private String folder;
 	private boolean starflag;
-	private boolean done;
+	private boolean done = false;
 	private Date dueDate;
 	private String notes;
+	private List<String> tags;
 	
 	public ListItem() {
 	}
@@ -173,5 +176,47 @@ public class ListItem {
 		this.parentItem = parentItem;
 	}
 
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
 	
+	public void addTag(String tag) {
+		tags.add(tag);
+	}
+	
+	public String getTagsString() {
+		String tagString = "";
+		for (int i=0; i<tags.size(); i++) {
+			if (i>0) {
+				tagString += ", ";
+			}
+			tagString += tags.get(i);
+		}
+		return tagString;
+	}
+	
+	public void setTagsString(String tagString) {
+		tags.clear();
+		StringTokenizer tokens = new StringTokenizer(tagString, ",", false);
+		while(tokens.hasMoreElements()) {
+			tags.add(tokens.nextToken().trim());
+		}
+		
+	}
+	
+	public void removeTag(String tag) {
+		tags.remove(tag);
+	}
+
+	public void removeTags() {
+		tags.clear();
+	}
+
+	public boolean hasTag(String tag) {
+		return this.tags.contains(tag);
+	}
 }

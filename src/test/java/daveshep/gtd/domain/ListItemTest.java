@@ -3,6 +3,8 @@ package daveshep.gtd.domain;
 import daveshep.gtd.domain.ListItem;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -121,6 +123,32 @@ public class ListItemTest extends TestCase {
     	
     }
     
+    public void testTags() {
+
+    	ListItem listItem = new ListItem();
+    	listItem.setTags(new ArrayList<String>());
+    	
+    	listItem.addTag("tag1");
+    	listItem.addTag("tag2");
+
+    	assertTrue(listItem.getTagsString().equals("tag1, tag2"));
+    	assertTrue(listItem.getTags().size()==2);
+    	
+    	listItem.setTagsString("tag3, tag4");
+    	
+    	assertTrue(listItem.getTags().size()==2);
+    	
+    	assertFalse(listItem.hasTag("tag1"));
+    	assertFalse(listItem.hasTag("tag2"));
+    	assertTrue(listItem.hasTag("tag3"));
+    	assertTrue(listItem.hasTag("tag4"));
+    	
+    	listItem.removeTag("tag4");
+    	
+    	assertTrue(listItem.getTagsString().equals("tag3"));
+    	assertTrue(listItem.getTags().size()==1);
+    	
+    }
     
     
 }

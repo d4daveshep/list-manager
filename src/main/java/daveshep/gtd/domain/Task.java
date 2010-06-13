@@ -21,6 +21,7 @@ public class Task extends ListItem {
 		super();
 		this.setType(ListItemType.TASK);
 		this.setEnergy(TaskEnergy.NORMAL);
+		this.setStatus(TaskStatus.NONE);
 	}
 	
 	public TaskStatus getStatus() {
@@ -57,6 +58,18 @@ public class Task extends ListItem {
 
 	public String toString() {
 		return super.toString();
+	}
+
+	@Override
+	public boolean isDone() {
+		// TODO Auto-generated method stub
+		return super.isDone();
+	}
+
+	@Override
+	public void setDone(boolean done) {
+		// TODO Auto-generated method stub
+		super.setDone(done);
 	}
 	
 }
