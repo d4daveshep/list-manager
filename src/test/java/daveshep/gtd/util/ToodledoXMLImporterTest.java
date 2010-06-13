@@ -40,6 +40,7 @@ public class ToodledoXMLImporterTest extends TestCase {
     		assertTrue(task.getFolder().equals("w.HR"));	
     		assertTrue(task.getNotes().equals("18/5 start 9am"));
     		assertFalse(task.isDone());
+    		assertFalse(task.isStarflag());
     	
     	} catch (FileNotFoundException e) {
     		e.printStackTrace(System.out);
