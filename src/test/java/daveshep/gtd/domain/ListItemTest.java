@@ -1,6 +1,7 @@
 package daveshep.gtd.domain;
 
 import daveshep.gtd.domain.ListItem;
+import daveshep.gtd.util.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -147,6 +148,18 @@ public class ListItemTest extends TestCase {
     	
     	assertTrue(listItem.getTagsString().equals("tag3"));
     	assertTrue(listItem.getTags().size()==1);
+    	
+    }
+    
+    public void testDoneAndCompletedDate() {
+    	ListItem listItem = new ListItem();
+    	
+    	assertFalse(listItem.isDone());
+    	assertNull(listItem.getCompletedDate());
+    	
+    	listItem.setDone(true);
+    	assertTrue(listItem.isDone());
+    	assertTrue(listItem.getCompletedDate().equals(DateUtils.today()));
     	
     }
     

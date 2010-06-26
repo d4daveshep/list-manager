@@ -1,9 +1,12 @@
 package daveshep.gtd.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import daveshep.gtd.util.DateUtils;
 
 public class ListItem {
 	
@@ -14,10 +17,11 @@ public class ListItem {
 	private ListItem parentItem;
 	private String folder;
 	private boolean starflag;
-	private boolean done = false;
 	private Date dueDate;
+	private Date completedDate;
 	private String notes;
 	private List<String> tags;
+	private TaskRepeater repeater;
 	
 	public ListItem() {
 	}
@@ -77,11 +81,25 @@ public class ListItem {
 	}
 
 	protected boolean isDone() {
-		return done;
+		if (this.completedDate==null) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	protected void setDone(boolean done) {
-		this.done = done;
+		if (done==true) {
+			this.completedDate = DateUtils.today();
+		}
+		else {
+			this.completedDate = null;
+		}
+	}
+	
+	protected Date getCompletedDate() {
+		return completedDate;
 	}
 
 	protected Date getDueDate() {
@@ -139,7 +157,7 @@ public class ListItem {
 		
 	}
 	
-	void addChildItem(ListItem childItem) {
+	public void addChildItem(ListItem childItem) {
 		if (childItem==null) {
 			throw new IllegalArgumentException("Null child item");
 		}
@@ -157,7 +175,7 @@ public class ListItem {
 		getChildItems().add(childItem);
 	}
 
-	void removeChildItem(ListItem childItem) {
+	public void removeChildItem(ListItem childItem) {
 		if (childItem==null) {
 			throw new IllegalArgumentException("Null child item");
 		}
@@ -172,6 +190,10 @@ public class ListItem {
 		return parentItem;
 	}
 
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
+
 	void setParentItem(ListItem parentItem) {
 		this.parentItem = parentItem;
 	}
@@ -180,10 +202,6 @@ public class ListItem {
 		return tags;
 	}
 
-	public void setTags(List<String> tags) {
-		this.tags = tags;
-	}
-	
 	public void addTag(String tag) {
 		tags.add(tag);
 	}
@@ -218,5 +236,13 @@ public class ListItem {
 
 	public boolean hasTag(String tag) {
 		return this.tags.contains(tag);
+	}
+	
+	public boolean hasTags() {
+		return !this.tags.isEmpty();
+	}
+	
+	public boolean hasChildren() {
+		return !this.childItems.isEmpty();
 	}
 }

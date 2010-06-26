@@ -2,6 +2,8 @@ package daveshep.gtd.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -224,10 +226,32 @@ public class ToodledoXMLImporter {
 						((Task)listItem).setStatus(TaskStatus.CALENDAR);
 					}
 					if (!itemDueDate.equals("0000-00-00")) {
-						// TODO parse and set date, check if this affects status 
+						try {
+							((Task)listItem).setDueDate(DateUtils.dateFormat.parse(itemDueDate));
+						} catch (ParseException e) {
+							e.printStackTrace(System.out);
+						}
 					}
 					if(!itemCompletedDate.equals("0000-00-00")) {
 						((Task)listItem).setDone(true);
+						try {
+							Date date = DateUtils.dateFormat.parse(itemCompletedDate);
+							
+							((Task)listItem).getCompletedDate().setTime(date.getTime());
+						} catch (ParseException e) {
+							e.printStackTrace(System.out);
+						}
+					}
+					if(!itemParentId.equals("0")) {
+						// find parent - assume it has already been added
+						ListItem parent = this.manager.findItemById(Long.valueOf(itemParentId));
+						if (parent==null) {
+							System.out.println("Parent " + itemParentId + " not found");
+						} 
+						else {
+							parent.addChildItem(listItem);
+						}
+						
 					}
 
 				}

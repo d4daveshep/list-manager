@@ -1,5 +1,6 @@
 package daveshep.gtd.domain;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -62,14 +63,27 @@ public class Task extends ListItem {
 
 	@Override
 	public boolean isDone() {
-		// TODO Auto-generated method stub
 		return super.isDone();
 	}
 
 	@Override
 	public void setDone(boolean done) {
-		// TODO Auto-generated method stub
 		super.setDone(done);
+	}
+
+	@Override
+	public Date getDueDate() {
+		return super.getDueDate();
+	}
+
+	@Override
+	public void setDueDate(Date dueDate) {
+		super.setDueDate(dueDate);
+	}
+
+	@Override
+	public Date getCompletedDate() {
+		return super.getCompletedDate();
 	}
 	
 }

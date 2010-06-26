@@ -34,6 +34,7 @@ public interface ListManager {
 	
 	// project search
 	public List<Project> getProjects();
+	public Project findProjectById(Long id);
 	public List<Project> findProjectsByStatus(ProjectStatus status);
 	public List<Project> findProjectsWithNoChildren();
 	public List<Project> findActiveProjectsWithNoNextAction();

@@ -180,4 +180,15 @@ public class InMemoryListManager implements ListManager {
 		return null;
 	}
 
+	@Override
+	public Project findProjectById(Long id) {
+		for(Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
+			ListItem item = iterator.next();
+			if(item.getId().equals(id) && item.getType()==ListItemType.PROJECT) {
+				return (Project)item;
+			}
+		}
+		return null;
+	}
+
 }
