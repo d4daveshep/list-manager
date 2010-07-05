@@ -109,6 +109,65 @@ public class TaskRepeater {
 			}
 		}
 		else if (token.equalsIgnoreCase("the")) {
+			token = tokens.nextToken(); // get the second token
+			if (token.equalsIgnoreCase("first")) {
+				this.repeatWeekOfMonth = 1;
+			}
+			else if (token.equalsIgnoreCase("second")) {
+				this.repeatWeekOfMonth = 2;
+			}
+			else if (token.equalsIgnoreCase("third")) {
+				this.repeatWeekOfMonth = 3;
+			}
+			else if (token.equalsIgnoreCase("fourth")) {
+				this.repeatWeekOfMonth = 4;
+			}
+			else if (token.equalsIgnoreCase("last")) {
+				this.repeatWeekOfMonth = -1;
+			} else {
+				throw new IllegalArgumentException("special repeat text fails validation");
+			}
+
+			token = tokens.nextToken(); // get the third token
+			if (token.equalsIgnoreCase("monday")) {
+				this.repeatDayOfWeek = Calendar.MONDAY;
+			}
+			else if (token.equalsIgnoreCase("tuesday")) {
+				this.repeatDayOfWeek = Calendar.TUESDAY;
+			}
+			else if (token.equalsIgnoreCase("wednesday")) {
+				this.repeatDayOfWeek = Calendar.WEDNESDAY;
+			}
+			else if (token.equalsIgnoreCase("thursday")) {
+				this.repeatDayOfWeek = Calendar.THURSDAY;
+			}
+			else if (token.equalsIgnoreCase("friday")) {
+				this.repeatDayOfWeek = Calendar.FRIDAY;
+			}
+			else if (token.equalsIgnoreCase("saturday")) {
+				this.repeatDayOfWeek = Calendar.SATURDAY;
+			}
+			else if (token.equalsIgnoreCase("sunday")) {
+				this.repeatDayOfWeek = Calendar.SUNDAY;
+			} else {
+				throw new IllegalArgumentException("special repeat text fails validation");
+			}
+
+			token = tokens.nextToken(); // get the fourth token
+			if (!token.equalsIgnoreCase("of")) {
+				throw new IllegalArgumentException("special repeat text fails validation");
+			}
+			
+			token = tokens.nextToken(); // get the fifth token
+			if (!token.equalsIgnoreCase("every")) {
+				throw new IllegalArgumentException("special repeat text fails validation");
+			}
+			
+			token = tokens.nextToken(); // get the sixth token
+			if (!token.equalsIgnoreCase("month")) {
+				throw new IllegalArgumentException("special repeat text fails validation");
+			}
+			
 			
 		}
 		
