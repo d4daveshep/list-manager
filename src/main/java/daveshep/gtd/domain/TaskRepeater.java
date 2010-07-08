@@ -1,40 +1,40 @@
 package daveshep.gtd.domain;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 /**
- * Class to encapsulate the various ways to specify repeating tasks
+ * Class to encapsulate
+ * - the various ways to specify repeating tasks
+ * - the calculation of the next due date from a given date
  * @author shephd
  *
  */
 public class TaskRepeater {
 
 	public enum RepeatType {
-		NONE, DAILY, WEEKLY, BI_WEEKLY, MONTHLY, BI_MONTHLY, QUARTERLY, HALF_YEARLY, YEARLY, SPECIAL  
+		NONE, SIMPLE, SPECIAL  
 	}
 	
 	public enum RepeatInterval {
-		DAYS, WEEKS, MONTHS, YEARS  
+		DAILY, WEEKLY, BI_WEEKLY, MONTHLY, BI_MONTHLY, QUARTERLY, HALF_YEARLY, YEARLY  
+	}
+	
+	public enum RepeatFrom {
+		DUE_DATE, COMPLETED_DATE
 	}
 	
 	private RepeatType repeatType = RepeatType.NONE;
+	private RepeatInterval repeatInterval;
 	private String specialText;
 	private int repeatDayOfMonth;
 	private int repeatDayOfWeek;
 	private int repeatWeekOfMonth;
-	private RepeatInterval repeatInterval;
 	private int repeatMultiplier;
+	private RepeatFrom repeatFrom;
 	
 	public TaskRepeater() {
-	}
-
-	public RepeatType getType() {
-		return repeatType;
-	}
-
-	public void setType(RepeatType type) {
-		this.repeatType = type;
 	}
 
 	public String getSpecialText() {
@@ -43,7 +43,7 @@ public class TaskRepeater {
 
 	public void setSpecialText(String specialText) throws IllegalArgumentException {
 		
-		if (repeatType!=RepeatType.SPECIAL) {
+		if (this.repeatType!=RepeatType.SPECIAL) {
 			throw new IllegalArgumentException("Need to set repeat type to SPECIAL before specifying special text");
 		}
 		validate(specialText);
@@ -93,13 +93,13 @@ public class TaskRepeater {
 				
 				token = tokens.nextToken(); // get the third token
 				if (token.equalsIgnoreCase("days")) {
-					this.repeatInterval = RepeatInterval.DAYS;
+					this.repeatInterval = RepeatInterval.DAILY;
 				} else if (token.equalsIgnoreCase("weeks")) {
-					this.repeatInterval = RepeatInterval.WEEKS;
+					this.repeatInterval = RepeatInterval.WEEKLY;
 				} else if (token.equalsIgnoreCase("months")) {
-					this.repeatInterval = RepeatInterval.MONTHS;
+					this.repeatInterval = RepeatInterval.MONTHLY;
 				} else if (token.equalsIgnoreCase("years")) {
-					this.repeatInterval = RepeatInterval.YEARS;
+					this.repeatInterval = RepeatInterval.YEARLY;
 				} else {
 					throw new IllegalArgumentException("special repeat text fails validation");
 				}
@@ -177,7 +177,62 @@ public class TaskRepeater {
 		
 	}
 
-	
+	public RepeatInterval getRepeatInterval() {
+		return repeatInterval;
+	}
+
+	public void setRepeatInterval(RepeatInterval repeatInterval) {
+		this.repeatInterval = repeatInterval;
+	}
+
+	public RepeatType getRepeatType() {
+		return repeatType;
+	}
+
+	public void setRepeatType(RepeatType repeatType) {
+		this.repeatType = repeatType;
+	}
+
+	public Date calculateNextDueDate(Date dueDate) {
+		Date nextDueDate = null;
+		
+//		System.out.println("due: " + dueDate);
+		
+		switch (this.repeatType) {
+		
+		case NONE:
+			nextDueDate = dueDate;
+			break;
+		
+		case SIMPLE:
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(dueDate);
+			
+			switch (this.repeatInterval) {
+
+			case DAILY:
+				cal.add(Calendar.DATE, 1);
+				nextDueDate = cal.getTime();
+				break;
+
+			case WEEKLY:
+				cal.add(Calendar.WEEK_OF_YEAR, 1);
+				nextDueDate = cal.getTime();
+				break;
+
+			case BI_WEEKLY:
+				cal.add(Calendar.WEEK_OF_YEAR, 2);
+				nextDueDate = cal.getTime();
+				break;
+
+			
+			}
+			
+		}
+		
+//		System.out.println("next: " + nextDueDate);
+		return nextDueDate;
+	}
 	
 	
 }

@@ -1,6 +1,12 @@
 package daveshep.gtd.domain;
 
+import java.text.ParseException;
+import java.util.Date;
+
+
+import daveshep.gtd.domain.TaskRepeater.RepeatInterval;
 import daveshep.gtd.domain.TaskRepeater.RepeatType;
+import daveshep.gtd.util.DateUtils;
 import daveshep.gtd.util.ToodledoXMLImporterTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -19,12 +25,12 @@ public class TaskRepeaterTest extends TestCase {
     public void testSpecialTextValidation() {
     	TaskRepeater repeater = new TaskRepeater();
     	try {
-    		repeater.setSpecialText("this should fail");
+    		repeater.setSpecialText("this should fail because type = none by default");
     		fail();
     	} catch (IllegalArgumentException e) {
     	}
 
-    	repeater.setType(RepeatType.SPECIAL);
+    	repeater.setRepeatType(RepeatType.SPECIAL);
     	try {
     		repeater.setSpecialText("this should fail validation");
     		fail();
@@ -49,4 +55,51 @@ public class TaskRepeaterTest extends TestCase {
     	
     }
 
+    public void testCalculateNextDueDate() {
+    
+    	TaskRepeater repeater = new TaskRepeater();
+    	
+    	try {
+    		Date nextDueDate;
+    	
+    		// test no repeat
+    		repeater.setRepeatType(RepeatType.NONE);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-01"));
+    		
+    		// test daily repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.DAILY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-02"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-01"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2009-12-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-01"));
+
+    		// test weekly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.WEEKLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-08"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-07"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2009-12-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-07"));
+    		
+    		// test bi-weekly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.BI_WEEKLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-15"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-14"));
+    		
+    		
+    	} catch (ParseException e) {
+    		e.printStackTrace(System.out);
+    	}
+    	
+    }
+    
 }
