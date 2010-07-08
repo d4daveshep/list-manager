@@ -225,6 +225,11 @@ public class TaskRepeater {
 				nextDueDate = cal.getTime();
 				break;
 
+			case MONTHLY:
+				cal.add(Calendar.MONTH, 1);
+				nextDueDate = cal.getTime();
+				break;
+
 			
 			}
 			

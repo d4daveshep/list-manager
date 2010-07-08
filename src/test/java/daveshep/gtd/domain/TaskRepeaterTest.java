@@ -95,6 +95,14 @@ public class TaskRepeaterTest extends TestCase {
     		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
     		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-14"));
     		
+    		// test monthly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.MONTHLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-01"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-28"));
+    		
     		
     	} catch (ParseException e) {
     		e.printStackTrace(System.out);
