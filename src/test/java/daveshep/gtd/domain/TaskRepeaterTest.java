@@ -55,7 +55,7 @@ public class TaskRepeaterTest extends TestCase {
     	
     }
 
-    public void testCalculateNextDueDate() {
+    public void testCalculateNextDueDate_Simple() {
     
     	TaskRepeater repeater = new TaskRepeater();
     	
@@ -103,11 +103,76 @@ public class TaskRepeaterTest extends TestCase {
     		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
     		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-28"));
     		
+    		// test bi-monthly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.BI_MONTHLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-03-01"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-03-31"));
+    		
+    		// test quarterly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.QUARTERLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-04-01"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-04-30"));
+    		
+    		// test half yearly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.HALF_YEARLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-07-01"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-07-31"));
+    		
+    		// test yearly repeat
+    		repeater.setRepeatType(RepeatType.SIMPLE);
+    		repeater.setRepeatInterval(RepeatInterval.YEARLY);
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2011-01-01"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2011-01-31"));
+    		
     		
     	} catch (ParseException e) {
     		e.printStackTrace(System.out);
     	}
     	
     }
-    
+
+    public void testCalculateNextDueDate_Special() {
+        
+    	TaskRepeater repeater = new TaskRepeater();
+    	
+    	try {
+    		Date nextDueDate;
+    	
+    		repeater.setRepeatType(RepeatType.SPECIAL);
+
+    		// test "every <weekday>"
+    		repeater.setSpecialText("every monday");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-04"));
+    		repeater.setSpecialText("every sunday");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-03"));
+    		repeater.setSpecialText("every friday");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-08"));
+
+    		// test "every <X> <T>"
+    		repeater.setSpecialText("every 2 days");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-03"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2009-12-31"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-02"));
+    		
+    	} catch (IllegalArgumentException e) {
+    		e.printStackTrace(System.out);
+    	} catch (ParseException e) {
+    		e.printStackTrace(System.out);
+    	}
+    }
 }

@@ -30,8 +30,8 @@ public class TaskRepeater {
 	private String specialText;
 	private int repeatDayOfMonth;
 	private int repeatDayOfWeek;
-	private int repeatWeekOfMonth;
-	private int repeatMultiplier;
+	private int repeatWeekOfMonth = 0;
+	private int repeatMultiplier = 0;
 	private RepeatFrom repeatFrom;
 	
 	public TaskRepeater() {
@@ -46,6 +46,10 @@ public class TaskRepeater {
 		if (this.repeatType!=RepeatType.SPECIAL) {
 			throw new IllegalArgumentException("Need to set repeat type to SPECIAL before specifying special text");
 		}
+		
+		this.repeatWeekOfMonth = 0;
+		this.repeatMultiplier = 0;
+		
 		validate(specialText);
 		this.specialText = specialText;
 	}
@@ -90,6 +94,7 @@ public class TaskRepeater {
 			}
 			else try{ 
 				this.repeatMultiplier = Integer.parseInt(token);
+//				System.out.println(this.repeatMultiplier);
 				
 				token = tokens.nextToken(); // get the third token
 				if (token.equalsIgnoreCase("days")) {
@@ -195,8 +200,9 @@ public class TaskRepeater {
 
 	public Date calculateNextDueDate(Date dueDate) {
 		Date nextDueDate = null;
-		
-//		System.out.println("due: " + dueDate);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(dueDate);
 		
 		switch (this.repeatType) {
 		
@@ -205,8 +211,6 @@ public class TaskRepeater {
 			break;
 		
 		case SIMPLE:
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(dueDate);
 			
 			switch (this.repeatInterval) {
 
@@ -230,12 +234,71 @@ public class TaskRepeater {
 				nextDueDate = cal.getTime();
 				break;
 
+			case BI_MONTHLY:
+				cal.add(Calendar.MONTH, 2);
+				nextDueDate = cal.getTime();
+				break;
+
+			case QUARTERLY:
+				cal.add(Calendar.MONTH, 3);
+				nextDueDate = cal.getTime();
+				break;
+
+			case HALF_YEARLY:
+				cal.add(Calendar.MONTH, 6);
+				nextDueDate = cal.getTime();
+				break;
+
+			case YEARLY:
+				cal.add(Calendar.YEAR, 1);
+				nextDueDate = cal.getTime();
+				break;
 			
 			}
+			break;
+			
+		case SPECIAL:
+			
+			if (this.repeatWeekOfMonth==0) {
+				
+				cal.set(Calendar.DAY_OF_WEEK, this.repeatDayOfWeek);
+				nextDueDate = cal.getTime();
+				
+				if (!nextDueDate.after(dueDate)) {
+					cal.add(Calendar.WEEK_OF_YEAR, 1);
+					nextDueDate = cal.getTime();
+				}
+			}
+			else if (this.repeatMultiplier>0) {
+				System.out.println("due: " + dueDate);
+				switch (this.repeatInterval) {
+				case DAILY:
+					cal.add(Calendar.DATE, this.repeatMultiplier);
+					nextDueDate = cal.getTime();
+					break;
+				case WEEKLY:
+					cal.add(Calendar.WEEK_OF_YEAR, this.repeatMultiplier);
+					nextDueDate = cal.getTime();
+					break;
+				case MONTHLY:
+					cal.add(Calendar.MONTH, this.repeatMultiplier);
+					nextDueDate = cal.getTime();
+					break;
+				case YEARLY:
+					cal.add(Calendar.YEAR, this.repeatMultiplier);
+					nextDueDate = cal.getTime();
+					break;
+				default:
+					throw new IllegalStateException("Invalid RepeatInterval");
+						
+				}
+			}
+			System.out.println("next: " + nextDueDate);
+			
+			break;
 			
 		}
 		
-//		System.out.println("next: " + nextDueDate);
 		return nextDueDate;
 	}
 	
