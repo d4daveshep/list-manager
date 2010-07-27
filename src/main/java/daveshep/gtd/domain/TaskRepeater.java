@@ -33,6 +33,7 @@ public class TaskRepeater {
 	private int repeatWeekOfMonth = 0;
 	private int repeatMultiplier = 0;
 	private RepeatFrom repeatFrom;
+	private int specialType = 0;
 	
 	public TaskRepeater() {
 	}
@@ -47,8 +48,10 @@ public class TaskRepeater {
 			throw new IllegalArgumentException("Need to set repeat type to SPECIAL before specifying special text");
 		}
 		
+		this.specialType = 0;
 		this.repeatWeekOfMonth = 0;
 		this.repeatMultiplier = 0;
+		this.repeatInterval = null;
 		
 		validate(specialText);
 		this.specialText = specialText;
@@ -56,10 +59,10 @@ public class TaskRepeater {
 	
 	/**
 	 * accepts the form of
-	 * every <W> where W is <day of week|weekday|weekend> (e.g. every Monday)
-	 * every <X> <T> where T = <days|weeks|months|years> (e.g. every 2 days, every 8 weeks)
-	 * the <N> <W> of every month where N = <first|second|third|forth|last> and W = <day of week> (e.g. the second Monday of every month)
-	 * the <D> of every month where D = <day of month> (e.g. the 20th of every month)
+	 * 1. every <W> where W is <day of week|weekday|weekend> (e.g. every Monday)
+	 * 2. every <X> <T> where T = <days|weeks|months|years> (e.g. every 2 days, every 8 weeks)
+	 * 3. the <N> <W> of every month where N = <first|second|third|forth|last> and W = <day of week> (e.g. the second Monday of every month)
+	 * 4. the <D> of every month where D = <day of month> (e.g. the 20th of every month)
 	 * 
 	 * @param text
 	 * @throws IllegalArgumentException
@@ -73,28 +76,34 @@ public class TaskRepeater {
 			token = tokens.nextToken(); // get the second token
 			if (token.equalsIgnoreCase("monday")) {
 				this.repeatDayOfWeek = Calendar.MONDAY;
+				this.specialType=1;
 			}
 			else if (token.equalsIgnoreCase("tuesday")) {
 				this.repeatDayOfWeek = Calendar.TUESDAY;
+				this.specialType=1;
 			}
 			else if (token.equalsIgnoreCase("wednesday")) {
 				this.repeatDayOfWeek = Calendar.WEDNESDAY;
+				this.specialType=1;
 			}
 			else if (token.equalsIgnoreCase("thursday")) {
 				this.repeatDayOfWeek = Calendar.THURSDAY;
+				this.specialType=1;
 			}
 			else if (token.equalsIgnoreCase("friday")) {
 				this.repeatDayOfWeek = Calendar.FRIDAY;
+				this.specialType=1;
 			}
 			else if (token.equalsIgnoreCase("saturday")) {
 				this.repeatDayOfWeek = Calendar.SATURDAY;
+				this.specialType=1;
 			}
 			else if (token.equalsIgnoreCase("sunday")) {
 				this.repeatDayOfWeek = Calendar.SUNDAY;
+				this.specialType=1;
 			}
 			else try{ 
-				this.repeatMultiplier = Integer.parseInt(token);
-//				System.out.println(this.repeatMultiplier);
+				this.repeatMultiplier = Integer.parseInt(token); // get the second token as a number
 				
 				token = tokens.nextToken(); // get the third token
 				if (token.equalsIgnoreCase("days")) {
@@ -108,6 +117,7 @@ public class TaskRepeater {
 				} else {
 					throw new IllegalArgumentException("special repeat text fails validation");
 				}
+				this.specialType=2;
 				
 			} catch (NumberFormatException e) {
 				throw new IllegalArgumentException("special repeat text fails validation");
@@ -172,6 +182,7 @@ public class TaskRepeater {
 			if (!token.equalsIgnoreCase("month")) {
 				throw new IllegalArgumentException("special repeat text fails validation");
 			}
+			this.specialType=3;
 			
 			
 		}
@@ -258,8 +269,8 @@ public class TaskRepeater {
 			break;
 			
 		case SPECIAL:
-			
-			if (this.repeatWeekOfMonth==0) {
+			switch (this.specialType) {
+			case 1: // every <W> where W is <day of week|weekday|weekend> (e.g. every Monday)
 				
 				cal.set(Calendar.DAY_OF_WEEK, this.repeatDayOfWeek);
 				nextDueDate = cal.getTime();
@@ -268,9 +279,10 @@ public class TaskRepeater {
 					cal.add(Calendar.WEEK_OF_YEAR, 1);
 					nextDueDate = cal.getTime();
 				}
-			}
-			else if (this.repeatMultiplier>0) {
-				System.out.println("due: " + dueDate);
+				break;
+
+			case 2: // every <X> <T> where T = <days|weeks|months|years> (e.g. every 2 days, every 8 weeks)
+				
 				switch (this.repeatInterval) {
 				case DAILY:
 					cal.add(Calendar.DATE, this.repeatMultiplier);
@@ -292,10 +304,44 @@ public class TaskRepeater {
 					throw new IllegalStateException("Invalid RepeatInterval");
 						
 				}
+				break;
+				
+			case 3: // the <N> <W> of every month where N = <first|second|third|forth|last> and W = <day of week> (e.g. the second Monday of every month)
+				System.out.println("start");
+
+//				cal.set(Calendar.DAY_OF_WEEK, this.repeatDayOfWeek );
+//				nextDueDate = cal.getTime();
+//				System.out.println("next: " + nextDueDate);
+//
+//				if (!nextDueDate.after(dueDate)) {
+//					cal.add(Calendar.WEEK_OF_YEAR, 1);
+//					nextDueDate = cal.getTime();
+//					System.out.println("next: " + nextDueDate);
+//				}
+
+				cal.set(Calendar.WEEK_OF_MONTH, this.repeatWeekOfMonth);
+				nextDueDate = cal.getTime();
+				System.out.println("next: " + nextDueDate);
+
+				if (!nextDueDate.after(dueDate)) {
+					cal.add(Calendar.WEEK_OF_YEAR, 1);
+					nextDueDate = cal.getTime();
+				}
+				System.out.println("next: " + nextDueDate);
+
+				cal.set(Calendar.DAY_OF_WEEK, this.repeatDayOfWeek );
+				nextDueDate = cal.getTime();
+				System.out.println("next: " + nextDueDate);
+
+				if (!nextDueDate.after(dueDate)) {
+					cal.add(Calendar.WEEK_OF_YEAR, 4);
+					nextDueDate = cal.getTime();
+				}
+				System.out.println("next: " + nextDueDate);
+				break;
+				
+				
 			}
-			System.out.println("next: " + nextDueDate);
-			
-			break;
 			
 		}
 		

@@ -151,7 +151,7 @@ public class TaskRepeaterTest extends TestCase {
     	
     		repeater.setRepeatType(RepeatType.SPECIAL);
 
-    		// test "every <weekday>"
+    		// test 1. "every <weekday>"
     		repeater.setSpecialText("every monday");
     		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
     		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-04"));
@@ -162,12 +162,34 @@ public class TaskRepeaterTest extends TestCase {
     		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
     		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-08"));
 
-    		// test "every <X> <T>"
+    		// test 2. "every <X> <T>"
     		repeater.setSpecialText("every 2 days");
     		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
     		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-03"));
     		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2009-12-31"));
     		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-02"));
+    		
+    		repeater.setSpecialText("every 3 weeks");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-22"));
+    		
+    		repeater.setSpecialText("every 5 months");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-06-01"));
+    		
+    		// test 3. "the <N> <W> of every month"
+    		repeater.setSpecialText("the first monday of every month");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-04"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-06"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-01"));
+    		
+    		repeater.setSpecialText("the second saturday of every month");
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-01"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-01-09"));
+    		nextDueDate = repeater.calculateNextDueDate(DateUtils.dateFormat.parse("2010-01-20"));
+    		assertTrue(DateUtils.dateFormat.format(nextDueDate).equals("2010-02-13"));
+    		
     		
     	} catch (IllegalArgumentException e) {
     		e.printStackTrace(System.out);
