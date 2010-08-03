@@ -20,9 +20,6 @@ import daveshep.gtd.util.ToodledoXMLImporter;
 public class BasicSwingUI extends JFrame {
 
 	private JList itemList;
-	private JTextField commandTextField = new JTextField("type here", 50);
-	private JButton commandButton = new JButton("Go");
-	private JLabel commandLabel;
 
 	
 	private ListManager manager = InMemoryListManager.getInstance();
@@ -40,23 +37,13 @@ public class BasicSwingUI extends JFrame {
 		getContentPane().add(ps, BorderLayout.CENTER);
 		
 		// create the command panel
-		JPanel commandPanel = new JPanel();
-//		commandPanel.setLayout(new BorderLayout());
-		commandPanel.add(new JLabel("Command: "));
-
-		commandLabel = new JLabel("<none>");
-		commandPanel.add(commandLabel);
+		CommandPanel commandPanel = new CommandPanel();
 		
-		commandPanel.add(new JLabel("Action: "));
-		commandPanel.add(commandTextField);
-		commandPanel.add(commandButton);
-		
-		loadTestData();
-		
-		
+		loadTestData();		
 		
 		getContentPane().add(commandPanel, BorderLayout.PAGE_END);
-		
+
+		pack();
 	}
 
 	public static void main(String argv[]) {
