@@ -22,7 +22,7 @@ import daveshep.gtd.util.ToodledoXMLImporter;
 
 public class BasicSwingUI extends JFrame {
 
-	private JList itemList;
+	JList itemList;
 
 	
 	private ListManager manager = InMemoryListManager.getInstance();
@@ -42,12 +42,10 @@ public class BasicSwingUI extends JFrame {
 		// remove the list focus cycle
 		itemList.setFocusable(false);
 		
-		System.out.println(itemList.getKeyListeners()[0]);
+		;
 		
 		// create the command panel
-		CommandPanel commandPanel = new CommandPanel();
-		
-//		commandPanel.addKeyListener((KeyListener)al);
+		CommandPanel commandPanel = new CommandPanel(this);
 		
 		loadTestData();		
 		

@@ -7,18 +7,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class CommandPanel extends JPanel implements ActionListener, KeyListener {
 
+	private JFrame frame; // parent frame
 	JTextField commandTextField = new JTextField("type here", 40);
 	private JButton commandButton = new JButton("Go");
 	private JLabel commandLabel = new JLabel("<none>");
 
-	CommandPanel() {
+	CommandPanel(JFrame frame) {
 		super();
+		this.frame = frame;
 		
 //		setLayout(new BorderLayout());
 
@@ -51,7 +54,8 @@ public class CommandPanel extends JPanel implements ActionListener, KeyListener 
 	@Override
 	public void keyTyped(KeyEvent event) {
 		 System.out.println(event.toString());
-		
+		 ((BasicSwingUI)this.frame).itemList.dispatchEvent(event);
+		 
 	}
 
 	@Override
