@@ -1,5 +1,6 @@
 package daveshep.gtd.ui.swing;
 
+import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -31,6 +32,10 @@ public class CommandPanel extends JPanel implements ActionListener, KeyListener 
 		commandTextField.addKeyListener(this);
 	
 		commandTextField.setFocusable(true);
+		
+		
+		KeyboardFocusManager kfm = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		
 
 	}
 

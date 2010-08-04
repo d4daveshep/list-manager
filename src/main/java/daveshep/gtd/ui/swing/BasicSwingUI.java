@@ -36,6 +36,10 @@ public class BasicSwingUI extends JFrame {
 		ps.getViewport().add(itemList);
 		getContentPane().add(ps, BorderLayout.CENTER);
 		
+		// remove the list focus cycle
+		itemList.setFocusable(false);
+		
+		
 		// create the command panel
 		CommandPanel commandPanel = new CommandPanel();
 		
