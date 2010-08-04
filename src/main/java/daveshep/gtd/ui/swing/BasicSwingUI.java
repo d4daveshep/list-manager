@@ -1,6 +1,8 @@
 package daveshep.gtd.ui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -10,6 +12,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import daveshep.gtd.ListManager;
 import daveshep.gtd.domain.InMemoryListManager;
@@ -39,9 +42,12 @@ public class BasicSwingUI extends JFrame {
 		// remove the list focus cycle
 		itemList.setFocusable(false);
 		
+		System.out.println(itemList.getKeyListeners()[0]);
 		
 		// create the command panel
 		CommandPanel commandPanel = new CommandPanel();
+		
+//		commandPanel.addKeyListener((KeyListener)al);
 		
 		loadTestData();		
 		
