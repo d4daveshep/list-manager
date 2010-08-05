@@ -54,7 +54,6 @@ public class CommandPanel extends JPanel implements ActionListener, KeyListener 
 	@Override
 	public void keyTyped(KeyEvent event) {
 		 System.out.println(event.toString());
-		 ((BasicSwingUI)this.frame).itemList.dispatchEvent(event);
 		 
 	}
 

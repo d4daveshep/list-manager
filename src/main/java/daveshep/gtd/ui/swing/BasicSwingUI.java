@@ -1,11 +1,19 @@
 package daveshep.gtd.ui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,6 +39,9 @@ public class BasicSwingUI extends JFrame {
 		super("GTD List Manager - Basic Swing UI");
 		setSize(800, 600);
 
+		// load GTD data
+		loadTestData();		
+		
 		// create the main list panel
 		itemList = new JList(new String[] {"item 1","item 2","item 3"});
 
@@ -39,19 +50,16 @@ public class BasicSwingUI extends JFrame {
 		ps.getViewport().add(itemList);
 		getContentPane().add(ps, BorderLayout.CENTER);
 		
-		// remove the list focus cycle
-		itemList.setFocusable(false);
-		
-		;
+		// key bindings
+		// Ctrl-F = find
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK),"Find");
+		itemList.getActionMap().put("Find", new FindAction());		
 		
 		// create the command panel
-		CommandPanel commandPanel = new CommandPanel(this);
-		
-		loadTestData();		
-		
-		getContentPane().add(commandPanel, BorderLayout.PAGE_END);
+//		CommandPanel commandPanel = new CommandPanel(this);
+//		getContentPane().add(commandPanel, BorderLayout.PAGE_END);
 
-		pack();
+//		pack();
 	}
 
 	public static void main(String argv[]) {
@@ -76,3 +84,13 @@ public class BasicSwingUI extends JFrame {
 	}
 }
 
+// move this to a separate class file
+class FindAction extends AbstractAction {
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		System.out.println("Find");
+		// display a find dialog box
+		
+	}
+}
