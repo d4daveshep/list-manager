@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -89,8 +90,9 @@ class FindAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println("Find");
+		System.out.print("Find... ");
 		// display a find dialog box
-		
+		String findString = JOptionPane.showInputDialog("Find what..."); 		
+		System.out.println(findString);
 	}
 }
