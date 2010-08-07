@@ -39,7 +39,7 @@ public class BasicSwingUI extends JFrame {
 
 	public BasicSwingUI() {
 		super("GTD List Manager - Basic Swing UI");
-		setSize(800, 600);
+		setSize(1000, 700);
 
 		// load GTD data into data model
 		loadTestData();		
@@ -70,6 +70,16 @@ public class BasicSwingUI extends JFrame {
 		// Ctrl-B = blank screen
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B,InputEvent.CTRL_DOWN_MASK),"Blank");
 		itemList.getActionMap().put("Blank", new BlankAction(this));
+		
+		// F2 = edit description
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"Edit_Description");
+		itemList.getActionMap().put("Edit_Description", new EditDescriptionAction(this));
+		
+		// * = toggle star
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_8,InputEvent.SHIFT_DOWN_MASK),"Toggle_Star");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ASTERISK,0),"Toggle_Star");
+		itemList.getActionMap().put("Toggle_Star", new ToggleStarAction(this));
+		
 		
 		// create the command panel
 //		CommandPanel commandPanel = new CommandPanel(this);

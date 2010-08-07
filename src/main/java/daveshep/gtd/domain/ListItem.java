@@ -120,7 +120,26 @@ public class ListItem {
 
 	@Override
 	public String toString() {
-		return this.getId() + " " + this.getType() + " " + description;
+		String output = "";
+		if (!isDone()) {
+			output += "- ";
+		} else {
+			output += "+ ";
+		}
+		
+		if (isStarflag()) {
+			output += "* ";
+		} else {
+			output += "  ";
+		}
+			
+		output += " | " + this.getType() + " | " + description + " | " + folder;
+		
+		if (getDueDate() != null) {
+			output += " | "+ DateUtils.dateFormat.format(getDueDate());
+		}
+		
+		return output;
 	}
 
 	@Override

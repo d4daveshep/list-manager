@@ -57,6 +57,11 @@ public class Project extends ListItem {
 		// TODO Auto-generated method stub
 		super.setDone(done);
 	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " | " + status;
+	}
 	
 
 }

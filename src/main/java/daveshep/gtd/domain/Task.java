@@ -58,7 +58,7 @@ public class Task extends ListItem {
 	}
 
 	public String toString() {
-		return super.toString();
+		return super.toString() + " | " + context + " | " + status;
 	}
 
 	@Override
