@@ -108,5 +108,33 @@ public class InMemoryListManagerTest extends TestCase {
     	    	
     }
     
+    public void testFindByString() {
+
+    	ListManager manager = InMemoryListManager.getInstance();
+    	manager.removeAll();
+    	
+    	Task task1 = manager.createTask();
+    	task1.setId(Long.valueOf("12345"));
+    	task1.setDescription("this is task1 - isn't it good");
+    	
+    	Task task2 = manager.createTask();
+    	task2.setDescription("this is task2 - isn't it fine");
+    	task2.setId(Long.valueOf("67890"));
+    	
+    	Task task3 = manager.createTask();
+    	task3.setDescription("this is task3 - isn't it fine and swell");
+    	task3.setId(Long.valueOf("54321"));
+    	
+    	List<ListItem> find1 = manager.findItemsByString("swell");
+    	assertTrue(find1.size()==1);
+    	
+    	List<ListItem> find2 = manager.findItemsByString("fine");
+    	assertTrue(find2.size()==2);
+    	
+    	List<ListItem> find3 = manager.findItemsByString("task");
+    	assertTrue(find3.size()==3);
+    	
+    }
+    
     
 }

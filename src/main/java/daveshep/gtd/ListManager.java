@@ -25,6 +25,8 @@ public interface ListManager {
 	public List<ListItem> findItemsByFolder(String folder);
 	public List<ListItem> findItemsByStarflag(boolean flag);
 	public List<ListItem> findItemsByDone(boolean done);
+	public List<ListItem> findItemsByString(String textToFind); // case insensitive by default
+	public List<ListItem> findItemsByString(String textToFind, boolean inclTags, boolean inclNotes, boolean caseSensitive);
 	
 	// task search
 	public List<Task> getTasks();

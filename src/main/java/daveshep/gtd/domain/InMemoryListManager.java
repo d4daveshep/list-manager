@@ -191,4 +191,24 @@ public class InMemoryListManager implements ListManager {
 		return null;
 	}
 
+	@Override
+	public List<ListItem> findItemsByString(String textToFind) {
+		List<ListItem> foundItems = new ArrayList<ListItem>();
+		
+		for (Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
+			ListItem item = iterator.next();
+			// case insensitive
+			if (item.getDescription().toLowerCase().contains(textToFind.toLowerCase())) {
+				foundItems.add(item);
+			}
+		}
+		return foundItems;
+	}
+
+	@Override
+	public List<ListItem> findItemsByString(String textToFind, boolean inclTags, boolean inclNotes, boolean caseSensitive) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

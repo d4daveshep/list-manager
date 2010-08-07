@@ -11,6 +11,7 @@ import java.io.File;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
+import javax.swing.DefaultListModel;
 import javax.swing.InputMap;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -31,30 +32,44 @@ import daveshep.gtd.util.ToodledoXMLImporter;
 
 public class BasicSwingUI extends JFrame {
 
-	JList itemList;
-
+	private JList itemList; // the main list on the screen
+	private JLabel statusBar; // the status bar
 	
-	private ListManager manager = InMemoryListManager.getInstance();
+	private ListManager listManager = InMemoryListManager.getInstance(); // remote data model
 
 	public BasicSwingUI() {
 		super("GTD List Manager - Basic Swing UI");
 		setSize(800, 600);
 
-		// load GTD data
+		// load GTD data into data model
 		loadTestData();		
 		
 		// create the main list panel
-		itemList = new JList(new String[] {"item 1","item 2","item 3"});
+		itemList = new JList();
+		itemList.setModel(new DefaultListModel());
 
+		// create the status bar
+		statusBar = new JLabel("Ready...");
+		
 		// add the list to the frame
 		JScrollPane ps = new JScrollPane();
 		ps.getViewport().add(itemList);
+		
 		getContentPane().add(ps, BorderLayout.CENTER);
+		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
 		// key bindings
 		// Ctrl-F = find
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK),"Find");
-		itemList.getActionMap().put("Find", new FindAction());		
+		itemList.getActionMap().put("Find", new FindAction(this));
+		
+		// Ctrl-Alt-F = find + add
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK|InputEvent.ALT_DOWN_MASK),"Find+Add");
+		itemList.getActionMap().put("Find+Add", new FindAction(this));
+		
+		// Ctrl-B = blank screen
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B,InputEvent.CTRL_DOWN_MASK),"Blank");
+		itemList.getActionMap().put("Blank", new BlankAction(this));
 		
 		// create the command panel
 //		CommandPanel commandPanel = new CommandPanel(this);
@@ -76,23 +91,25 @@ public class BasicSwingUI extends JFrame {
     	System.out.println(xmlFile.getAbsolutePath());
     	
     	try {
-    		ToodledoXMLImporter importer = new ToodledoXMLImporter(manager,xmlFile);
+    		ToodledoXMLImporter importer = new ToodledoXMLImporter(listManager,xmlFile);
     		importer.doImport();
     	} catch (Exception e) {
     		e.printStackTrace(System.out);
     	}
 
 	}
-}
 
-// move this to a separate class file
-class FindAction extends AbstractAction {
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		System.out.print("Find... ");
-		// display a find dialog box
-		String findString = JOptionPane.showInputDialog("Find what..."); 		
-		System.out.println(findString);
+	public JList getItemList() {
+		return itemList;
 	}
+
+	public ListManager getListManager() {
+		return listManager;
+	}
+
+	public JLabel getStatusBar() {
+		return statusBar;
+	}
+
 }
+
