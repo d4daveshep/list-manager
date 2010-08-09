@@ -211,4 +211,9 @@ public class InMemoryListManager implements ListManager {
 		return null;
 	}
 
+	@Override
+	public void remove(ListItem itemToRemove) {
+		storage.remove(itemToRemove);
+	}
+
 }

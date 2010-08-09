@@ -75,10 +75,18 @@ public class BasicSwingUI extends JFrame {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"Edit_Description");
 		itemList.getActionMap().put("Edit_Description", new EditDescriptionAction(this));
 		
-		// * = toggle star
+		// * = toggle star, Ctrl-* = star on, Alt-* = star off
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_8,InputEvent.SHIFT_DOWN_MASK),"Toggle_Star");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_8,InputEvent.SHIFT_DOWN_MASK|InputEvent.CTRL_DOWN_MASK),"Toggle_Star");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_8,InputEvent.SHIFT_DOWN_MASK|InputEvent.ALT_DOWN_MASK),"Toggle_Star");
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ASTERISK,0),"Toggle_Star");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ASTERISK,InputEvent.CTRL_DOWN_MASK),"Toggle_Star");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ASTERISK,InputEvent.ALT_DOWN_MASK),"Toggle_Star");
 		itemList.getActionMap().put("Toggle_Star", new ToggleStarAction(this));
+		
+		// Ctrl-D = delete
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.CTRL_DOWN_MASK),"Delete");
+		itemList.getActionMap().put("Delete", new DeleteAction(this));
 		
 		
 		// create the command panel

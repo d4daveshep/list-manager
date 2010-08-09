@@ -136,5 +136,27 @@ public class InMemoryListManagerTest extends TestCase {
     	
     }
     
+    public void testRemove() {
+
+    	ListManager manager = InMemoryListManager.getInstance();
+    	manager.removeAll();
+    	
+    	Task task1 = manager.createTask();
+    	task1.setId(Long.valueOf("12345"));
+    	task1.setDescription("this is task1 - isn't it good");
+    	
+    	Task task2 = manager.createTask();
+    	task2.setDescription("this is task2 - isn't it fine");
+    	task2.setId(Long.valueOf("67890"));
+    	
+    	Task task3 = manager.createTask();
+    	task3.setDescription("this is task3 - isn't it fine and swell");
+    	task3.setId(Long.valueOf("54321"));
+    	
+    	manager.remove(task2);
+    	assertTrue(manager.findItemById(Long.valueOf("67890"))==null);
+    	
+    }
+    
     
 }

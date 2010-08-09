@@ -46,4 +46,5 @@ public interface ListManager {
 	
 	// remove methods
 	public void removeAll();
+	public void remove(ListItem itemToRemove);
 }

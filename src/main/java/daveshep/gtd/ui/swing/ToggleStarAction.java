@@ -21,17 +21,36 @@ public class ToggleStarAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.print("Toggle star... ");
+		boolean turnOn = ((event.getModifiers()&ActionEvent.CTRL_MASK) == ActionEvent.CTRL_MASK);
+		boolean turnOff = ((event.getModifiers()&ActionEvent.ALT_MASK) == ActionEvent.ALT_MASK);
+		if (turnOn) {
+			System.out.print("Toggle star on... ");
+		} 
+		else if (turnOff) {
+			System.out.println("Toggle star off...");
+		} else {
+			System.out.print("Toggle star... ");
+		}
 
 		Object[] selectedItems = frame.getItemList().getSelectedValues();
 		for (int i=0;i<selectedItems.length;i++) {
 			ListItem listItem = (ListItem)selectedItems[i];
-			if (listItem.isStarflag()) {
-				listItem.setStarflag(false);
-			} else {
+			if (turnOn) {
 				listItem.setStarflag(true);
+			}
+			else if (turnOff) {
+				listItem.setStarflag(false);
+			}
+			else {
+				if (listItem.isStarflag()) {
+					listItem.setStarflag(false);
+				} else {
+					listItem.setStarflag(true);
+				}
 			}
 		}
 		System.out.println(selectedItems.length + " items");
+		
+		// TODO get list to update immediately
 	}
 }
