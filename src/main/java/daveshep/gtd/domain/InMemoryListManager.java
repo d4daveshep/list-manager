@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
 
 
@@ -193,16 +194,7 @@ public class InMemoryListManager implements ListManager {
 
 	@Override
 	public List<ListItem> findItemsByString(String textToFind) {
-		List<ListItem> foundItems = new ArrayList<ListItem>();
-		
-		for (Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
-			ListItem item = iterator.next();
-			// case insensitive
-			if (item.getDescription().toLowerCase().contains(textToFind.toLowerCase())) {
-				foundItems.add(item);
-			}
-		}
-		return foundItems;
+		return findItemsByString(textToFind,null);
 	}
 
 	@Override
@@ -215,5 +207,26 @@ public class InMemoryListManager implements ListManager {
 	public void remove(ListItem itemToRemove) {
 		storage.remove(itemToRemove);
 	}
+
+	@Override
+	public List<ListItem> findItemsByString(String textToFind, FilterSettings filterSettings) {
+
+		List<ListItem> foundItems = new ArrayList<ListItem>();
+		
+		for (Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
+			ListItem item = iterator.next();
+			// case insensitive
+			if (item.getDescription().toLowerCase().contains(textToFind.toLowerCase())) {
+
+				if (filterSettings==null) {
+					foundItems.add(item);
+				} else if (item.passesFilter(filterSettings)) {
+					foundItems.add(item);
+				}
+			}
+		}
+		return foundItems;
+	}
+	
 
 }

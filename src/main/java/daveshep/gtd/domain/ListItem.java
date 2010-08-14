@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import daveshep.gtd.FilterSettings;
 import daveshep.gtd.util.DateUtils;
 
 public class ListItem {
@@ -264,4 +265,43 @@ public class ListItem {
 	public boolean hasChildren() {
 		return !this.childItems.isEmpty();
 	}
+	
+	public boolean passesFilter(FilterSettings filterSettings) {
+		boolean passes = true;
+
+//		if (filterSettings.showGoals && this instanceof Goal) {
+//			passes = true;
+//		} else if (filterSettings.showProjects && this instanceof Project) {
+//			passes = true;
+//		} else if (filterSettings.showTasks && this instanceof Task) {
+//			passes = true;
+//		} else if (filterSettings.showRefs && this instanceof ReferenceItem) {
+//			passes = true;
+//		}
+//
+//		if (passes) {
+//			if (item.isStarflag() && (!filterSettings.showStar)) {
+//				passes = false;
+//			}
+//			if ((!item.isStarflag()) && filterSettings.showStar) {
+//				passes = false;
+//			}
+		if (isDone() && !filterSettings.showDone) {
+			passes = false;
+		}
+		if (!isDone() && !filterSettings.showNotDone) {
+			passes = false;
+		}
+
+		if (isStarflag() && !filterSettings.showStar) {
+			passes = false;
+		}
+		if (!isStarflag() && !filterSettings.showNoStar) {
+			passes = false;
+		}
+//		}
+//		
+		return passes;		
+	}
+
 }

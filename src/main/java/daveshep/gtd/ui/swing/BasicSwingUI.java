@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
+import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
 import daveshep.gtd.domain.InMemoryListManager;
 import daveshep.gtd.util.ToodledoXMLImporter;
@@ -34,9 +35,12 @@ public class BasicSwingUI extends JFrame {
 
 	private JList itemList; // the main list on the screen
 	private JLabel statusBar; // the status bar
+	private FilterDialog filterDialog = new FilterDialog(this);
 	
 	private ListManager listManager = InMemoryListManager.getInstance(); // remote data model
 
+	private FilterSettings filterSettings = new FilterSettings();
+	
 	public BasicSwingUI() {
 		super("GTD List Manager - Basic Swing UI");
 		setSize(1000, 700);
@@ -88,6 +92,15 @@ public class BasicSwingUI extends JFrame {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.CTRL_DOWN_MASK),"Delete");
 		itemList.getActionMap().put("Delete", new DeleteAction(this));
 		
+		// F1, Ctrl-H = help
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_H,InputEvent.CTRL_DOWN_MASK),"Help");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F1,0),"Help");
+		itemList.getActionMap().put("Help", new HelpAction(this));
+		
+		// Ctrl-L = filter
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"Filter");
+		itemList.getActionMap().put("Filter", new FilterAction(this));
+		
 		
 		// create the command panel
 //		CommandPanel commandPanel = new CommandPanel(this);
@@ -127,6 +140,14 @@ public class BasicSwingUI extends JFrame {
 
 	public JLabel getStatusBar() {
 		return statusBar;
+	}
+
+	public FilterSettings getFilterSettings() {
+		return filterSettings;
+	}
+
+	public FilterDialog getFilterDialog() {
+		return filterDialog;
 	}
 
 }

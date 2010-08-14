@@ -38,7 +38,7 @@ public class FindAction extends AbstractAction {
 		System.out.println(findString);
 		
 		// find in GTD model
-		List<ListItem> foundItems = frame.getListManager().findItemsByString(findString);
+		List<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings());
 		System.out.println("found: "+ foundItems.size());
 		
 		// clear the list then add found items
@@ -51,6 +51,6 @@ public class FindAction extends AbstractAction {
 		}
 		
 		// update the status bar
-		frame.getStatusBar().setText(title +"... \"" + findString + "\" " + foundItems.size() + " found");
+		frame.getStatusBar().setText(title +"... \"" + findString + "\" " + foundItems.size() + " found\t\tFilters: " + frame.getFilterSettings().toString());
 	}
 }

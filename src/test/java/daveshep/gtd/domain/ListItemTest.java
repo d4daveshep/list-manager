@@ -1,5 +1,6 @@
 package daveshep.gtd.domain;
 
+import daveshep.gtd.FilterSettings;
 import daveshep.gtd.domain.ListItem;
 import daveshep.gtd.util.DateUtils;
 
@@ -160,6 +161,36 @@ public class ListItemTest extends TestCase {
     	listItem.setDone(true);
     	assertTrue(listItem.isDone());
     	assertTrue(listItem.getCompletedDate().equals(DateUtils.today()));
+    	
+    }
+    
+    public void testPassesFilter() {
+    	ListItem listItem = new ListItem();
+    	FilterSettings filterSettings = new FilterSettings();
+    	
+    	filterSettings.showNotDone = true; // show not done items.
+    	listItem.setDone(false); // item is not done
+    	assertTrue(listItem.passesFilter(filterSettings)); // show item
+    	
+    	filterSettings.showNotDone = false; // don't show not done items
+    	assertFalse(listItem.passesFilter(filterSettings)); // don't show item
+    	
+    	filterSettings.showDone = true; // show done items
+    	listItem.setDone(true); // item is done
+    	assertTrue(listItem.passesFilter(filterSettings)); // show item
+    	
+    	filterSettings.showDone = false; // don't show done items
+    	assertFalse(listItem.passesFilter(filterSettings)); // don't show item
+
+    	listItem.setDone(false);
+    	filterSettings.showNotDone = true;
+    	
+    	listItem.setStarflag(false); // item has no star
+    	filterSettings.showNoStar = true; // show items without star
+    	assertTrue(listItem.passesFilter(filterSettings)); // show item
+    	
+    	filterSettings.showNoStar = false; // don't show items without star
+    	assertFalse(listItem.passesFilter(filterSettings)); // don't show item
     	
     }
     
