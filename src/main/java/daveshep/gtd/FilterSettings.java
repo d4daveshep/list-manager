@@ -16,22 +16,22 @@ public class FilterSettings {
 	public String toString() {
 		StringBuffer filterString = new StringBuffer();
 		
-		if (showProjects) {
-			filterString.append("P.");
+		if (showGoals) {
+			filterString.append("G ");
 		} else {
-			filterString.append("_.");
+			filterString.append("_ ");
 		}
 		
-		if (showGoals) {
-			filterString.append("G.");
+		if (showProjects) {
+			filterString.append("P ");
 		} else {
-			filterString.append("_.");
+			filterString.append("_ ");
 		}
 		
 		if (showTasks) {
-			filterString.append("T.");
+			filterString.append("T ");
 		} else {
-			filterString.append("_.");
+			filterString.append("_ ");
 		}
 		
 		if (showRefs) {
@@ -41,15 +41,27 @@ public class FilterSettings {
 		}
 		
 		if (showStar) {
-			filterString.append("* ");
+			filterString.append("X ");
+		} else {
+			filterString.append("_ ");
+		}
+		
+		if (showNoStar) {
+			filterString.append("O ");
 		} else {
 			filterString.append("_ ");
 		}
 		
 		if (showDone) {
-			filterString.append("+");
+			filterString.append("+ ");
 		} else {
-			filterString.append("-");
+			filterString.append("_ ");
+		}
+		
+		if (showNotDone) {
+			filterString.append("- ");
+		} else {
+			filterString.append("_ ");
 		}
 		
 		return filterString.toString();

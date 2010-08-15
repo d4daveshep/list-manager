@@ -35,11 +35,12 @@ public class BasicSwingUI extends JFrame {
 
 	private JList itemList; // the main list on the screen
 	private JLabel statusBar; // the status bar
+	private FilterSettings filterSettings = new FilterSettings();
 	private FilterDialog filterDialog = new FilterDialog(this);
+	private String findString = null;
 	
 	private ListManager listManager = InMemoryListManager.getInstance(); // remote data model
 
-	private FilterSettings filterSettings = new FilterSettings();
 	
 	public BasicSwingUI() {
 		super("GTD List Manager - Basic Swing UI");
@@ -148,6 +149,14 @@ public class BasicSwingUI extends JFrame {
 
 	public FilterDialog getFilterDialog() {
 		return filterDialog;
+	}
+
+	public String getFindString() {
+		return findString;
+	}
+
+	public void setFindString(String findString) {
+		this.findString = findString;
 	}
 
 }
