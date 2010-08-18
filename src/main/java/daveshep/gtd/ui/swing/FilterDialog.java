@@ -159,6 +159,9 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 			setVisible(false);			
 			
 			// refresh the main list
+			System.out.println("doing refresh now...");
+			frame.getItemList().dispatchEvent(new KeyEvent(this,12345,System.currentTimeMillis(),0,KeyEvent.VK_F5,KeyEvent.CHAR_UNDEFINED));
+//			frame.getItemList().dispatchEvent(new ActionEvent(this,KeyEvent.VK_F5,"Refresh"));
 			
 		} else if (source == cancelButton) {
 			System.out.print("cancel... ");

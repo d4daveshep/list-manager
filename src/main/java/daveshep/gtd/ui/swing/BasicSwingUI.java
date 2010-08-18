@@ -102,6 +102,11 @@ public class BasicSwingUI extends JFrame {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"Filter");
 		itemList.getActionMap().put("Filter", new FilterAction(this));
 		
+		// F5 = refresh screen
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
+		itemList.getActionMap().put("Refresh", new RefreshAction(this));
+		
+		
 		
 		// create the command panel
 //		CommandPanel commandPanel = new CommandPanel(this);
