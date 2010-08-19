@@ -192,6 +192,20 @@ public class ListItemTest extends TestCase {
     	filterSettings.showNoStar = false; // don't show items without star
     	assertFalse(listItem.passesFilter(filterSettings)); // don't show item
     	
+    	// test folder filter
+    	filterSettings = new FilterSettings();
+    	listItem.setFolder("w.Delivery");
+    	filterSettings.folder = "w.Delivery";
+    	assertTrue(listItem.passesFilter(filterSettings));
+    	
+    	filterSettings.folder = "All";
+    	assertTrue(listItem.passesFilter(filterSettings));
+    	
+    	filterSettings.folder = "h.Finance";
+    	assertFalse(listItem.passesFilter(filterSettings));
+    	
+    	
+    	
     }
     
     

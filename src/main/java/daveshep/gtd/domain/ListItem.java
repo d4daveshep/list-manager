@@ -266,26 +266,35 @@ public class ListItem {
 		return !this.childItems.isEmpty();
 	}
 	
+	/**
+	 * @param filterSettings
+	 * @return true if item matches the filter settings
+	 */
 	public boolean passesFilter(FilterSettings filterSettings) {
-		boolean passes = true;
 
 		// TODO add the remainder of the filters
 		
 		if (isDone() && !filterSettings.showDone) {
-			passes = false;
+			return false;
 		}
 		if (!isDone() && !filterSettings.showNotDone) {
-			passes = false;
+			return false;
 		}
 
 		if (isStarflag() && !filterSettings.showStar) {
-			passes = false;
+			return false;
 		}
 		if (!isStarflag() && !filterSettings.showNoStar) {
-			passes = false;
+			return false;
+		}
+		
+		if (getFolder()!=null) {
+			if (!filterSettings.folder.equalsIgnoreCase("all") && !(getFolder().equals(filterSettings.folder))) {
+				return false;
+			}
 		}
 
-		return passes;		
+		return true;		
 	}
 
 }

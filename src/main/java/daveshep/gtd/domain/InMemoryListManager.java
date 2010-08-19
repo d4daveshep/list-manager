@@ -212,11 +212,23 @@ public class InMemoryListManager implements ListManager {
 
 	@Override
 	public List<ListItem> findItemsByString(String textToFind, FilterSettings filterSettings) {
+		System.out.println("textToFind = " + textToFind);
 
 		List<ListItem> foundItems = new ArrayList<ListItem>();
 		
 		for (Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
 			ListItem item = iterator.next();
+
+			// empty find string matches all
+			if (textToFind.length()==0 ) {
+				if (filterSettings==null) {
+					foundItems.add(item);
+				} else if (item.passesFilter(filterSettings)) {
+					foundItems.add(item);
+				}
+				
+			} else
+				
 			// case insensitive
 			if (item.getDescription().toLowerCase().contains(textToFind.toLowerCase())) {
 

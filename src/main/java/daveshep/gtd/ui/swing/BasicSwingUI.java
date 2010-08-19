@@ -7,6 +7,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -27,6 +29,7 @@ import javax.swing.KeyStroke;
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
 import daveshep.gtd.domain.InMemoryListManager;
+import daveshep.gtd.domain.ListItem;
 import daveshep.gtd.util.ToodledoXMLImporter;
 
 
@@ -37,7 +40,7 @@ public class BasicSwingUI extends JFrame {
 	private JLabel statusBar; // the status bar
 	private FilterSettings filterSettings = new FilterSettings();
 	private FilterDialog filterDialog = new FilterDialog(this);
-	private String findString = null;
+	private String findString = ""; // match all on start (set to null to start with empty list)
 	
 	private ListManager listManager = InMemoryListManager.getInstance(); // remote data model
 
@@ -106,7 +109,7 @@ public class BasicSwingUI extends JFrame {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
 		itemList.getActionMap().put("Refresh", new RefreshAction(this));
 		
-		
+		refreshList();
 		
 		// create the command panel
 //		CommandPanel commandPanel = new CommandPanel(this);
@@ -165,8 +168,24 @@ public class BasicSwingUI extends JFrame {
 	}
 
 	public void refreshList() {
-		
 		// refresh the screen according to filter, sort & view settings and find string (if there is one)
+		
+		// clear the list
+		DefaultListModel model = (DefaultListModel)getItemList().getModel();
+		model.removeAllElements();
+
+		// get items for the current view
+		// find in GTD model
+		List<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings());
+		System.out.println("found: "+ foundItems.size());
+		
+		for (Iterator<ListItem> i=foundItems.iterator();i.hasNext();) {
+			model.addElement(i.next());
+		}
+		
+		// update the status bar
+		getStatusBar().setText("Refresh... \"" + getFindString() + "\" " + foundItems.size() + " found\t\tFilters: " + getFilterSettings().toString());
+
 		
 	}
 	

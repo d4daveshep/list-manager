@@ -32,11 +32,10 @@ public class FindAction extends AbstractAction {
 		
 		// display a find dialog box
 		String findString = JOptionPane.showInputDialog(frame,null,title,JOptionPane.QUESTION_MESSAGE);
-		if (findString==null || findString.length()==0) {
-			frame.setFindString(null);
-			return;
-		} else {
+		if (findString!=null) {
 			frame.setFindString(findString);
+		} else {
+			return;
 		}
 		
 		System.out.println(findString);

@@ -17,11 +17,11 @@ public class FilterSettings {
 	public boolean showDone = false;
 	public boolean showNotDone = true;
 	
-	public String taskStatus = TaskStatus.NEXT_ACTION.name();
-	public String projectStatus = ProjectStatus.ACTIVE.name();
-	public String goalStatus = GoalStatus.ACTIVE.name();
-	public String taskContext = "";
-	public String folder = "";
+	public String taskStatus = "All";
+	public String projectStatus = "All";
+	public String goalStatus = "All";
+	public String taskContext = "ALL";
+	public String folder = "ALL";
 
 	public String toString() {
 		StringBuffer filterString = new StringBuffer();

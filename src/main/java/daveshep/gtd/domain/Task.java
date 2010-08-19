@@ -3,6 +3,8 @@ package daveshep.gtd.domain;
 import java.util.Date;
 import java.util.List;
 
+import daveshep.gtd.FilterSettings;
+
 /**
  * @author shephd
  *
@@ -84,6 +86,29 @@ public class Task extends ListItem {
 	@Override
 	public Date getCompletedDate() {
 		return super.getCompletedDate();
+	}
+
+	@Override
+	public boolean passesFilter(FilterSettings filterSettings) {
+		
+		if (super.passesFilter(filterSettings)) {
+
+			// check type matches
+			if (!filterSettings.showTasks) {
+				return false;
+			}
+			
+			// check status matches
+			if (!filterSettings.taskStatus.equalsIgnoreCase("all")) {
+				if (!(getStatus().name().equals(filterSettings.taskStatus))) {
+					return false;
+				}
+			}			
+		} else {
+			return false;
+		}
+
+		return true; 
 	}
 	
 }

@@ -32,6 +32,6 @@ public class FilterAction extends AbstractAction {
 		
 		// refresh the main list
 		System.out.println("doing refresh now...");
-
+		frame.refreshList();
 	}
 }

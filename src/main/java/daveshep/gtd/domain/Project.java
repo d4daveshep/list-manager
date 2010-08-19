@@ -2,6 +2,8 @@ package daveshep.gtd.domain;
 
 import java.util.List;
 
+import daveshep.gtd.FilterSettings;
+
 /**
  * @author shephd
  *
@@ -61,6 +63,29 @@ public class Project extends ListItem {
 	@Override
 	public String toString() {
 		return super.toString() + " | " + status;
+	}
+
+	@Override
+	public boolean passesFilter(FilterSettings filterSettings) {
+		if (super.passesFilter(filterSettings)) {
+
+			// check type matches
+			if (!filterSettings.showProjects) {
+				return false;
+			}
+			
+			// check status matches
+			if (!filterSettings.projectStatus.equalsIgnoreCase("all")) {
+				if (!(getStatus().name().equals(filterSettings.projectStatus))) {
+					return false;
+				}
+			}			
+	
+		} else {
+			return false;
+		}
+
+		return true; 
 	}
 	
 
