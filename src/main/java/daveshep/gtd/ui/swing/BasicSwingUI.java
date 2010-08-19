@@ -164,5 +164,11 @@ public class BasicSwingUI extends JFrame {
 		this.findString = findString;
 	}
 
+	public void refreshList() {
+		
+		// refresh the screen according to filter, sort & view settings and find string (if there is one)
+		
+	}
+	
 }
 

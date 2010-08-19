@@ -3,6 +3,8 @@ package daveshep.gtd.domain;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
@@ -226,6 +228,46 @@ public class InMemoryListManager implements ListManager {
 			}
 		}
 		return foundItems;
+	}
+
+	@Override
+	public String[] getFolders() {
+		
+		SortedSet<String> folderSet = new TreeSet<String>();
+
+		for (Iterator<ListItem> iterator = storage.iterator(); iterator.hasNext();) {
+			ListItem item = iterator.next();
+			
+			String folder = item.getFolder();
+			if (folder != null && folder.length()>0) {
+				if (!folderSet.contains(folder)) {
+					folderSet.add(folder);
+				}
+			}
+		}
+		
+		return folderSet.toArray(new String[0]);
+	}
+
+	@Override
+	public String[] getTaskContexts() {
+		SortedSet<String> contextSet = new TreeSet<String>();
+
+		for (Iterator<ListItem> iterator = storage.iterator(); iterator.hasNext();) {
+			ListItem item = iterator.next();
+
+			if( ListItemType.TASK.equals(item.getType())) {
+			
+				String context = ((Task)item).getContext();
+				if (context != null && context.length()>0) {
+					if (!contextSet.contains(context)) {
+						contextSet.add(context);
+					}
+				}
+			}
+		}
+		
+		return contextSet.toArray(new String[0]);
 	}
 	
 

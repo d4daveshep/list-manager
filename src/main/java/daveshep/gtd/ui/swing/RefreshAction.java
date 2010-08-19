@@ -22,10 +22,14 @@ public class RefreshAction extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		System.out.print("Refresh... ");
+
+		// clear the list
+		DefaultListModel model = (DefaultListModel)frame.getItemList().getModel();
+		model.removeAllElements();
+
+		// get items for the current view
 		
-		// clear the screen
 		
-		// 
 		
 		System.out.println("done");
 	}

@@ -1,6 +1,7 @@
 package daveshep.gtd;
 
 import java.util.List;
+import java.util.SortedSet;
 
 import daveshep.gtd.domain.Goal;
 import daveshep.gtd.domain.ListItem;
@@ -44,6 +45,10 @@ public interface ListManager {
 	
 	// goal search
 	public List<Goal> getGoals();
+	
+	// static lookups
+	public String[] getFolders();
+	public String[] getTaskContexts();
 	
 	// remove methods
 	public void removeAll();

@@ -3,6 +3,7 @@ package daveshep.gtd.domain;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
@@ -188,5 +189,69 @@ public class InMemoryListManagerTest extends TestCase {
     	
     }
     
+    public void testGetFolders() {
+
+    	ListManager manager = InMemoryListManager.getInstance();
+    	manager.removeAll();
+ 
+       	Task task1 = manager.createTask();
+    	task1.setId(Long.valueOf("12345"));
+    	task1.setDescription("this is task1 - isn't it good");
+    	task1.setFolder("p.Family");
+    	
+    	Task task2 = manager.createTask();
+    	task2.setDescription("this is task2 - isn't it fine");
+    	task2.setId(Long.valueOf("67890"));
+    	task2.setFolder("w.HR");
+    	
+    	Task task3 = manager.createTask();
+    	task3.setDescription("this is task3 - isn't it fine and swell");
+    	task3.setId(Long.valueOf("54321"));
+    	task3.setFolder("h.Finance");
+ 
+    	Task task4 = manager.createTask();
+    	task4.setDescription("this is task4 - isn't it boring");
+    	task4.setId(Long.valueOf("09876"));
+    	task4.setFolder("p.Family");
+ 
+    	String[] folderSet = manager.getFolders();
+    	assertTrue(folderSet.length==3);
+    	assertTrue(folderSet[1].equals("p.Family"));
+    	assertTrue(folderSet[2].equals("w.HR"));
+    	assertTrue(folderSet[0].equals("h.Finance"));
+    	
+    }
+    public void testGetContexts() {
+
+    	ListManager manager = InMemoryListManager.getInstance();
+    	manager.removeAll();
+ 
+       	Task task1 = manager.createTask();
+    	task1.setId(Long.valueOf("12345"));
+    	task1.setDescription("this is task1 - isn't it good");
+    	task1.setContext("@Home");
+    	
+    	Task task2 = manager.createTask();
+    	task2.setDescription("this is task2 - isn't it fine");
+    	task2.setId(Long.valueOf("67890"));
+    	task2.setContext("@WorkPC");
+    	
+    	Task task3 = manager.createTask();
+    	task3.setDescription("this is task3 - isn't it fine and swell");
+    	task3.setId(Long.valueOf("54321"));
+    	task3.setContext("@Office");
+ 
+    	Task task4 = manager.createTask();
+    	task4.setDescription("this is task4 - isn't it boring");
+    	task4.setId(Long.valueOf("09876"));
+    	task4.setContext("@WorkPC");
+ 
+    	String[] contextSet = manager.getTaskContexts();
+    	assertTrue(contextSet.length==3);
+    	assertTrue(contextSet[1].equals("@Office"));
+    	assertTrue(contextSet[2].equals("@WorkPC"));
+    	assertTrue(contextSet[0].equals("@Home"));
+    	
+    }
     
 }

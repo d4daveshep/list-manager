@@ -29,5 +29,9 @@ public class FilterAction extends AbstractAction {
 		filterDialog.setVisible(true);
 		
 		System.out.println(frame.getFilterSettings().toString());
+		
+		// refresh the main list
+		System.out.println("doing refresh now...");
+
 	}
 }
