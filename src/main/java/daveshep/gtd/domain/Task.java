@@ -104,6 +104,14 @@ public class Task extends ListItem {
 					return false;
 				}
 			}			
+
+			// check context matches
+			if (!filterSettings.taskContext.equalsIgnoreCase("all")) {
+				if (!(getContext().equals(filterSettings.taskContext))) {
+					return false;
+				}
+			}
+			
 		} else {
 			return false;
 		}
