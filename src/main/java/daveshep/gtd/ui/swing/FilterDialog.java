@@ -20,6 +20,7 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -47,11 +48,19 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 	private JCheckBox doneCheckBox = new JCheckBox("Done");
 	private JCheckBox notDoneCheckBox = new JCheckBox("Not Done");
 	
+	private JLabel taskStatusLabel = new JLabel("Task Status");
 	private JComboBox taskStatusComboBox = new JComboBox();
+	
+	private JLabel projectStatusLabel = new JLabel("Project Status");
 	private JComboBox projectStatusComboBox = new JComboBox();
+	
+	private JLabel goalStatusLabel = new JLabel("Goal Status");
 	private JComboBox goalStatusComboBox = new JComboBox();
 
+	private JLabel folderLabel = new JLabel("Folder");
 	private JComboBox folderComboBox = new JComboBox();
+	
+	private JLabel taskContextLabel = new JLabel("Task Context");
 	private JComboBox taskContextComboBox = new JComboBox();
 	
 	private BasicSwingUI frame;
@@ -63,7 +72,7 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 
 		// construct the settings panel
 		JPanel settingsPanel = new JPanel();
-		settingsPanel.setLayout(new GridLayout(4,4));
+		settingsPanel.setLayout(new GridLayout(0,2));
 		settingsPanel.setBorder(new EmptyBorder(5,5,5,5));
 
 		
@@ -79,7 +88,7 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 		refsCheckBox.setMnemonic(KeyEvent.VK_R);
 		refsCheckBox.addItemListener(this);
 		
-		starCheckBox.setMnemonic(KeyEvent.VK_S);
+		starCheckBox.setMnemonic(KeyEvent.VK_A);
 		starCheckBox.addItemListener(this);
 
 		noStarCheckBox.setMnemonic(KeyEvent.VK_N);
@@ -97,6 +106,9 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 		for (int i=0;i<taskStatuses.length;i++) {
 				taskStatusComboBox.addItem(taskStatuses[i].name());
 		}	
+		taskStatusLabel.setDisplayedMnemonic(KeyEvent.VK_S);
+		taskStatusLabel.setDisplayedMnemonicIndex(5);
+		taskStatusLabel.setLabelFor(taskStatusComboBox);
 		
 		// populate projectStatusComboBox
 		projectStatusComboBox.addItem("All");
@@ -104,6 +116,8 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 		for (int i=0;i<projectStatuses.length;i++) {
 			projectStatusComboBox.addItem(projectStatuses[i].name());
 		}
+//		projectStatusLabel.setDisplayedMnemonic(KeyEvent.VK_?);
+		projectStatusLabel.setLabelFor(projectStatusComboBox);
 		
 		// populate goalStatusComboBox
 		goalStatusComboBox.addItem("All");
@@ -111,6 +125,14 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 		for (int i=0;i<goalStatuses.length;i++) {
 			goalStatusComboBox.addItem(goalStatuses[i].name());
 		}
+//		goalStatusLabel.setDisplayedMnemonic(KeyEvent.VK_?);
+		goalStatusLabel.setLabelFor(goalStatusComboBox);
+
+		folderLabel.setDisplayedMnemonic(KeyEvent.VK_F);
+		folderLabel.setLabelFor(folderComboBox);
+		
+		taskContextLabel.setDisplayedMnemonic(KeyEvent.VK_C);
+		taskContextLabel.setLabelFor(taskContextComboBox);
 		
 		settingsPanel.add(goalsCheckBox);
 		settingsPanel.add(starCheckBox);
@@ -121,12 +143,20 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 		settingsPanel.add(refsCheckBox);
 		settingsPanel.add(notDoneCheckBox);
 		
-		settingsPanel.add(taskStatusComboBox);
-		settingsPanel.add(projectStatusComboBox);
-		settingsPanel.add(goalStatusComboBox);
-		
+		settingsPanel.add(folderLabel);
 		settingsPanel.add(folderComboBox);
+
+		settingsPanel.add(taskContextLabel);
 		settingsPanel.add(taskContextComboBox);
+		
+		settingsPanel.add(taskStatusLabel);
+		settingsPanel.add(taskStatusComboBox);
+		
+		settingsPanel.add(projectStatusLabel);
+		settingsPanel.add(projectStatusComboBox);
+		
+		settingsPanel.add(goalStatusLabel);
+		settingsPanel.add(goalStatusComboBox);
 		
 		getContentPane().add(settingsPanel,BorderLayout.CENTER);
 
@@ -151,6 +181,17 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
+//
+//		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.ALT_DOWN_MASK),"TaskContext");
+//		getRootPane().getActionMap().put("TaskContext", 
+//			new AbstractAction() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				taskContextComboBox.requestFocus();
+//				taskContextComboBox.showPopup();
+//			} 
+//		});
 
 
 		pack();

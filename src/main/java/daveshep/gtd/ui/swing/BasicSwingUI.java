@@ -52,10 +52,15 @@ public class BasicSwingUI extends JFrame {
 	private FilterDialog filterDialog = new FilterDialog(this);
 	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
-	private Comparator sorter = new DefaultSorter();
+	private Comparator<ListItem> sorter = new DefaultSorter();
 	
-	public static Comparator FOLDER_SORTER = new FolderSorter();
-	public static Comparator DUE_DATE_SORTER = new DueDateSorter();
+	public static Comparator<ListItem> FOLDER_SORTER = new FolderSorter();
+	public static Comparator<ListItem> DUE_DATE_SORTER = new DueDateSorter();
+	public static Comparator<ListItem> DESCRIPTION_SORTER = new DescriptionSorter();
+	public static Comparator<ListItem> TASK_CONTEXT_SORTER = new TaskContextSorter();
+	public static Comparator<ListItem> TASK_STATUS_SORTER = new TaskStatusSorter();
+	public static Comparator<ListItem> PROJECT_STATUS_SORTER = new ProjectStatusSorter();
+	public static Comparator<ListItem> GOAL_STATUS_SORTER = new GoalStatusSorter();
 	
 	private ListManager listManager = InMemoryListManager.getInstance(); // remote data model
 

@@ -36,7 +36,13 @@ import daveshep.gtd.domain.TaskStatus;
 public class SortDialog extends JDialog implements ItemListener, ActionListener {
 
 	private JRadioButton folderSortButton = new JRadioButton("Folder");
-	private JRadioButton dueDateSortButton = new JRadioButton("DueDate");
+	private JRadioButton dueDateSortButton = new JRadioButton("Due Date");
+	private JRadioButton descriptionSortButton = new JRadioButton("Description");
+	private JRadioButton taskContextSortButton = new JRadioButton("Task Context");
+	private JRadioButton taskStatusSortButton = new JRadioButton("Task Status");
+	private JRadioButton projectStatusSortButton = new JRadioButton("Project Status");
+	private JRadioButton goalStatusSortButton = new JRadioButton("Goal Status");
+
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
 	private KeyAction okAction;
@@ -60,12 +66,37 @@ public class SortDialog extends JDialog implements ItemListener, ActionListener 
 		dueDateSortButton.setMnemonic(KeyEvent.VK_D);
 		dueDateSortButton.addActionListener(this);
 		
+		descriptionSortButton.setMnemonic(KeyEvent.VK_E);
+		descriptionSortButton.addActionListener(this);
+		
+		taskContextSortButton.setMnemonic(KeyEvent.VK_C);
+		taskContextSortButton.addActionListener(this);
+		
+		taskStatusSortButton.setMnemonic(KeyEvent.VK_S);
+		taskStatusSortButton.addActionListener(this);
+		
+		projectStatusSortButton.setMnemonic(KeyEvent.VK_P);
+		projectStatusSortButton.addActionListener(this);
+		
+		goalStatusSortButton.setMnemonic(KeyEvent.VK_G);
+		goalStatusSortButton.addActionListener(this);
+		
 		ButtonGroup sortButtonGroup = new ButtonGroup();
 		sortButtonGroup.add(folderSortButton);
 		sortButtonGroup.add(dueDateSortButton);
+		sortButtonGroup.add(descriptionSortButton);
+		sortButtonGroup.add(taskContextSortButton);
+		sortButtonGroup.add(taskStatusSortButton);
+		sortButtonGroup.add(projectStatusSortButton);
+		sortButtonGroup.add(goalStatusSortButton);
 		
 		settingsPanel.add(folderSortButton);
 		settingsPanel.add(dueDateSortButton);
+		settingsPanel.add(descriptionSortButton);
+		settingsPanel.add(taskContextSortButton);
+		settingsPanel.add(taskStatusSortButton);
+		settingsPanel.add(projectStatusSortButton);
+		settingsPanel.add(goalStatusSortButton);
 		
 		getContentPane().add(settingsPanel,BorderLayout.CENTER);
 
@@ -91,7 +122,6 @@ public class SortDialog extends JDialog implements ItemListener, ActionListener 
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
 
-		
 		pack();
 	}
 
@@ -119,8 +149,24 @@ public class SortDialog extends JDialog implements ItemListener, ActionListener 
 		} else if (event.getActionCommand().equalsIgnoreCase("Folder")) {
 			frame.setSorter(frame.FOLDER_SORTER);
 			
-		} else if (event.getActionCommand().equalsIgnoreCase("DueDate")) {
+		} else if (event.getActionCommand().equalsIgnoreCase("Due Date")) {
 			frame.setSorter(frame.DUE_DATE_SORTER);
+			
+		} else if (event.getActionCommand().equalsIgnoreCase("Description")) {
+			frame.setSorter(frame.DESCRIPTION_SORTER);
+			
+		} else if (event.getActionCommand().equalsIgnoreCase("Task Context")) {
+			frame.setSorter(frame.TASK_CONTEXT_SORTER);
+			
+		} else if (event.getActionCommand().equalsIgnoreCase("Task Status")) {
+			frame.setSorter(frame.TASK_STATUS_SORTER);
+			
+		} else if (event.getActionCommand().equalsIgnoreCase("Project Status")) {
+			frame.setSorter(frame.PROJECT_STATUS_SORTER);
+			
+		} else if (event.getActionCommand().equalsIgnoreCase("Goal Status")) {
+			frame.setSorter(frame.GOAL_STATUS_SORTER);
+			
 		}
 	}
 	@Override
