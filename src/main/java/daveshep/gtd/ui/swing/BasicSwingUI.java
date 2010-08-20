@@ -7,8 +7,10 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -28,8 +30,15 @@ import javax.swing.KeyStroke;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
+import daveshep.gtd.domain.DescriptionSorter;
+import daveshep.gtd.domain.DueDateSorter;
+import daveshep.gtd.domain.FolderSorter;
+import daveshep.gtd.domain.GoalStatusSorter;
 import daveshep.gtd.domain.InMemoryListManager;
 import daveshep.gtd.domain.ListItem;
+import daveshep.gtd.domain.ProjectStatusSorter;
+import daveshep.gtd.domain.TaskContextSorter;
+import daveshep.gtd.domain.TaskStatusSorter;
 import daveshep.gtd.util.ToodledoXMLImporter;
 
 
@@ -40,7 +49,9 @@ public class BasicSwingUI extends JFrame {
 	private JLabel statusBar; // the status bar
 	private FilterSettings filterSettings = new FilterSettings();
 	private FilterDialog filterDialog = new FilterDialog(this);
+	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
+	private Comparator sorter = null;
 	
 	private ListManager listManager = InMemoryListManager.getInstance(); // remote data model
 
@@ -104,6 +115,10 @@ public class BasicSwingUI extends JFrame {
 		// Ctrl-L = filter
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"Filter");
 		itemList.getActionMap().put("Filter", new FilterAction(this));
+		
+		// Ctrl-T = sort
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T,InputEvent.CTRL_DOWN_MASK),"Sort");
+		itemList.getActionMap().put("Sort", new SortAction(this));
 		
 		// F5 = refresh screen
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
@@ -176,7 +191,8 @@ public class BasicSwingUI extends JFrame {
 
 		// get items for the current view
 		// find in GTD model
-		List<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings());
+//		List<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings());
+		Set<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings(),sorter);
 		System.out.println("found: "+ foundItems.size());
 		
 		for (Iterator<ListItem> i=foundItems.iterator();i.hasNext();) {
@@ -187,6 +203,14 @@ public class BasicSwingUI extends JFrame {
 		getStatusBar().setText("Refresh... \"" + getFindString() + "\" " + foundItems.size() + " found\t\tFilters: " + getFilterSettings().toString());
 
 		
+	}
+
+	public Comparator getSorter() {
+		return sorter;
+	}
+
+	public SortDialog getSortDialog() {
+		return sortDialog;
 	}
 	
 }

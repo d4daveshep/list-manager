@@ -208,5 +208,30 @@ public class ListItemTest extends TestCase {
     	
     }
     
+    public void testCompareTo() {
+    	
+//    	// default comparison is on description field
+//    	ListItem item1 = new ListItem("A new list item");
+//    	ListItem item2 = new ListItem("The second list item");
+//    	ListItem item3 = new ListItem("a new list item");
+
+    	ListItem item1 = new ListItem("item1");
+    	ListItem item2 = new ListItem("item2");
+    	ListItem item3 = new ListItem("item3");
+
+    	assertTrue(item1.compareTo(item2)==0);  // items are equal if no id set
+    	
+    	item1.setId(1L);
+    	
+    	assertTrue(item1.compareTo(item2)<0); // item with id is less than item with no id
+    	
+    	item2.setId(2L);
+    	item3.setId(1L);
+    	
+    	assertTrue((item1.compareTo(item2))<0);  // less than means item1 appears before item2
+    	assertTrue((item1.compareTo(item3))==0); // equals means item1 and item2 are equally sorted
+    	assertTrue((item2.compareTo(item3))>0); // greater than means item2 appears after item3
+    }
+    
     
 }

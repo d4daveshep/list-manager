@@ -1,8 +1,10 @@
 package daveshep.gtd.domain;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -13,7 +15,7 @@ import daveshep.gtd.ListManager;
 public class InMemoryListManager implements ListManager {
 
 	private static ListManager listManager = new InMemoryListManager();
-	private List storage;
+	private List<ListItem> storage;
 	
 	public static ListManager getInstance() {
 		return listManager;
@@ -280,6 +282,39 @@ public class InMemoryListManager implements ListManager {
 		}
 		
 		return contextSet.toArray(new String[0]);
+	}
+
+	@Override
+	public Set<ListItem> findItemsByString(String textToFind,
+			FilterSettings filterSettings, Comparator<ListItem> sortSettings) {
+		System.out.println("textToFind = " + textToFind);
+
+		Set<ListItem> foundItems = new TreeSet<ListItem>(sortSettings);
+		
+		for (Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
+			ListItem item = iterator.next();
+
+			// empty find string matches all
+			if (textToFind.length()==0 ) {
+				if (filterSettings==null) {
+					foundItems.add(item);
+				} else if (item.passesFilter(filterSettings)) {
+					foundItems.add(item);
+				}
+				
+			} else
+				
+			// case insensitive
+			if (item.getDescription().toLowerCase().contains(textToFind.toLowerCase())) {
+
+				if (filterSettings==null) {
+					foundItems.add(item);
+				} else if (item.passesFilter(filterSettings)) {
+					foundItems.add(item);
+				}
+			}
+		}
+		return foundItems;
 	}
 	
 

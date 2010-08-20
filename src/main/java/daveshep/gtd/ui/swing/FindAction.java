@@ -3,12 +3,15 @@ package daveshep.gtd.ui.swing;
 import java.awt.event.ActionEvent;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import daveshep.gtd.domain.DueDateSorter;
+import daveshep.gtd.domain.FolderSorter;
 import daveshep.gtd.domain.ListItem;
 
 public class FindAction extends AbstractAction {
@@ -41,7 +44,8 @@ public class FindAction extends AbstractAction {
 		System.out.println(findString);
 		
 		// find in GTD model
-		List<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings());
+//		List<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings());
+		Set<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings(),frame.getSorter());
 		System.out.println("found: "+ foundItems.size());
 		
 		// clear the list then add found items

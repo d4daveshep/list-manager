@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.util.DateUtils;
 
-public class ListItem {
+public class ListItem implements Comparable {
 	
 	private Long id;
 	private ListItemType type;
@@ -139,6 +139,8 @@ public class ListItem {
 		if (getDueDate() != null) {
 			output += " | "+ DateUtils.dateFormat.format(getDueDate());
 		}
+		
+		output += " | id=" + getId();
 		
 		return output;
 	}
@@ -295,6 +297,29 @@ public class ListItem {
 		}
 
 		return true;		
+	}
+
+	/* Default comparison is on id field
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public int compareTo(Object o) {
+		ListItem item = (ListItem)o;
+		
+		if (getId()==null) {
+			if (item.getId()==null) {
+				return 0; // items are equal if neither has an id
+			} else {
+				return 1; // return 1 since item id is set so is greater then this with no id 
+			}
+		} else if (item.getId()==null) {
+			return -1; // return -1 since this has id set but a item doesn't
+			
+		} else {
+			// both items have a id so compare 
+			return getId().compareTo(((ListItem)o).getId());
+		}
+
 	}
 
 }
