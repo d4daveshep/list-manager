@@ -35,6 +35,9 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
+	private KeyAction okAction;
+	private KeyAction cancelAction;
+
 	private JCheckBox goalsCheckBox = new JCheckBox("Goals");
 	private JCheckBox projectsCheckBox = new JCheckBox("Projects");
 	private JCheckBox tasksCheckBox = new JCheckBox("Tasks");
@@ -133,54 +136,25 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 		
 		okButton.setMnemonic(KeyEvent.VK_ENTER);
 		okButton.addActionListener(this);
-		
+		okAction = new KeyAction(this, "OK");
+	
 		cancelButton.setMnemonic(KeyEvent.VK_ESCAPE);
 		cancelButton.addActionListener(this);
+		cancelAction = new KeyAction(this, "Cancel");
 		
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
 		getContentPane().add(buttonPanel,BorderLayout.SOUTH);
 
-//		FilterDialogAction cancelDialogAction = new FilterDialogAction(frame, "Cancel");
-//		FilterDialogAction okDialogAction = new FilterDialogAction(frame, "OK");
-//		
-//        okButton.addActionListener(okDialogAction);
-//        cancelButton.addActionListener(cancelDialogAction);
-//        
-//		getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
-//		getRootPane().getActionMap().put("Cancel", cancelDialogAction);
-//
-//		getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
-//		getRootPane().getActionMap().put("OK", okDialogAction);
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
+		getRootPane().getActionMap().put("OK", okAction );
 
-		
-		
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
+		getRootPane().getActionMap().put("Cancel", cancelAction );
+
+
 		pack();
 	}
-/*
-	class FilterDialogAction extends AbstractAction {
-		private JFrame frame;
-		private String command;
-		
-		FilterDialogAction(JFrame frame, String command) {
-			super();
-			this.frame = frame;
-			this.command = command;
-		}
-		public void actionPerformed(ActionEvent event) {
-
-			String actionCommand = event.getActionCommand();
-			if (command.equals("Cancel") || (actionCommand!= null && actionCommand.equals("Cancel"))) {
-				System.out.print("cancel... ");
-				setVisible(false);
-			}
-			if (command.equals("OK") || (actionCommand!= null && actionCommand.equals("OK"))) {
-				System.out.print("ok... ");
-				setVisible(false);
-			}
-		}
-	}
-*/
 	@Override
 	public void itemStateChanged(ItemEvent event) {
 		// don't need to do anything here
@@ -188,8 +162,13 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		Object source = event.getSource();
-		if (source == okButton) {
+		String command = event.getActionCommand();
+		if (command==null) {
+			return;
+		}
+		System.out.println(command);
+		
+		if (event.getActionCommand().equalsIgnoreCase("OK")) {
 			
 			FilterSettings filterSettings = frame.getFilterSettings();
 			
@@ -249,12 +228,9 @@ public class FilterDialog extends JDialog implements ItemListener, ActionListene
 			filterSettings.folder = (String) folderComboBox.getSelectedItem();
 			filterSettings.taskContext = (String) taskContextComboBox.getSelectedItem();
 			
-			System.out.print("ok... ");
 			setVisible(false);			
 			
-			
-		} else if (source == cancelButton) {
-			System.out.print("cancel... ");
+		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
 			setVisible(false);			
 		}
 	}
