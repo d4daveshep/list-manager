@@ -30,6 +30,7 @@ import javax.swing.KeyStroke;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
+import daveshep.gtd.ViewSettings;
 import daveshep.gtd.domain.DefaultSorter;
 import daveshep.gtd.domain.DescriptionSorter;
 import daveshep.gtd.domain.DueDateSorter;
@@ -53,6 +54,7 @@ public class BasicSwingUI extends JFrame {
 	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
 	private Comparator<ListItem> sorter = new DefaultSorter();
+	private ViewSettings viewSettings = new ViewSettings();
 	
 	public static Comparator<ListItem> FOLDER_SORTER = new FolderSorter();
 	public static Comparator<ListItem> DUE_DATE_SORTER = new DueDateSorter();
@@ -75,6 +77,7 @@ public class BasicSwingUI extends JFrame {
 		// create the main list panel
 		itemList = new JList();
 		itemList.setModel(new DefaultListModel());
+		itemList.setCellRenderer(new ListItemCellRenderer());
 
 		// create the status bar
 		statusBar = new JLabel("Ready...");
@@ -224,6 +227,14 @@ public class BasicSwingUI extends JFrame {
 
 	public void setSorter(Comparator sorter) {
 		this.sorter = sorter;
+	}
+
+	public ViewSettings getViewSettings() {
+		return viewSettings;
+	}
+
+	public void setViewSettings(ViewSettings viewSettings) {
+		this.viewSettings = viewSettings;
 	}
 	
 }
