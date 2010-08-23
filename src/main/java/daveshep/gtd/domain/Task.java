@@ -60,7 +60,13 @@ public class Task extends ListItem {
 	}
 
 	public String toString() {
-		return super.toString() + " | " + context + " | " + status;
+		StringBuffer output = new StringBuffer(super.toString());
+		output.append(getStatus());
+		output.append(" | ");
+		output.append(getContext());
+		output.append(" | ");
+		
+		return output.toString();
 	}
 
 	@Override
@@ -106,11 +112,18 @@ public class Task extends ListItem {
 			}			
 
 			// check context matches
+			if (filterSettings.taskContext.equalsIgnoreCase("none")) {
+				if (getContext()==null || getContext().length()==0) {
+					return true;
+				} else {
+					return false;
+				}
+			} else
 			if (!filterSettings.taskContext.equalsIgnoreCase("all")) {
 				if (!(getContext().equals(filterSettings.taskContext))) {
 					return false;
 				}
-			}
+			} 
 			
 		} else {
 			return false;

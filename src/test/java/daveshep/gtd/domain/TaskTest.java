@@ -42,7 +42,17 @@ public class TaskTest extends TestCase {
     	filterSettings.taskStatus = TaskStatus.NEXT_ACTION.name();
     	assertFalse(task.passesFilter(filterSettings));
     	
+    	task = new Task();
+    	filterSettings = new FilterSettings();
     	
+    	filterSettings.taskContext = "None";
+    	task.setContext(null);
+    	assertTrue(task.passesFilter(filterSettings)); // show item
+    	task.setContext("");
+    	assertTrue(task.passesFilter(filterSettings)); // show item
+    	task.setContext("context");
+    	assertFalse(task.passesFilter(filterSettings)); // show item
+
     }
     
     

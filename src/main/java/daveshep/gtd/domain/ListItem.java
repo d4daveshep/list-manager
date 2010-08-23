@@ -52,6 +52,24 @@ public class ListItem implements Comparable {
 	public ListItemType getType() {
 		return type;
 	}
+	
+	public String getTypeCode() {
+		if (type != null) {
+			switch (type) {
+			case GOAL:
+				return "G___";
+			case PROJECT:
+				return "_P__";
+			case TASK:
+				return "__T_";
+			case REFERENCE:
+				return "___R";
+			}
+			return "unknown";
+		} else {
+			return "null";
+		}
+	}
 
 	public void setType(ListItemType type) {
 		this.type = type;
@@ -81,7 +99,7 @@ public class ListItem implements Comparable {
 		this.starflag = starflag;
 	}
 
-	protected boolean isDone() {
+	public boolean isDone() {
 		if (this.completedDate==null) {
 			return false;
 		}
@@ -103,7 +121,7 @@ public class ListItem implements Comparable {
 		return completedDate;
 	}
 
-	protected Date getDueDate() {
+	public Date getDueDate() {
 		return dueDate;
 	}
 
@@ -121,28 +139,34 @@ public class ListItem implements Comparable {
 
 	@Override
 	public String toString() {
-		String output = "";
+		StringBuffer output = new StringBuffer();
 		if (!isDone()) {
-			output += "- ";
+			output.append("- ");
 		} else {
-			output += "+ ";
+			output.append("+ ");
 		}
+		output.append(" | ");
 		
 		if (isStarflag()) {
-			output += "* ";
-		} else {
-			output += "  ";
+			output.append("* ");
 		}
+		output.append(" | ");
 			
-		output += " | " + this.getType() + " | " + description + " | " + folder;
+		output.append(getTypeCode());
+		output.append(" | ");
+		output.append(getDescription());
+		output.append(" | ");
+		output.append(getFolder());
+		output.append(" | ");
 		
 		if (getDueDate() != null) {
-			output += " | "+ DateUtils.dateFormat.format(getDueDate());
+			output.append(DateUtils.dateFormat.format(getDueDate()));
 		}
-		
-		output += " | id=" + getId();
-		
-		return output;
+		output.append(" | ");
+//		output.append(getId());
+//		output.append(" | ");
+
+		return output.toString();
 	}
 
 	@Override
@@ -158,7 +182,7 @@ public class ListItem implements Comparable {
 	}
 
 
-	List getChildItems() {
+	public List getChildItems() {
 		return childItems;
 	}
 

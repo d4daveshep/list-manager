@@ -55,6 +55,7 @@ public class BasicSwingUI extends JFrame {
 	private String findString = ""; // match all on start (set to null to start with empty list)
 	private Comparator<ListItem> sorter = new DefaultSorter();
 	private ViewSettings viewSettings = new ViewSettings();
+	private ViewDialog viewDialog = new ViewDialog(this);
 	
 	public static Comparator<ListItem> FOLDER_SORTER = new FolderSorter();
 	public static Comparator<ListItem> DUE_DATE_SORTER = new DueDateSorter();
@@ -136,6 +137,9 @@ public class BasicSwingUI extends JFrame {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
 		itemList.getActionMap().put("Refresh", new RefreshAction(this));
 		
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_DOWN_MASK), "View");
+		itemList.getActionMap().put("View", new ViewAction(this));
+		
 		refreshList();
 		
 		// create the command panel
@@ -203,17 +207,51 @@ public class BasicSwingUI extends JFrame {
 
 		// get items for the current view
 		// find in GTD model
-//		List<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings());
 		Set<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings(),sorter);
 		System.out.println("found: "+ foundItems.size());
 		
 		for (Iterator<ListItem> i=foundItems.iterator();i.hasNext();) {
-			model.addElement(i.next());
+			ListItem item = i.next();
+			model.addElement(item);
+			if (viewSettings.showSubItemsNested) {
+				addSubItemsOf(item, model, i);
+			}
 		}
 		
 		// update the status bar
 		getStatusBar().setText("Refresh... \"" + getFindString() + "\" " + foundItems.size() + " found\t\tFilters: " + getFilterSettings().toString());
 
+		
+	}
+
+	private void addSubItemsOf(ListItem parent, DefaultListModel model,
+			Iterator<ListItem> foundItemsIterator) {
+		// add any subitems of parent to the listmodel, remove them from the listmodel first 
+		// and remove them from the founditems set so we don't display duplicates
+		if (!parent.hasChildren()) {
+			return;
+		}
+		
+		for (Iterator<ListItem> i = parent.getChildItems().iterator();i.hasNext();) {
+			ListItem child = i.next();
+			
+			// remove it from the listmodel if it's already been added
+			if (model.contains(child)) {
+				model.removeElement(child);
+			}
+			
+			// remove it from the foundItems so it doesn't get added twice
+//			if (foundItems.contains(child)) {
+//				foundItems.remove(child);
+//			}
+			
+			// now add it to the listmodel at its nested position
+			model.addElement(child);
+			
+			// do this recursively to handle muliple levels of nesting
+//			addSubItemsOf(child, model, foundItems);
+		}
+		
 		
 	}
 
@@ -235,6 +273,10 @@ public class BasicSwingUI extends JFrame {
 
 	public void setViewSettings(ViewSettings viewSettings) {
 		this.viewSettings = viewSettings;
+	}
+
+	public ViewDialog getViewDialog() {
+		return viewDialog;
 	}
 	
 }

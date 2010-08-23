@@ -2,6 +2,10 @@ package daveshep.gtd.ui.swing;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Insets;
+import java.util.StringTokenizer;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
@@ -10,10 +14,13 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import daveshep.gtd.domain.Goal;
 import daveshep.gtd.domain.ListItem;
 import daveshep.gtd.domain.ListItemType;
+import daveshep.gtd.domain.Project;
 import daveshep.gtd.domain.Task;
 import daveshep.gtd.domain.TaskStatus;
+import daveshep.gtd.util.DateUtils;
 
 public class ListItemCellRenderer extends DefaultListCellRenderer {
 
@@ -25,6 +32,11 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
     private static Color NEXT_ACTION_TASK_COLOR = Color.RED;
     private static Color GOAL_COLOR = Color.GREEN;
     private static Color REF_COLOR = Color.MAGENTA;
+    
+    private int[] tabs = { 12,30,60,100,650,850,1000,1100 };
+    private int defaultTab = 20;
+	private FontMetrics fontMetrics;
+	private Insets insets;
     
     
 	@Override
@@ -93,11 +105,7 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
 			if (value == null) {
 				setText("<null>");
 			} else {
-				if (item.getParentItem()!=null) {
-					setText("-> " + item.toString());
-				} else {
-					setText(item.toString());
-				}
+				setText(getLabelText(item));
 			}
 		}
 
@@ -120,7 +128,97 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
 		return this;
 	}
 	
-    private Border getNoFocusBorder() {
+    private String getLabelText(ListItem item) {
+    	
+    	StringBuffer output = new StringBuffer();
+		if (!item.isDone()) {
+			output.append("-");
+		} else {
+			output.append("+");
+		}
+		output.append("\t");
+		
+		if (item.isStarflag()) {
+			output.append("*");
+		} else {
+			output.append(" ");
+		}
+		output.append("\t");
+			
+		output.append(item.getTypeCode());
+		output.append("\t");
+
+		if (item.hasChildren()) {
+			output.append("p");
+		} else {
+			output.append(" ");
+		}
+		if (item.getParentItem()!=null) {
+			output.append("c");
+		} else {
+			output.append(" ");
+		}
+		output.append("\t");
+		
+		if (item.getParentItem()!=null) {
+			output.append("-> ");
+		}
+		
+		String description = item.getDescription();
+		if (description!=null) {
+			output.append(description);
+		} else {
+			output.append(" ");
+			
+		}
+		output.append("\t");
+		
+		String folder = item.getFolder();
+		if (folder != null) {
+			output.append(folder);
+		} else {
+			output.append(" ");
+		}
+		output.append("\t");
+		
+		switch (item.getType()) {
+		case GOAL:
+			output.append(((Goal)item).getStatus());
+			output.append("\t\t");
+			break;
+		case PROJECT:
+			output.append(((Project)item).getStatus());
+			output.append("\t\t");
+			break;
+		case TASK:
+			output.append(((Task)item).getStatus());
+			output.append("\t");
+			String context = ((Task)item).getContext();
+			if (context !=null && context.length()>0) {
+				output.append(context);
+			} else {
+				output.append(" ");
+			}
+			output.append("\t");
+			break;
+		default:
+			break;
+		}
+		
+		if (item.getDueDate() != null) {
+			output.append(DateUtils.dateFormat.format(item.getDueDate()));
+		} else {
+			output.append(" ");
+		}
+	
+		output.append("\t");
+//		output.append(getId());
+//		output.append("\t");
+
+		return output.toString();
+	}
+
+	private Border getNoFocusBorder() {
     	Border border = UIManager.getBorder("List.cellNoFocusBorder");
         if (System.getSecurityManager() != null) {
             if (border != null) return border;
@@ -135,5 +233,59 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
         }
     }
 
+	public int[] getTabs() {
+		return tabs;
+	}
+
+	public void setTabs(int[] tabs) {
+		this.tabs = tabs;
+	}
+
+	public int getDefaultTab() {
+		return defaultTab;
+	}
+
+	public void setDefaultTab(int defaultTab) {
+		this.defaultTab = defaultTab;
+	}
+	
+	public int getTab(int index) {
+		if (tabs==null) {
+			return defaultTab*index;
+		}
+		int len = tabs.length;
+		if (index>=0 && index<len) {
+		  return tabs[index];
+		} else {
+			return tabs[len-1] +defaultTab*(index-len+1);
+		}
+	}
+
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		Color colorRetainer = g.getColor();
+		fontMetrics = g.getFontMetrics();
+		g.setColor(getBackground());
+		g.fillRect(0, 0, getWidth(), getHeight());
+		getBorder().paintBorder(this, g,0, 0, getWidth(), getHeight());
+		g.setColor(getForeground());
+		g.setFont(getFont());
+		insets = getInsets();
+		int x = insets.left;
+		int y = insets.top + fontMetrics.getAscent();
+		StringTokenizer st = new StringTokenizer(getText(), "\t");
+		while (st.hasMoreTokens()) {
+			String token = st.nextToken();
+			g.drawString(token, x,y);
+			x += fontMetrics.stringWidth(token);
+			if (!st.hasMoreTokens())
+				break;
+			int index = 0;
+			while (x >= getTab(index))
+				index++;
+			x = getTab(index);
+		}
+		g.setColor(colorRetainer);
+	}
 
 }

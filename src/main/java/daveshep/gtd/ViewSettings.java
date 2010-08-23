@@ -3,7 +3,7 @@ package daveshep.gtd;
 
 public class ViewSettings {
 
-	public boolean showSubItemsNested = true;
+	public boolean showSubItemsNested = false;
 	public boolean showNotes = true;
 
 	public String toString() {

@@ -62,7 +62,11 @@ public class Project extends ListItem {
 
 	@Override
 	public String toString() {
-		return super.toString() + " | " + status;
+		StringBuffer output = new StringBuffer(super.toString());
+		output.append(getStatus());
+		output.append(" | ");
+		
+		return output.toString();
 	}
 
 	@Override

@@ -51,6 +51,6 @@ public class ToggleStarAction extends AbstractAction {
 		}
 		System.out.println(selectedItems.length + " items");
 		
-		// TODO get list to update immediately
+		frame.refreshList();
 	}
 }
