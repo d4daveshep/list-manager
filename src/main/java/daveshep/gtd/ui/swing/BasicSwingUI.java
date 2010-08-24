@@ -139,9 +139,15 @@ public class BasicSwingUI extends JFrame {
 		// F5 = refresh screen
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
 		itemList.getActionMap().put("Refresh", new RefreshAction(this));
-		
+
+		// Ctrl-W = view settings
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W,InputEvent.CTRL_DOWN_MASK), "View");
 		itemList.getActionMap().put("View", new ViewAction(this));
+		
+		// Ctrl-+ = increase font size
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_EQUALS,InputEvent.CTRL_DOWN_MASK), "FontSize");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_MINUS,InputEvent.CTRL_DOWN_MASK), "FontSize");
+		itemList.getActionMap().put("FontSize", new FontSizeAction(this));
 		
 		refreshList();
 		
