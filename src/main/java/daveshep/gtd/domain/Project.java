@@ -19,6 +19,11 @@ public class Project extends ListItem {
 		this.setType(ListItemType.PROJECT);
 		this.setStatus(ProjectStatus.NONE);
 	}
+	
+	public Project(String description) {
+		this();
+		setDescription(description);
+	}
 
 	public ProjectStatus getStatus() {
 		return status;

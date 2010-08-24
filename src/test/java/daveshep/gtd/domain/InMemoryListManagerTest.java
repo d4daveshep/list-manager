@@ -2,11 +2,13 @@ package daveshep.gtd.domain;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
+import daveshep.gtd.ViewSettings;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -251,6 +253,70 @@ public class InMemoryListManagerTest extends TestCase {
     	assertTrue(contextSet[1].equals("@Office"));
     	assertTrue(contextSet[2].equals("@WorkPC"));
     	assertTrue(contextSet[0].equals("@Home"));
+    	
+    }
+    
+    public void testNestedView() {
+    	ListManager manager = InMemoryListManager.getInstance();
+    	manager.removeAll();
+ 
+    	Random random = new Random();
+    	
+    	Project project = manager.createProject();
+    	project.setDescription("project - dad");
+    	project.setId(random.nextLong());
+    	
+    	Task task1 = manager.createTask();
+    	task1.setDescription("task1 - brother");
+    	task1.setId(random.nextLong());
+    	project.addSubTask(task1);
+    	
+    	Task task2 = manager.createTask();
+    	task2.setDescription("task2 - sister");
+    	task2.setId(random.nextLong());
+    	project.addSubTask(task2);
+    	
+    	Task task21 = manager.createTask();
+    	task21.setDescription("task21 - baby sister");
+    	task21.setId(random.nextLong());
+    	task2.addChildItem(task21);
+    	
+    	Project project2 = manager.createProject();
+    	project2.setId(random.nextLong());
+    	project2.setDescription("project2");
+    	
+    	Task task3 = manager.createTask();
+    	task3.setId(random.nextLong());
+    	task3.setDescription("task3 - baby");
+
+    	assertTrue(project.hasChildren());
+    	assertTrue(project.getChildItems().size()==2);
+    	
+    	Set foundItems;
+    	foundItems = manager.findItemsByString("dad", null, null, null);
+    	assertTrue(foundItems.size()==1);
+    	assertTrue(foundItems.contains(project));
+    
+    	ViewSettings view = new ViewSettings();
+    	view.showSubItemsNested = false;
+    	foundItems = manager.findItemsByString("dad",null,null,view);
+    	assertTrue(foundItems.size()==1);
+    	assertTrue(foundItems.contains(project));
+    	
+    	view.showSubItemsNested = true;
+    	foundItems = manager.findItemsByString("dad",null,null,view);
+    	assertTrue(foundItems.size()==4);
+    	assertTrue(foundItems.contains(project));
+    	
+    	foundItems = manager.findItemsByString("brother",null,null,view);
+    	assertTrue(foundItems.size()==4);
+    	
+    	foundItems = manager.findItemsByString("sister",null,null,view);
+    	assertTrue(foundItems.size()==4);
+    	
+    	foundItems = manager.findItemsByString("baby",null,null,view);
+       	System.out.println(foundItems);
+    	assertTrue(foundItems.size()==5);
     	
     }
     

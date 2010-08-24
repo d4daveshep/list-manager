@@ -1,6 +1,7 @@
 package daveshep.gtd.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.TreeSet;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.ListManager;
+import daveshep.gtd.ViewSettings;
 
 
 public class InMemoryListManager implements ListManager {
@@ -285,11 +287,16 @@ public class InMemoryListManager implements ListManager {
 	}
 
 	@Override
-	public Set<ListItem> findItemsByString(String textToFind,
-			FilterSettings filterSettings, Comparator<ListItem> sortSettings) {
+	public Collection<ListItem> findItemsByString(String textToFind,
+			FilterSettings filterSettings, Comparator<ListItem> sortSettings, ViewSettings viewSettings) {
 		System.out.println("textToFind = " + textToFind);
 
-		Set<ListItem> foundItems = new TreeSet<ListItem>(sortSettings);
+		Collection<ListItem> foundItems;
+		if (viewSettings==null || viewSettings.showSubItemsNested==false) {
+			foundItems = new TreeSet<ListItem>(sortSettings);
+		} else {
+			foundItems = new ArrayList<ListItem>();
+		}
 		
 		for (Iterator<ListItem> iterator = storage.iterator();iterator.hasNext();) {
 			ListItem item = iterator.next();
@@ -306,15 +313,69 @@ public class InMemoryListManager implements ListManager {
 				
 			// case insensitive
 			if (item.getDescription().toLowerCase().contains(textToFind.toLowerCase())) {
-
+				boolean addIt = false;
 				if (filterSettings==null) {
-					foundItems.add(item);
+					addIt = true;
 				} else if (item.passesFilter(filterSettings)) {
-					foundItems.add(item);
+					addIt = true;
+				}
+				if (addIt) {
+					if (viewSettings==null || viewSettings.showSubItemsNested==false) {
+						foundItems.add(item);
+					} else {
+						if (!foundItems.contains(item)) {
+							ListItem parent = findParent(item);
+							if (parent!=null) {
+								foundItems.add(parent);
+								addSubItemsOf(parent, foundItems,filterSettings);
+							} else {
+								foundItems.add(item);
+								addSubItemsOf(item, foundItems,filterSettings);
+							}
+						}
+					}
 				}
 			}
 		}
 		return foundItems;
+	}
+
+	private void addSubItemsOf(ListItem parent, Collection<ListItem> foundItems, FilterSettings filterSettings) {
+		System.out.println("adding subitems of " + parent.getDescription());
+		if (!parent.hasChildren()) {
+			return;
+		}
+		
+		for (Iterator<ListItem> i = parent.getChildItems().iterator();i.hasNext();) {
+			ListItem child = i.next();
+			if (!child.isDone() && filterSettings.showNotDone ) {
+				foundItems.add(child);
+			} else if (child.isDone() && filterSettings.showDone) {
+				foundItems.add(child);
+			}
+			
+			// do this recursively to handle multiple levels of nesting
+			addSubItemsOf(child, foundItems, filterSettings);
+		}
+		
+	}
+
+	/**
+	 * @param item
+	 * @return the top level ancestor of item
+	 */
+	private ListItem findParent(ListItem item) {
+		ListItem currentItem = item;
+		ListItem oldItem = null;
+		
+		while (currentItem!=null) {
+			oldItem = currentItem;
+			currentItem = oldItem.getParentItem();
+			
+		}
+		
+		return oldItem;
+		
 	}
 	
 

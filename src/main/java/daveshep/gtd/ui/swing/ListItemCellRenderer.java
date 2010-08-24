@@ -37,7 +37,8 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
     private int defaultTab = 20;
 	private FontMetrics fontMetrics;
 	private Insets insets;
-    
+	
+	private BasicSwingUI frame;
     
 	@Override
 	public Component getListCellRendererComponent(
@@ -160,7 +161,7 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
 		}
 		output.append("\t");
 		
-		if (item.getParentItem()!=null) {
+		if (frame.getViewSettings().showSubItemsNested && item.getParentItem()!=null) {
 			output.append("-> ");
 		}
 		
@@ -286,6 +287,14 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
 			x = getTab(index);
 		}
 		g.setColor(colorRetainer);
+	}
+
+	public BasicSwingUI getFrame() {
+		return frame;
+	}
+
+	public void setFrame(BasicSwingUI frame) {
+		this.frame = frame;
 	}
 
 }

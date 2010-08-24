@@ -1,5 +1,6 @@
 package daveshep.gtd;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +31,7 @@ public interface ListManager {
 	public List<ListItem> findItemsByDone(boolean done);
 	public List<ListItem> findItemsByString(String textToFind); // case insensitive by default
 	public List<ListItem> findItemsByString(String textToFind, FilterSettings filterSettings); // case insensitive by default
-	public Set<ListItem> findItemsByString(String textToFind, FilterSettings filterSettings, Comparator<ListItem> sortSettings); // case insensitive by default
+	public Collection<ListItem> findItemsByString(String textToFind, FilterSettings filterSettings, Comparator<ListItem> sortSettings, ViewSettings viewSettings); // case insensitive by default
 	public List<ListItem> findItemsByString(String textToFind, boolean inclTags, boolean inclNotes, boolean caseSensitive);
 	
 	// task search

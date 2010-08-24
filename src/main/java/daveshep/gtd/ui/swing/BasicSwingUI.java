@@ -7,6 +7,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -78,7 +79,9 @@ public class BasicSwingUI extends JFrame {
 		// create the main list panel
 		itemList = new JList();
 		itemList.setModel(new DefaultListModel());
-		itemList.setCellRenderer(new ListItemCellRenderer());
+		ListItemCellRenderer renderer = new ListItemCellRenderer();
+		renderer.setFrame(this);
+		itemList.setCellRenderer(renderer);
 
 		// create the status bar
 		statusBar = new JLabel("Ready...");
@@ -207,51 +210,17 @@ public class BasicSwingUI extends JFrame {
 
 		// get items for the current view
 		// find in GTD model
-		Set<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings(),sorter);
+		Collection<ListItem> foundItems = getListManager().findItemsByString(getFindString(),getFilterSettings(),sorter,viewSettings);
 		System.out.println("found: "+ foundItems.size());
 		
 		for (Iterator<ListItem> i=foundItems.iterator();i.hasNext();) {
 			ListItem item = i.next();
 			model.addElement(item);
-			if (viewSettings.showSubItemsNested) {
-				addSubItemsOf(item, model, i);
-			}
 		}
 		
 		// update the status bar
 		getStatusBar().setText("Refresh... \"" + getFindString() + "\" " + foundItems.size() + " found\t\tFilters: " + getFilterSettings().toString());
 
-		
-	}
-
-	private void addSubItemsOf(ListItem parent, DefaultListModel model,
-			Iterator<ListItem> foundItemsIterator) {
-		// add any subitems of parent to the listmodel, remove them from the listmodel first 
-		// and remove them from the founditems set so we don't display duplicates
-		if (!parent.hasChildren()) {
-			return;
-		}
-		
-		for (Iterator<ListItem> i = parent.getChildItems().iterator();i.hasNext();) {
-			ListItem child = i.next();
-			
-			// remove it from the listmodel if it's already been added
-			if (model.contains(child)) {
-				model.removeElement(child);
-			}
-			
-			// remove it from the foundItems so it doesn't get added twice
-//			if (foundItems.contains(child)) {
-//				foundItems.remove(child);
-//			}
-			
-			// now add it to the listmodel at its nested position
-			model.addElement(child);
-			
-			// do this recursively to handle muliple levels of nesting
-//			addSubItemsOf(child, model, foundItems);
-		}
-		
 		
 	}
 

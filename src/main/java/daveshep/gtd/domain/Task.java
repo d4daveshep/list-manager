@@ -27,6 +27,11 @@ public class Task extends ListItem {
 		this.setStatus(TaskStatus.NONE);
 	}
 	
+	public Task(String description) {
+		this();
+		setDescription(description);
+	}
+	
 	public TaskStatus getStatus() {
 		return status;
 	}

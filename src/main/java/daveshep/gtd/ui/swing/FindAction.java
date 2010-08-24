@@ -1,6 +1,7 @@
 package daveshep.gtd.ui.swing;
 
 import java.awt.event.ActionEvent;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -44,8 +45,7 @@ public class FindAction extends AbstractAction {
 		System.out.println(findString);
 		
 		// find in GTD model
-//		List<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings());
-		Set<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings(),frame.getSorter());
+		Collection<ListItem> foundItems = frame.getListManager().findItemsByString(findString,frame.getFilterSettings(),frame.getSorter(),frame.getViewSettings());
 		System.out.println("found: "+ foundItems.size());
 		
 		// clear the list then add found items
