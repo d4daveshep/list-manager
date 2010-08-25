@@ -20,14 +20,14 @@ public class Task extends ListItem {
 	private String context;
 	private TaskRepeater repeat;
 	
-	public Task() {
+	Task() {
 		super();
 		this.setType(ListItemType.TASK);
 		this.setEnergy(TaskEnergy.NORMAL);
 		this.setStatus(TaskStatus.NONE);
 	}
 	
-	public Task(String description) {
+	Task(String description) {
 		this();
 		setDescription(description);
 	}
@@ -98,6 +98,11 @@ public class Task extends ListItem {
 	public Date getCompletedDate() {
 		return super.getCompletedDate();
 	}
+
+	public void addSubTask(Task subTask) {
+		this.addChildItem(subTask);
+	}
+
 
 	@Override
 	public boolean passesFilter(FilterSettings filterSettings) {

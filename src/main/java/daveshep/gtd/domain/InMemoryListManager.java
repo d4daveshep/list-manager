@@ -348,10 +348,14 @@ public class InMemoryListManager implements ListManager {
 		
 		for (Iterator<ListItem> i = parent.getChildItems().iterator();i.hasNext();) {
 			ListItem child = i.next();
-			if (!child.isDone() && filterSettings.showNotDone ) {
+			if (filterSettings==null ) {
 				foundItems.add(child);
-			} else if (child.isDone() && filterSettings.showDone) {
-				foundItems.add(child);
+			} else {
+				if (!child.isDone() && filterSettings.showNotDone ) {
+					foundItems.add(child);
+				} else if (child.isDone() && filterSettings.showDone) {
+					foundItems.add(child);
+				}
 			}
 			
 			// do this recursively to handle multiple levels of nesting

@@ -1,5 +1,6 @@
 package daveshep.gtd.domain;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -292,7 +293,7 @@ public class InMemoryListManagerTest extends TestCase {
     	assertTrue(project.hasChildren());
     	assertTrue(project.getChildItems().size()==2);
     	
-    	Set foundItems;
+    	Collection<ListItem> foundItems;
     	foundItems = manager.findItemsByString("dad", null, null, null);
     	assertTrue(foundItems.size()==1);
     	assertTrue(foundItems.contains(project));

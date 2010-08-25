@@ -14,7 +14,7 @@ public class Goal extends ListItem {
 	private GoalType goalType;
 	private GoalStatus status;
 	
-	public Goal() {
+	Goal() {
 		super();
 		this.setType(ListItemType.GOAL);
 	}

@@ -52,6 +52,7 @@ public class BasicSwingUI extends JFrame {
 	private JLabel statusBar; // the status bar
 	private FilterSettings filterSettings = new FilterSettings();
 	private FilterDialog filterDialog = new FilterDialog(this);
+	private NewItemDialog newItemDialog = new NewItemDialog(this);
 	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
 	private Comparator<ListItem> sorter = new DefaultSorter();
@@ -109,6 +110,10 @@ public class BasicSwingUI extends JFrame {
 		// F2 = edit description
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"Edit_Description");
 		itemList.getActionMap().put("Edit_Description", new EditDescriptionAction(this));
+		
+		// Ctrl-N = new item
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_DOWN_MASK),"NewItem");
+		itemList.getActionMap().put("NewItem", new NewItemAction(this));
 		
 		// * = toggle star, Ctrl-* = star on, Alt-* = star off
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_8,InputEvent.SHIFT_DOWN_MASK),"Toggle_Star");
@@ -252,6 +257,10 @@ public class BasicSwingUI extends JFrame {
 
 	public ViewDialog getViewDialog() {
 		return viewDialog;
+	}
+
+	public NewItemDialog getNewItemDialog() {
+		return newItemDialog;
 	}
 	
 }

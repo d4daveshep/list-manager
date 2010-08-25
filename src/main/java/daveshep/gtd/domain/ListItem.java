@@ -14,7 +14,7 @@ public class ListItem implements Comparable {
 	private Long id;
 	private ListItemType type;
 	private String description;
-	private List childItems;
+	private List<ListItem> childItems;
 	private ListItem parentItem;
 	private String folder;
 	private boolean starflag;
@@ -24,7 +24,7 @@ public class ListItem implements Comparable {
 	private List<String> tags;
 	private TaskRepeater repeater;
 	
-	public ListItem() {
+	ListItem() {
 	}
 
 	//package level constructors for testing purposes
@@ -182,7 +182,7 @@ public class ListItem implements Comparable {
 	}
 
 
-	public List getChildItems() {
+	public List<ListItem> getChildItems() {
 		return childItems;
 	}
 
@@ -202,7 +202,16 @@ public class ListItem implements Comparable {
 		return false;
 		
 	}
-	
+
+	public void addRefItem(ReferenceItem refItem) {
+		this.addChildItem(refItem);
+	}
+
+	@Deprecated
+	/**
+	 * Not intended for use by GUI
+	 * @param childItem
+	 */
 	public void addChildItem(ListItem childItem) {
 		if (childItem==null) {
 			throw new IllegalArgumentException("Null child item");

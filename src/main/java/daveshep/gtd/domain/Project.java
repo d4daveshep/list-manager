@@ -14,13 +14,13 @@ public class Project extends ListItem {
 
 	private ProjectStatus status;
 	
-	public Project() {
+	Project() {
 		super();
 		this.setType(ListItemType.PROJECT);
 		this.setStatus(ProjectStatus.NONE);
 	}
 	
-	public Project(String description) {
+	Project(String description) {
 		this();
 		setDescription(description);
 	}
