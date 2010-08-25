@@ -46,7 +46,7 @@ import daveshep.gtd.util.ToodledoXMLImporter;
 
 
 
-public class BasicSwingUI extends JFrame {
+public class BasicSwingUI extends JFrame implements KeyListener {
 
 	private JList itemList; // the main list on the screen
 	private JLabel statusBar; // the status bar
@@ -161,6 +161,8 @@ public class BasicSwingUI extends JFrame {
 //		getContentPane().add(commandPanel, BorderLayout.PAGE_END);
 
 //		pack();
+		
+		itemList.addKeyListener(this);
 	}
 
 	public static void main(String argv[]) {
@@ -261,6 +263,25 @@ public class BasicSwingUI extends JFrame {
 
 	public NewItemDialog getNewItemDialog() {
 		return newItemDialog;
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println(e.paramString());
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
