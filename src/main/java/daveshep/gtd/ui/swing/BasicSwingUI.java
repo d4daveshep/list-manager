@@ -107,8 +107,9 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B,InputEvent.CTRL_DOWN_MASK),"Blank");
 		itemList.getActionMap().put("Blank", new BlankAction(this));
 		
-		// F2 = edit description
+		// F2, D = edit description
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"Edit_Description");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0),"Edit_Description");
 		itemList.getActionMap().put("Edit_Description", new EditDescriptionAction(this));
 		
 		// Ctrl-N = new item
@@ -124,7 +125,8 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ASTERISK,InputEvent.ALT_DOWN_MASK),"Toggle_Star");
 		itemList.getActionMap().put("Toggle_Star", new ToggleStarAction(this));
 		
-		// Ctrl-D = delete
+		// Ctrl-D, Del = delete
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DELETE,0),"Delete");
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,InputEvent.CTRL_DOWN_MASK),"Delete");
 		itemList.getActionMap().put("Delete", new DeleteAction(this));
 		

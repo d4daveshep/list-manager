@@ -1,6 +1,8 @@
 package daveshep.gtd.ui.swing;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,6 +26,11 @@ public class EditDescriptionAction extends AbstractAction {
 	public void actionPerformed(ActionEvent event) {
 		String title = "Edit Description";
 		System.out.print(title+"... ");
+		
+		if (frame.getItemList().getSelectedIndices().length>1) {
+			System.out.println("Can't edit multiple descriptions");
+			return;
+		}
 		
 		// get the list item to edit
 		ListItem listItem = (ListItem)frame.getItemList().getSelectedValue();

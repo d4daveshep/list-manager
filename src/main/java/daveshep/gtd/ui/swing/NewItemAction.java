@@ -30,8 +30,8 @@ public class NewItemAction extends AbstractAction {
 		
 		System.out.println();
 		
-		// refresh the main list
-		System.out.println("doing refresh now...");
-		frame.refreshList();
+//		// refresh the main list
+//		System.out.println("doing refresh now...");
+//		frame.refreshList();
 	}
 }

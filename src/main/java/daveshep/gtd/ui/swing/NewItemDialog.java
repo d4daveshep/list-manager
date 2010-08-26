@@ -10,11 +10,14 @@ import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -22,6 +25,8 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -32,6 +37,7 @@ import javax.swing.border.EmptyBorder;
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.domain.GoalStatus;
 import daveshep.gtd.domain.ProjectStatus;
+import daveshep.gtd.domain.ReferenceItem;
 import daveshep.gtd.domain.TaskStatus;
 
 public class NewItemDialog extends JDialog implements ItemListener, ActionListener {
@@ -112,10 +118,20 @@ public class NewItemDialog extends JDialog implements ItemListener, ActionListen
 		
 		if (event.getActionCommand().equalsIgnoreCase("Reference")) {
 
-			setVisible(false);			
+			setVisible(false);
+
+			ReferenceItem newRef = frame.getListManager().createRefItem();
+			newRef.setId(new Random().nextLong());
 			
-			NewReferenceDialog newRefDialog = new NewReferenceDialog(this.frame);
-			newRefDialog.setVisible(true);
+			String newDescription = (String) JOptionPane.showInputDialog(frame,null,"Reference Description",JOptionPane.QUESTION_MESSAGE,null,null,"");
+			newRef.setDescription(newDescription);
+			
+			JList itemList = frame.getItemList();
+			DefaultListModel itemListModel = (DefaultListModel) itemList.getModel();
+			itemListModel.addElement(newRef);
+			int index = itemListModel.indexOf(newRef);
+			itemList.setSelectedIndex(index);
+			itemList.ensureIndexIsVisible(index);
 			
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
 			setVisible(false);			
