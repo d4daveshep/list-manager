@@ -32,7 +32,9 @@ public class EditFolderAction extends AbstractAction {
 		folderDialog.setVisible(true);
 
 		String newFolder = folderDialog.getFolderString();
-		
+		if (newFolder==null || newFolder.length()<1) {
+			return;
+		}
 		
 		// update the folder
 		for (int i=0;i<selectedItems.length;i++) {

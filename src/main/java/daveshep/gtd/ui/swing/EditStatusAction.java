@@ -62,6 +62,9 @@ public class EditStatusAction extends AbstractAction {
 		statusDialog.setVisible(true);
 
 		String newStatus = statusDialog.getStatusString();
+		if (newStatus==null || newStatus.length()<1) {
+			return;
+		}
 		
 		
 		// update the status

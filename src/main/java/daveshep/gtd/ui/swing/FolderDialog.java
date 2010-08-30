@@ -69,6 +69,9 @@ public class FolderDialog extends JDialog implements ItemListener, ActionListene
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
 		getRootPane().getActionMap().put("OK", okAction );
 
+		folderComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
+		folderComboBox.getActionMap().put("OK", okAction );
+
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
 //
@@ -93,12 +96,12 @@ public class FolderDialog extends JDialog implements ItemListener, ActionListene
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		System.out.println(event.paramString());
 		String command = event.getActionCommand();
 		if (command==null) {
 			return;
 		}
-		System.out.println(command);
-		
+
 		if (event.getActionCommand().equalsIgnoreCase("OK")) {
 			
 			// read combo boxes
@@ -107,9 +110,11 @@ public class FolderDialog extends JDialog implements ItemListener, ActionListene
 			setVisible(false);			
 			
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
+			setFolderString(null);
 			setVisible(false);			
 		}
 	}
+	
 	@Override
 	public void setVisible(boolean arg0) {
 

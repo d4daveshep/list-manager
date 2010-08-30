@@ -84,8 +84,6 @@ public class StatusDialog extends JDialog implements ItemListener, ActionListene
 			goalStatusComboBox.addItem(goalStatuses[i].name());
 		}
 
-		statusLabel.setDisplayedMnemonic(KeyEvent.VK_S);
-		statusLabel.setLabelFor(statusComboBox);
 		statusComboBox = taskStatusComboBox;
 		
 		settingsPanel.add(statusLabel);
@@ -111,6 +109,13 @@ public class StatusDialog extends JDialog implements ItemListener, ActionListene
 
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
 		getRootPane().getActionMap().put("OK", okAction );
+
+		taskStatusComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
+		taskStatusComboBox.getActionMap().put("OK", okAction );
+		projectStatusComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
+		projectStatusComboBox.getActionMap().put("OK", okAction );
+		goalStatusComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
+		goalStatusComboBox.getActionMap().put("OK", okAction );
 
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
@@ -150,6 +155,7 @@ public class StatusDialog extends JDialog implements ItemListener, ActionListene
 			setVisible(false);			
 			
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
+			this.setStatusString(null);
 			setVisible(false);			
 		}
 	}
@@ -175,6 +181,8 @@ public class StatusDialog extends JDialog implements ItemListener, ActionListene
 
 		}
 		settingsPanel.add(statusComboBox);
+		
+		statusComboBox.grabFocus();
 		
 		validate();
 		
