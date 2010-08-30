@@ -54,6 +54,7 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 	private FilterDialog filterDialog = new FilterDialog(this);
 	private NewItemDialog newItemDialog = new NewItemDialog(this);
 	private StatusDialog statusDialog = new StatusDialog(this);
+	private FolderDialog folderDialog = new FolderDialog(this);
 	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
 	private Comparator<ListItem> sorter = new DefaultSorter();
@@ -112,6 +113,10 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"Edit_Description");
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0),"Edit_Description");
 		itemList.getActionMap().put("Edit_Description", new EditDescriptionAction(this));
+		
+		// F = edit folder
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,0),"Edit_Folder");
+		itemList.getActionMap().put("Edit_Folder", new EditFolderAction(this));
 		
 		// S = edit status
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0),"Edit_Status");
@@ -293,6 +298,10 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 
 	public StatusDialog getStatusDialog() {
 		return statusDialog;
+	}
+
+	public FolderDialog getFolderDialog() {
+		return folderDialog;
 	}
 	
 }
