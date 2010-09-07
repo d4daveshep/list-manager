@@ -67,6 +67,11 @@ public class DueDateParser {
 			cal.set(Calendar.DATE, Integer.parseInt(dueDateString));
 			
 			dueDate = cal.getTime();
+			if (dueDate.before(today)) {
+				cal.roll(Calendar.MONTH, true);
+			}
+			dueDate = cal.getTime();
+			
 			return dueDate;
 		}
 		
@@ -91,6 +96,7 @@ public class DueDateParser {
 			
 		}
 		
+		System.out.println("no match");
 		return DateUtils.today();
 	}
 	
