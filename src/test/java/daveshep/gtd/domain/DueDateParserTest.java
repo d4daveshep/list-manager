@@ -42,7 +42,7 @@ public class DueDateParserTest extends TestCase {
         	parser.setToday(DateUtils.xmlDateFormat.parse("2010-09-07"));
 
         	Date dueDate = parser.parse("11/12");
-    		assertTrue(DateUtils.xmlDateFormat.format(dueDate).equals("2010-11-12"));
+    		assertTrue(DateUtils.xmlDateFormat.format(dueDate).equals("2010-12-11"));
     	} catch (ParseException e) {
     		e.printStackTrace();
     	}

@@ -1,6 +1,7 @@
 package daveshep.gtd.domain;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -73,11 +74,19 @@ public class DueDateParser {
 		matcher = ddMMPattern.matcher(dueDateString);
 		if (matcher.matches()) {
 
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+			
+			Calendar tempCal = Calendar.getInstance();
+			tempCal.setTime(sdf.parse(dueDateString));
+			System.out.println(tempCal.toString());
+			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(today);
-			cal.set(Calendar.DATE, Integer.parseInt(dueDateString));
+			cal.set(Calendar.DATE, tempCal.get(Calendar.DATE));
+			cal.set(Calendar.MONTH, tempCal.get(Calendar.MONTH));
 			
 			dueDate = cal.getTime();
+			System.out.println(dueDate);
 			return dueDate;
 			
 		}
