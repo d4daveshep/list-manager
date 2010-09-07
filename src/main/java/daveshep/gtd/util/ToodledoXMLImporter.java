@@ -227,7 +227,7 @@ public class ToodledoXMLImporter {
 					}
 					if (!itemDueDate.equals("0000-00-00")) {
 						try {
-							((Task)listItem).setDueDate(DateUtils.dateFormat.parse(itemDueDate));
+							((Task)listItem).setDueDate(DateUtils.xmlDateFormat.parse(itemDueDate));
 						} catch (ParseException e) {
 							e.printStackTrace(System.out);
 						}
@@ -235,7 +235,7 @@ public class ToodledoXMLImporter {
 					if(!itemCompletedDate.equals("0000-00-00")) {
 						((Task)listItem).setDone(true);
 						try {
-							Date date = DateUtils.dateFormat.parse(itemCompletedDate);
+							Date date = DateUtils.xmlDateFormat.parse(itemCompletedDate);
 							
 							((Task)listItem).getCompletedDate().setTime(date.getTime());
 						} catch (ParseException e) {

@@ -61,7 +61,7 @@ public class ToodledoXMLImporterTest extends TestCase {
     		assertTrue(task.getNotes().isEmpty());
     		assertFalse(task.isDone());
     		assertFalse(task.isStarflag());
-    		assertTrue(task.getDueDate().equals(DateUtils.dateFormat.parse("2010-06-14")));
+    		assertTrue(task.getDueDate().equals(DateUtils.xmlDateFormat.parse("2010-06-14")));
     		
     		// test a project with subtasks
     		Project project = manager.findProjectById(Long.valueOf("99076819"));
@@ -75,7 +75,7 @@ public class ToodledoXMLImporterTest extends TestCase {
     		assertTrue(task!=null);
     		assertTrue(subTasks.contains(task));
     		assertTrue(task.isDone());
-    		assertTrue(task.getCompletedDate().equals(DateUtils.dateFormat.parseObject("2010-05-10")));
+    		assertTrue(task.getCompletedDate().equals(DateUtils.xmlDateFormat.parseObject("2010-05-10")));
     		
     		assertTrue(project.getStatus()==ProjectStatus.ACTIVE);
     		assertFalse(project.isDone());

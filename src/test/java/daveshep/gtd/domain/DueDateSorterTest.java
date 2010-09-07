@@ -49,11 +49,11 @@ public class DueDateSorterTest extends TestCase {
 
     	// test date ordering
     	try {
-    		item1.setDueDate(DateUtils.dateFormat.parse("2010-08-20"));
-    		item2.setDueDate(DateUtils.dateFormat.parse("2010-08-21"));
+    		item1.setDueDate(DateUtils.xmlDateFormat.parse("2010-08-20"));
+    		item2.setDueDate(DateUtils.xmlDateFormat.parse("2010-08-21"));
     		assertTrue(sorter.compare(item1, item2)<0);
 
-    		item1.setDueDate(DateUtils.dateFormat.parse("2010-08-22"));
+    		item1.setDueDate(DateUtils.xmlDateFormat.parse("2010-08-22"));
     		assertTrue(sorter.compare(item1, item2)>0);
 
     	} catch (ParseException e) {

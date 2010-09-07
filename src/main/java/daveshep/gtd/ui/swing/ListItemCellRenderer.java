@@ -207,7 +207,7 @@ public class ListItemCellRenderer extends DefaultListCellRenderer {
 		}
 		
 		if (item.getDueDate() != null) {
-			output.append(DateUtils.dateFormat.format(item.getDueDate()));
+			output.append(DateUtils.displayDateFormat.format(item.getDueDate()));
 		} else {
 			output.append(" ");
 		}

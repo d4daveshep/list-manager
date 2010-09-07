@@ -160,7 +160,7 @@ public class ListItem implements Comparable {
 		output.append(" | ");
 		
 		if (getDueDate() != null) {
-			output.append(DateUtils.dateFormat.format(getDueDate()));
+			output.append(DateUtils.xmlDateFormat.format(getDueDate()));
 		}
 		output.append(" | ");
 //		output.append(getId());
