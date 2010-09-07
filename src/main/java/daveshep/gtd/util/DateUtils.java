@@ -22,5 +22,5 @@ public class DateUtils {
 	public static Date now() {
 		return Calendar.getInstance().getTime();
 	}
-	
+
 }
