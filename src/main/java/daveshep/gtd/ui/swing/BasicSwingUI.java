@@ -55,6 +55,7 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 	private NewItemDialog newItemDialog = new NewItemDialog(this);
 	private StatusDialog statusDialog = new StatusDialog(this);
 	private FolderDialog folderDialog = new FolderDialog(this);
+	private DueDateDialog dueDateDialog = new DueDateDialog(this);
 	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
 	private Comparator<ListItem> sorter = new DefaultSorter();
@@ -109,9 +110,9 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_B,InputEvent.CTRL_DOWN_MASK),"Blank");
 		itemList.getActionMap().put("Blank", new BlankAction(this));
 		
-		// F2, D = edit description
+		// F2, E = edit description
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F2,0),"Edit_Description");
-		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0),"Edit_Description");
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_E,0),"Edit_Description");
 		itemList.getActionMap().put("Edit_Description", new EditDescriptionAction(this));
 		
 		// F = edit folder
@@ -121,6 +122,10 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		// S = edit status
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S,0),"Edit_Status");
 		itemList.getActionMap().put("Edit_Status", new EditStatusAction(this));
+		
+		// D = edit due date 
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0),"Edit_DueDate");
+		itemList.getActionMap().put("Edit_DueDate", new EditDueDateAction(this));
 		
 		// Ctrl-N = new item
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_DOWN_MASK),"NewItem");
@@ -302,6 +307,10 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 
 	public FolderDialog getFolderDialog() {
 		return folderDialog;
+	}
+
+	public DueDateDialog getDueDateDialog() {
+		return dueDateDialog;
 	}
 	
 }
