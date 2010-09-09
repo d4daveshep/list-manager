@@ -47,10 +47,12 @@ public class DueDateParser {
 	
 
 	public DueDateParser() {
-		today = DateUtils.today();
+		refreshToday();
 	}
 
-	
+	public void refreshToday() {
+		today = DateUtils.today();
+	}
 	/**
 	 * For testing purposes only
 	 * @param today

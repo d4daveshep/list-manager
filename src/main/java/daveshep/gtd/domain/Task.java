@@ -85,16 +85,6 @@ public class Task extends ListItem {
 	}
 
 	@Override
-	public Date getDueDate() {
-		return super.getDueDate();
-	}
-
-	@Override
-	public void setDueDate(Date dueDate) {
-		super.setDueDate(dueDate);
-	}
-
-	@Override
 	public Date getCompletedDate() {
 		return super.getCompletedDate();
 	}

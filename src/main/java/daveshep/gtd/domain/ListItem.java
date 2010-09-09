@@ -125,7 +125,7 @@ public class ListItem implements Comparable {
 		return dueDate;
 	}
 
-	protected void setDueDate(Date dueDate) {
+	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 

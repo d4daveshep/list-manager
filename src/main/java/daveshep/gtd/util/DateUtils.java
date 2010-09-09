@@ -7,7 +7,7 @@ import java.util.Date;
 public class DateUtils {
 
 	public static final SimpleDateFormat xmlDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	public static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	public static final SimpleDateFormat displayDateFormat = new SimpleDateFormat("EEE dd/MM/yyyy");
 	
 	public static Date today() {
 		Calendar cal = Calendar.getInstance();
@@ -22,5 +22,5 @@ public class DateUtils {
 	public static Date now() {
 		return Calendar.getInstance().getTime();
 	}
-
+	
 }

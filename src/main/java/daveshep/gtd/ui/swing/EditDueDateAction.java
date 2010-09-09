@@ -43,6 +43,12 @@ public class EditDueDateAction extends AbstractAction {
 		}
 
 		DueDateDialog dueDateDialog = frame.getDueDateDialog();
+
+		if (selectedItems.length==1) {
+			dueDateDialog.setDueDate(((ListItem)selectedItems[0]).getDueDate());
+		} else {
+			dueDateDialog.setDueDate(null);
+		}
 		
 		dueDateDialog.setLocationRelativeTo(frame);
 		dueDateDialog.setVisible(true);

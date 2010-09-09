@@ -4,12 +4,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.AbstractAction;
@@ -28,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
+import daveshep.gtd.domain.DueDateParser;
 import daveshep.gtd.domain.Goal;
 import daveshep.gtd.domain.GoalStatus;
 import daveshep.gtd.domain.ListItemType;
@@ -35,6 +39,7 @@ import daveshep.gtd.domain.Project;
 import daveshep.gtd.domain.ProjectStatus;
 import daveshep.gtd.domain.Task;
 import daveshep.gtd.domain.TaskStatus;
+import daveshep.gtd.util.DateUtils;
 
 public class DueDateDialog extends JDialog implements ItemListener, ActionListener {
 
@@ -45,25 +50,31 @@ public class DueDateDialog extends JDialog implements ItemListener, ActionListen
 
 	private JLabel dueDateLabel = new JLabel("Due Date");
 	private JTextField dueDateTextField = new JTextField(10);
+	private JLabel messageLabel = new JLabel("       ");
 	
 	private JPanel settingsPanel = new JPanel();
 	
 	private BasicSwingUI frame;
 	
 	private ListItemType listItemType;
-	private Date dueDate;
 
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+	private Date dueDate;
+	private DueDateParser parser = new DueDateParser();
+	
 	public DueDateDialog(BasicSwingUI frame) {
 		super(frame,"Due Date",true);
 		this.frame = frame;
 
 		// construct the settings panel
-		settingsPanel.setLayout(new GridLayout(0,2));
+		settingsPanel.setLayout(new GridLayout(0,3));
 		settingsPanel.setBorder(new EmptyBorder(5,5,5,5));
 
+		messageLabel.setForeground(Color.RED);
 		
 		settingsPanel.add(dueDateLabel);
 		settingsPanel.add(dueDateTextField);
+		settingsPanel.add(messageLabel);
 		
 		getContentPane().add(settingsPanel,BorderLayout.CENTER);
 
@@ -121,20 +132,42 @@ public class DueDateDialog extends JDialog implements ItemListener, ActionListen
 		
 		if (event.getActionCommand().equalsIgnoreCase("OK")) {
 			
-			// read text field
 			
-			setVisible(false);			
+			// read text field
+			parser.refreshToday();
+			try {
+				dueDate = parser.parse(dueDateTextField.getText());
+				messageLabel.setText("       ");
+				setVisible(false);			
+
+			} catch (ParseException e) {
+				Toolkit.getDefaultToolkit().beep();
+				messageLabel.setText("Invalid");
+			}
+			
+			
 			
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
 //			this.setStatusString(null);
+			messageLabel.setText("       ");
 			setVisible(false);			
 		}
 	}
 	@Override
-	public void setVisible(boolean arg0) {
+	public void setVisible(boolean visible) {
 
-		
-		super.setVisible(arg0);
+		if (visible) {
+			// set the text field with the date if it's not null
+			if (dueDate!=null) {
+				dueDateTextField.setText(sdf.format(dueDate));
+			} else {
+				dueDateTextField.setText(null);
+			}
+			dueDateTextField.selectAll();
+		} else {
+			dueDateTextField.setText(null);
+		}
+		super.setVisible(visible);
 	}
 
 	public ListItemType getListItemType() {
