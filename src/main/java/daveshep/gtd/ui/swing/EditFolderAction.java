@@ -26,7 +26,7 @@ public class EditFolderAction extends AbstractAction {
 			return;
 		}
 		
-		FolderDialog folderDialog = frame.getFolderDialog();
+		EditFolderDialog folderDialog = frame.getFolderDialog();
 		
 		folderDialog.setLocationRelativeTo(frame);
 		folderDialog.setVisible(true);

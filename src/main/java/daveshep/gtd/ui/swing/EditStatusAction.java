@@ -55,7 +55,7 @@ public class EditStatusAction extends AbstractAction {
 			}
 		}
 		
-		StatusDialog statusDialog = frame.getStatusDialog();
+		EditStatusDialog statusDialog = frame.getStatusDialog();
 		statusDialog.setListItemType(type0);
 		
 		statusDialog.setLocationRelativeTo(frame);

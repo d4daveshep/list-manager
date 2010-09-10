@@ -35,7 +35,7 @@ import daveshep.gtd.domain.ProjectStatus;
 import daveshep.gtd.domain.Task;
 import daveshep.gtd.domain.TaskStatus;
 
-public class StatusDialog extends JDialog implements ItemListener, ActionListener {
+public class EditStatusDialog extends JDialog implements ItemListener, ActionListener {
 
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
@@ -55,7 +55,7 @@ public class StatusDialog extends JDialog implements ItemListener, ActionListene
 	private ListItemType listItemType;
 	private String statusString;
 
-	public StatusDialog(BasicSwingUI frame) {
+	public EditStatusDialog(BasicSwingUI frame) {
 		super(frame,"Status",true);
 		this.frame = frame;
 
@@ -64,21 +64,18 @@ public class StatusDialog extends JDialog implements ItemListener, ActionListene
 		settingsPanel.setBorder(new EmptyBorder(5,5,5,5));
 
 		// populate taskStatusComboBox
-		taskStatusComboBox.addItem("All");
 		TaskStatus[] taskStatuses = TaskStatus.values();
 		for (int i=0;i<taskStatuses.length;i++) {
 				taskStatusComboBox.addItem(taskStatuses[i].name());
 		}	
 
 		// populate projectStatusComboBox
-		projectStatusComboBox.addItem("All");
 		ProjectStatus[] projectStatuses = ProjectStatus.values();
 		for (int i=0;i<projectStatuses.length;i++) {
 			projectStatusComboBox.addItem(projectStatuses[i].name());
 		}
 		
 		// populate goalStatusComboBox
-		goalStatusComboBox.addItem("All");
 		GoalStatus[] goalStatuses = GoalStatus.values();
 		for (int i=0;i<goalStatuses.length;i++) {
 			goalStatusComboBox.addItem(goalStatuses[i].name());

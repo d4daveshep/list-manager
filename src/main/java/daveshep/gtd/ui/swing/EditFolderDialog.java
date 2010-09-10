@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-public class FolderDialog extends JDialog implements ItemListener, ActionListener {
+public class EditFolderDialog extends JDialog implements ItemListener, ActionListener {
 
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
@@ -34,10 +34,12 @@ public class FolderDialog extends JDialog implements ItemListener, ActionListene
 	
 	private String folderString;
 
-	public FolderDialog(BasicSwingUI frame) {
+	public EditFolderDialog(BasicSwingUI frame) {
 		super(frame,"Edit Folder",true);
 		this.frame = frame;
 
+		folderComboBox.setEditable(true);
+		
 		// construct the settings panel
 		settingsPanel.setLayout(new FlowLayout());
 		settingsPanel.setBorder(new EmptyBorder(5,5,5,5));

@@ -53,8 +53,8 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 	private FilterSettings filterSettings = new FilterSettings();
 	private FilterDialog filterDialog = new FilterDialog(this);
 	private NewItemDialog newItemDialog = new NewItemDialog(this);
-	private StatusDialog statusDialog = new StatusDialog(this);
-	private FolderDialog folderDialog = new FolderDialog(this);
+	private EditStatusDialog statusDialog = new EditStatusDialog(this);
+	private EditFolderDialog folderDialog = new EditFolderDialog(this);
 	private DueDateDialog dueDateDialog = new DueDateDialog(this);
 	private SortDialog sortDialog = new SortDialog(this);
 	private String findString = ""; // match all on start (set to null to start with empty list)
@@ -301,11 +301,11 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		
 	}
 
-	public StatusDialog getStatusDialog() {
+	public EditStatusDialog getStatusDialog() {
 		return statusDialog;
 	}
 
-	public FolderDialog getFolderDialog() {
+	public EditFolderDialog getFolderDialog() {
 		return folderDialog;
 	}
 

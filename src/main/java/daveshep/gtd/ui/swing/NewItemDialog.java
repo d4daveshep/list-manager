@@ -36,8 +36,10 @@ import javax.swing.border.EmptyBorder;
 
 import daveshep.gtd.FilterSettings;
 import daveshep.gtd.domain.GoalStatus;
+import daveshep.gtd.domain.ListItem;
 import daveshep.gtd.domain.ProjectStatus;
 import daveshep.gtd.domain.ReferenceItem;
+import daveshep.gtd.domain.Task;
 import daveshep.gtd.domain.TaskStatus;
 
 public class NewItemDialog extends JDialog implements ItemListener, ActionListener {
@@ -116,26 +118,36 @@ public class NewItemDialog extends JDialog implements ItemListener, ActionListen
 		}
 		System.out.println(command);
 		
-		if (event.getActionCommand().equalsIgnoreCase("Reference")) {
+		ListItem newItem = null;
+
+		if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
+			setVisible(false);
+		} else if (event.getActionCommand().equalsIgnoreCase("Reference")) {
+			newItem = frame.getListManager().createRefItem();
+		} else if (event.getActionCommand().equalsIgnoreCase("Task")) {
+			newItem = frame.getListManager().createTask();
+		} else if (event.getActionCommand().equalsIgnoreCase("Project")) {
+			newItem = frame.getListManager().createProject();
+		} else if (event.getActionCommand().equalsIgnoreCase("Goal")) {
+			newItem = frame.getListManager().createGoal();
+		}
+		
+		if (newItem != null) {
 
 			setVisible(false);
-
-			ReferenceItem newRef = frame.getListManager().createRefItem();
-			newRef.setId(new Random().nextLong());
 			
-			String newDescription = (String) JOptionPane.showInputDialog(frame,null,"Reference Description",JOptionPane.QUESTION_MESSAGE,null,null,"");
-			newRef.setDescription(newDescription);
+			newItem.setId(new Random().nextLong());
+			String newDescription = (String) JOptionPane.showInputDialog(frame,null,"Description",JOptionPane.QUESTION_MESSAGE,null,null,"");
+			newItem.setDescription(newDescription);
 			
 			JList itemList = frame.getItemList();
 			DefaultListModel itemListModel = (DefaultListModel) itemList.getModel();
-			itemListModel.addElement(newRef);
-			int index = itemListModel.indexOf(newRef);
+			itemListModel.addElement(newItem);
+			int index = itemListModel.indexOf(newItem);
 			itemList.setSelectedIndex(index);
 			itemList.ensureIndexIsVisible(index);
 			
-		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
-			setVisible(false);			
-		}
+		} 
 	}
 	
 }
