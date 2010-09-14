@@ -3,6 +3,7 @@ package daveshep.gtd.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,7 @@ public class InMemoryListManager implements ListManager {
 	}
 	
 	private void createTagContainer(ListItem item) {
-		item.setTags(new ArrayList<String>());
+		item.setTags(new HashSet<String>());
 	}
 	
 	@Override

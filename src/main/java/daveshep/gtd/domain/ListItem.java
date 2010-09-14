@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import daveshep.gtd.FilterSettings;
@@ -21,7 +22,7 @@ public class ListItem implements Comparable {
 	private Date dueDate;
 	private Date completedDate;
 	private String notes;
-	private List<String> tags;
+	private Set<String> tags;
 	private TaskRepeater repeater;
 	
 	ListItem() {
@@ -245,7 +246,7 @@ public class ListItem implements Comparable {
 		return parentItem;
 	}
 
-	public void setTags(List<String> tags) {
+	public void setTags(Set<String> tags) {
 		this.tags = tags;
 	}
 
@@ -253,7 +254,7 @@ public class ListItem implements Comparable {
 		this.parentItem = parentItem;
 	}
 
-	public List<String> getTags() {
+	public Set<String> getTags() {
 		return tags;
 	}
 
@@ -262,14 +263,15 @@ public class ListItem implements Comparable {
 	}
 	
 	public String getTagsString() {
-		String tagString = "";
-		for (int i=0; i<tags.size(); i++) {
+		StringBuffer tagString = new StringBuffer();
+		String[] tagsArray = tags.toArray(new String[0]);
+		for (int i=0;i<tagsArray.length;i++) {
 			if (i>0) {
-				tagString += ", ";
+				tagString.append(", ");
 			}
-			tagString += tags.get(i);
+			tagString.append(tagsArray[i]);
 		}
-		return tagString;
+		return tagString.toString();
 	}
 	
 	public void setTagsString(String tagString) {

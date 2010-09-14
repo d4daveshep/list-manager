@@ -18,38 +18,38 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-public class EditFolderDialog extends JDialog implements ItemListener, ActionListener {
+public class EditContextDialog extends JDialog implements ItemListener, ActionListener {
 
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
 	private KeyAction okAction;
 	private KeyAction cancelAction;
 
-	private JLabel folderLabel = new JLabel("Folder");
-	private JComboBox folderComboBox = new JComboBox();
+	private JLabel contextLabel = new JLabel("Context");
+	private JComboBox contextComboBox = new JComboBox();
 	
 	private JPanel settingsPanel = new JPanel();
 	
 	private BasicSwingUI frame;
 	
-	private String folderString;
+	private String contextString;
 
-	public EditFolderDialog(BasicSwingUI frame) {
-		super(frame,"Edit Folder",true);
+	public EditContextDialog(BasicSwingUI frame) {
+		super(frame,"Edit Context",true);
 		this.frame = frame;
 
-		new AutoCompleteJComboBoxer(folderComboBox);
-		folderComboBox.setEditable(true);
+		new AutoCompleteJComboBoxer(contextComboBox);
+		contextComboBox.setEditable(true);
 		
 		// construct the settings panel
 		settingsPanel.setLayout(new FlowLayout());
 		settingsPanel.setBorder(new EmptyBorder(5,5,5,5));
 
-		folderLabel.setDisplayedMnemonic(KeyEvent.VK_S);
-		folderLabel.setLabelFor(folderComboBox);
+		contextLabel.setDisplayedMnemonic(KeyEvent.VK_S);
+		contextLabel.setLabelFor(contextComboBox);
 		
-		settingsPanel.add(folderLabel);
-		settingsPanel.add(folderComboBox);
+		settingsPanel.add(contextLabel);
+		settingsPanel.add(contextComboBox);
 		
 		getContentPane().add(settingsPanel,BorderLayout.CENTER);
 
@@ -72,8 +72,8 @@ public class EditFolderDialog extends JDialog implements ItemListener, ActionLis
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
 		getRootPane().getActionMap().put("OK", okAction );
 
-		folderComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
-		folderComboBox.getActionMap().put("OK", okAction );
+		contextComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
+		contextComboBox.getActionMap().put("OK", okAction );
 
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
@@ -108,12 +108,12 @@ public class EditFolderDialog extends JDialog implements ItemListener, ActionLis
 		if (event.getActionCommand().equalsIgnoreCase("OK")) {
 			
 			// read combo boxes
-			this.setFolderString( (String) folderComboBox.getSelectedItem());
+			this.setContextString( (String) contextComboBox.getSelectedItem());
 			
 			setVisible(false);			
 			
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
-			setFolderString(null);
+			setContextString(null);
 			setVisible(false);			
 		}
 	}
@@ -121,25 +121,25 @@ public class EditFolderDialog extends JDialog implements ItemListener, ActionLis
 	@Override
 	public void setVisible(boolean arg0) {
 
-		// populate the folder box combo fields and set the state
-		folderComboBox.removeAllItems();
-		String[] folders = frame.getListManager().getFolders();
-		for (int i=0; i<folders.length; i++) {
-			folderComboBox.addItem(folders[i]);
+		// populate the context box combo fields and set the state
+		contextComboBox.removeAllItems();
+		String[] contexts = frame.getListManager().getTaskContexts();
+		for (int i=0; i<contexts.length; i++) {
+			contextComboBox.addItem(contexts[i]);
 		}
-		folderComboBox.setSelectedItem(getFolderString());
+		contextComboBox.setSelectedItem(getContextString());
 		
-		folderComboBox.grabFocus();
+		contextComboBox.grabFocus();
 		pack();
 		
 		super.setVisible(arg0);
 	}
 
-	public String getFolderString() {
-		return folderString;
+	public String getContextString() {
+		return contextString;
 	}
-	public void setFolderString(String folderString) {
-		this.folderString = folderString;
+	public void setContextString(String contextString) {
+		this.contextString = contextString;
 	}
 	
 }

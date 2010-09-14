@@ -25,9 +25,13 @@ public class EditFolderAction extends AbstractAction {
 			System.out.println("Nothing to edit");
 			return;
 		}
-		
 		EditFolderDialog folderDialog = frame.getFolderDialog();
+
+		if (selectedItems.length==1) {
+			folderDialog.setFolderString(((ListItem)selectedItems[0]).getFolder());
+		}
 		
+
 		folderDialog.setLocationRelativeTo(frame);
 		folderDialog.setVisible(true);
 

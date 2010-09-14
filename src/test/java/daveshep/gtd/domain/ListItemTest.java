@@ -5,6 +5,7 @@ import daveshep.gtd.domain.ListItem;
 import daveshep.gtd.util.DateUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import junit.framework.Test;
@@ -128,12 +129,12 @@ public class ListItemTest extends TestCase {
     public void testTags() {
 
     	ListItem listItem = new ListItem();
-    	listItem.setTags(new ArrayList<String>());
+    	listItem.setTags(new HashSet<String>());
     	
     	listItem.addTag("tag1");
     	listItem.addTag("tag2");
 
-    	assertTrue(listItem.getTagsString().equals("tag1, tag2"));
+    	assertTrue(listItem.getTagsString().equals("tag2, tag1"));  // could fail since using hash set
     	assertTrue(listItem.getTags().size()==2);
     	
     	listItem.setTagsString("tag3, tag4");
