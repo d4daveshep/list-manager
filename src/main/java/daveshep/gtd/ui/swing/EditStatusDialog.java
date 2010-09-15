@@ -59,9 +59,9 @@ public class EditStatusDialog extends JDialog implements ItemListener, ActionLis
 		super(frame,"Status",true);
 		this.frame = frame;
 
-		new AutoCompleteJComboBoxer(taskStatusComboBox);
-		new AutoCompleteJComboBoxer(projectStatusComboBox);
-		new AutoCompleteJComboBoxer(goalStatusComboBox);
+//		new AutoCompleteJComboBoxer(taskStatusComboBox);
+//		new AutoCompleteJComboBoxer(projectStatusComboBox);
+//		new AutoCompleteJComboBoxer(goalStatusComboBox);
 		
 		// construct the settings panel
 		settingsPanel.setLayout(new GridLayout(0,2));
