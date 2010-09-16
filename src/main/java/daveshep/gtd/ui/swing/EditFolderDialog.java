@@ -38,7 +38,7 @@ public class EditFolderDialog extends JDialog implements ItemListener, ActionLis
 		super(frame,"Edit Folder",true);
 		this.frame = frame;
 
-//		new AutoCompleteJComboBoxer(folderComboBox);
+		new AutoCompleteComboBox(folderComboBox);
 		folderComboBox.setEditable(true);
 		
 		// construct the settings panel

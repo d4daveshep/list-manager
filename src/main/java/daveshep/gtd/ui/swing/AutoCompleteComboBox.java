@@ -1,8 +1,22 @@
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.text.*;
+package daveshep.gtd.ui.swing;
 
-public class S18NonStrictBackspace extends PlainDocument {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.PlainDocument;
+
+
+public class AutoCompleteComboBox extends PlainDocument {
     JComboBox comboBox;
     ComboBoxModel model;
     JTextComponent editor;
@@ -14,7 +28,7 @@ public class S18NonStrictBackspace extends PlainDocument {
     boolean hitBackspaceOnSelection;
     boolean listContainsSelectedItem;
     
-    public S18NonStrictBackspace(final JComboBox comboBox) {
+    public AutoCompleteComboBox(final JComboBox comboBox) {
         this.comboBox = comboBox;
         model = comboBox.getModel();
         editor = (JTextComponent) comboBox.getEditor().getEditorComponent();
@@ -168,7 +182,7 @@ public class S18NonStrictBackspace extends PlainDocument {
         // has to be editable
         comboBox.setEditable(true);
         // change the editor's document
-        new S18NonStrictBackspace(comboBox);
+        new AutoCompleteComboBox(comboBox);
         
         // create and show a window containing the combo box
         JFrame frame = new JFrame();

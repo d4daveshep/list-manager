@@ -38,7 +38,7 @@ public class EditContextDialog extends JDialog implements ItemListener, ActionLi
 		super(frame,"Edit Context",true);
 		this.frame = frame;
 
-//		new AutoCompleteJComboBoxer(contextComboBox);
+		new AutoCompleteComboBox(contextComboBox);
 		contextComboBox.setEditable(true);
 		
 		// construct the settings panel
