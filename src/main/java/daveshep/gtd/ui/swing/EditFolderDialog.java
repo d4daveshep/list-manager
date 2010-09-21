@@ -2,7 +2,6 @@ package daveshep.gtd.ui.swing;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -69,29 +68,13 @@ public class EditFolderDialog extends JDialog implements ItemListener, ActionLis
 		buttonPanel.add(cancelButton);
 		getContentPane().add(buttonPanel,BorderLayout.SOUTH);
 
-		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
-		getRootPane().getActionMap().put("OK", okAction );
-
-		folderComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
-		folderComboBox.getActionMap().put("OK", okAction );
-
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
-//
-//		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.ALT_DOWN_MASK),"TaskContext");
-//		getRootPane().getActionMap().put("TaskContext", 
-//			new AbstractAction() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				taskContextComboBox.requestFocus();
-//				taskContextComboBox.showPopup();
-//			} 
-//		});
+		
+		folderComboBox.getEditor().addActionListener(this);
 
-
-//		pack();
 	}
+
 	@Override
 	public void itemStateChanged(ItemEvent event) {
 		// don't need to do anything here
@@ -109,11 +92,12 @@ public class EditFolderDialog extends JDialog implements ItemListener, ActionLis
 			
 			// read combo boxes
 			this.setFolderString( (String) folderComboBox.getSelectedItem());
-			
 			setVisible(false);			
-			
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
 			setFolderString(null);
+			setVisible(false);			
+		} else {
+			this.setFolderString( event.getActionCommand() );
 			setVisible(false);			
 		}
 	}

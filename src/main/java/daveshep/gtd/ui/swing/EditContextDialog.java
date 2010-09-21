@@ -69,28 +69,11 @@ public class EditContextDialog extends JDialog implements ItemListener, ActionLi
 		buttonPanel.add(cancelButton);
 		getContentPane().add(buttonPanel,BorderLayout.SOUTH);
 
-		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
-		getRootPane().getActionMap().put("OK", okAction );
-
-		contextComboBox.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0),"OK");
-		contextComboBox.getActionMap().put("OK", okAction );
-
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
 		getRootPane().getActionMap().put("Cancel", cancelAction );
-//
-//		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.ALT_DOWN_MASK),"TaskContext");
-//		getRootPane().getActionMap().put("TaskContext", 
-//			new AbstractAction() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				taskContextComboBox.requestFocus();
-//				taskContextComboBox.showPopup();
-//			} 
-//		});
 
-
-//		pack();
+		contextComboBox.getEditor().addActionListener(this);
+	
 	}
 	@Override
 	public void itemStateChanged(ItemEvent event) {
@@ -115,6 +98,9 @@ public class EditContextDialog extends JDialog implements ItemListener, ActionLi
 		} else if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
 			setContextString(null);
 			setVisible(false);			
+		} else {
+			this.setContextString( event.getActionCommand());
+			setVisible(false);
 		}
 	}
 	

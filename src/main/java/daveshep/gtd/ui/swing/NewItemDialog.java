@@ -92,14 +92,26 @@ public class NewItemDialog extends JDialog implements ItemListener, ActionListen
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		
-		cancelButton.setMnemonic(KeyEvent.VK_ESCAPE);
-		cancelButton.addActionListener(this);
-		cancelAction = new KeyAction(this, "Cancel");
+//		cancelButton.setMnemonic(KeyEvent.VK_ESCAPE);
+//		cancelButton.addActionListener(this);
+//		cancelAction = new KeyAction(this, "Cancel");
 		
 		getContentPane().add(buttonPanel,BorderLayout.SOUTH);
 
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0),"Cancel");
-		getRootPane().getActionMap().put("Cancel", cancelAction );
+		getRootPane().getActionMap().put("Cancel", new KeyAction(this,"Cancel") );
+
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_P,0),"Project");
+		getRootPane().getActionMap().put("Project", new KeyAction(this,"Project") );
+
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_T,0),"Task");
+		getRootPane().getActionMap().put("Task", new KeyAction(this,"Task") );
+
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_G,0),"Goal");
+		getRootPane().getActionMap().put("Goal", new KeyAction(this,"Goal") );
+
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke(KeyEvent.VK_R,0),"Reference");
+		getRootPane().getActionMap().put("Reference", new KeyAction(this,"Reference") );
 
 
 		pack();
