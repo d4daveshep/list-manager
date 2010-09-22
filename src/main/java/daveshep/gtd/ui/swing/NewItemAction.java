@@ -21,7 +21,29 @@ public class NewItemAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.print("New... ");
+
+		boolean sub = ((event.getModifiers()&ActionEvent.SHIFT_MASK) == ActionEvent.SHIFT_MASK);
+		String title = "";
+		if (sub) {
+			title = "New Sub";
+			Object[] selectedItems = frame.getItemList().getSelectedValues();
+			if (selectedItems==null || selectedItems.length==0) {
+				JOptionPane.showMessageDialog(frame, "Please select an item to become the parent of a new item", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			} else if (selectedItems.length>1) {
+				JOptionPane.showMessageDialog(frame, "Can't add an item to multiple parent - please select single parent", "Error", JOptionPane.ERROR_MESSAGE);
+				return;
+			} else {
+				ListItem parent = (ListItem)selectedItems[0];
+				
+			}
+
+		} else {
+			title = "New";
+		}
+
+		System.out.print(title+"... ");
+		
 		
 		// display a new item dialog box
 		NewItemDialog newItemDialog = frame.getNewItemDialog();

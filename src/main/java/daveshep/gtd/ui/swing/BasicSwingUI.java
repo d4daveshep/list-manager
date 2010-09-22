@@ -103,8 +103,8 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK),"Find");
 		itemList.getActionMap().put("Find", new FindAction(this));
 		
-		// Ctrl-Alt-F = find + add
-		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK|InputEvent.ALT_DOWN_MASK),"Find+Add");
+		// Ctrl-Shift-F = find + add
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK),"Find+Add");
 		itemList.getActionMap().put("Find+Add", new FindAction(this));
 		
 		// Ctrl-B = blank screen
@@ -139,6 +139,10 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 		// Ctrl-N = new item
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_DOWN_MASK),"NewItem");
 		itemList.getActionMap().put("NewItem", new NewItemAction(this));
+		
+		// Ctrl-Shift-N = new sub item
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK),"NewSubItem");
+		itemList.getActionMap().put("NewSubItem", new NewItemAction(this));
 		
 		// * = toggle star, Ctrl-* = star on, Alt-* = star off
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_8,InputEvent.SHIFT_DOWN_MASK),"Toggle_Star");

@@ -129,7 +129,8 @@ public class NewItemDialog extends JDialog implements ItemListener, ActionListen
 			return;
 		}
 		System.out.println(command);
-		
+
+		// TODO move this code to the action class so we can handle creating sub items
 		ListItem newItem = null;
 
 		if (event.getActionCommand().equalsIgnoreCase("Cancel")) {

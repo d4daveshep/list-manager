@@ -25,7 +25,7 @@ public class FindAction extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		boolean add = ((event.getModifiers()&ActionEvent.ALT_MASK) == ActionEvent.ALT_MASK);
+		boolean add = ((event.getModifiers()&ActionEvent.SHIFT_MASK) == ActionEvent.SHIFT_MASK);
 		String title = "";
 		if (add) {
 			title = "Find+Add";
