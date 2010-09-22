@@ -44,6 +44,8 @@ public class DueDateParser {
 	private static Pattern aaaPattern = Pattern.compile("[a-zA-Z]{3,}");
 	private static Pattern yyyyPattern = Pattern.compile("[0-9]{4}");
 	private static Pattern ndwmyPattern = Pattern.compile("[0-9]+[dwmy]");
+	private static Pattern todayPattern = Pattern.compile("today");
+	private static Pattern tomorrowPattern = Pattern.compile("tomorrow");
 	
 
 	public DueDateParser() {
@@ -147,6 +149,21 @@ public class DueDateParser {
 			
 		}
 		
+		// match today
+		matcher = todayPattern.matcher(dueDateString);
+		if (matcher.matches()) {
+			dueDate = DateUtils.today();
+			return dueDate;
+		}
+
+		// match tomorrow
+		matcher = tomorrowPattern.matcher(dueDateString);
+		if (matcher.matches()) {
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			dueDate = cal.getTime();
+			return dueDate;
+		}
+
 		// match day of week or 1st of month
 		matcher = aaaPattern.matcher(dueDateString);
 		if (matcher.matches()) {
@@ -251,6 +268,7 @@ public class DueDateParser {
 			dueDate = cal.getTime();
 			return dueDate;
 		}
+		
 
 		throw new ParseException("Can't match date format", 0);
 	}

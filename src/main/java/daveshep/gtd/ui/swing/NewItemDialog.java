@@ -1,46 +1,29 @@
 package daveshep.gtd.ui.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
-import daveshep.gtd.FilterSettings;
-import daveshep.gtd.domain.GoalStatus;
 import daveshep.gtd.domain.ListItem;
-import daveshep.gtd.domain.ProjectStatus;
-import daveshep.gtd.domain.ReferenceItem;
-import daveshep.gtd.domain.Task;
-import daveshep.gtd.domain.TaskStatus;
+import daveshep.gtd.domain.ListItemType;
 
 public class NewItemDialog extends JDialog implements ItemListener, ActionListener {
 
@@ -51,6 +34,10 @@ public class NewItemDialog extends JDialog implements ItemListener, ActionListen
 	private JRadioButton projectRadioButton = new JRadioButton("Project");
 	private JRadioButton taskRadioButton = new JRadioButton("Task");
 	private JRadioButton refRadioButton = new JRadioButton("Reference");
+	
+	private ListItemType newItemType = null;
+	private String newDescription = null;
+	private ListItemType parentItemType = null;
 	
 	private BasicSwingUI frame;
 	
@@ -129,38 +116,73 @@ public class NewItemDialog extends JDialog implements ItemListener, ActionListen
 			return;
 		}
 		System.out.println(command);
-
-		// TODO move this code to the action class so we can handle creating sub items
-		ListItem newItem = null;
+		
+		newItemType = null;
 
 		if (event.getActionCommand().equalsIgnoreCase("Cancel")) {
 			setVisible(false);
 		} else if (event.getActionCommand().equalsIgnoreCase("Reference")) {
-			newItem = frame.getListManager().createRefItem();
+			newItemType = ListItemType.REFERENCE;
 		} else if (event.getActionCommand().equalsIgnoreCase("Task")) {
-			newItem = frame.getListManager().createTask();
+			newItemType = ListItemType.TASK;
 		} else if (event.getActionCommand().equalsIgnoreCase("Project")) {
-			newItem = frame.getListManager().createProject();
+			newItemType = ListItemType.PROJECT;
 		} else if (event.getActionCommand().equalsIgnoreCase("Goal")) {
-			newItem = frame.getListManager().createGoal();
+			newItemType = ListItemType.GOAL;
 		}
 		
-		if (newItem != null) {
+		if (newItemType != null) {
 
 			setVisible(false);
 			
-			newItem.setId(new Random().nextLong());
-			String newDescription = (String) JOptionPane.showInputDialog(frame,null,"Description",JOptionPane.QUESTION_MESSAGE,null,null,"");
-			newItem.setDescription(newDescription);
-			
-			JList itemList = frame.getItemList();
-			DefaultListModel itemListModel = (DefaultListModel) itemList.getModel();
-			itemListModel.addElement(newItem);
-			int index = itemListModel.indexOf(newItem);
-			itemList.setSelectedIndex(index);
-			itemList.ensureIndexIsVisible(index);
+			newDescription = (String) JOptionPane.showInputDialog(frame,null,"Description",JOptionPane.QUESTION_MESSAGE,null,null,"");
 			
 		} 
+	}
+
+	public ListItemType getNewItemType() {
+		return newItemType;
+	}
+
+	public String getNewDescription() {
+		return newDescription;
+	}
+
+	public void setParentItemType(ListItemType parentItemType) {
+		this.parentItemType = parentItemType;
+	}
+
+	@Override
+	public void setVisible(boolean b) {
+		
+		goalRadioButton.setEnabled(true);
+		projectRadioButton.setEnabled(true);
+		taskRadioButton.setEnabled(true);
+		refRadioButton.setEnabled(true);
+		
+		if (b && parentItemType!=null) {
+
+			switch (parentItemType) {
+			case GOAL:
+			case REFERENCE:
+				// can't add goals, projects or tasks to goals
+				goalRadioButton.setEnabled(false);
+				projectRadioButton.setEnabled(false);
+				taskRadioButton.setEnabled(false);
+				break;
+				
+			case PROJECT:
+				goalRadioButton.setEnabled(false);
+				break;
+				
+			case TASK:
+				goalRadioButton.setEnabled(false);
+				projectRadioButton.setEnabled(false);
+			}
+			
+		}
+		
+		super.setVisible(b);
 	}
 	
 }
