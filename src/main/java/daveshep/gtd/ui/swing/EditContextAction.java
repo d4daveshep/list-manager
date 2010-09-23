@@ -63,7 +63,7 @@ public class EditContextAction extends AbstractAction {
 			((Task)selectedItems[i]).setContext(newContext);
 		}
 		
-		frame.refreshList();
+//		frame.refreshList();
 		frame.getItemList().setSelectedIndices(selectedIndices);
 		
 		System.out.println(newContext);

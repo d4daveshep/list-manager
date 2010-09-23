@@ -26,6 +26,7 @@ public class ListItem implements Comparable {
 	private TaskRepeater repeater;
 	
 	ListItem() {
+		setFolder(".Inbox");
 	}
 
 	//package level constructors for testing purposes

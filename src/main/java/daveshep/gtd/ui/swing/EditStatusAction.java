@@ -84,7 +84,7 @@ public class EditStatusAction extends AbstractAction {
 			}
 		}
 		
-		frame.refreshList();
+//		frame.refreshList();
 		frame.getItemList().setSelectedIndices(selectedIndices);
 		
 		System.out.println(newStatus);

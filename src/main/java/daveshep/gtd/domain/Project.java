@@ -17,7 +17,7 @@ public class Project extends ListItem {
 	Project() {
 		super();
 		this.setType(ListItemType.PROJECT);
-		this.setStatus(ProjectStatus.NONE);
+		this.setStatus(ProjectStatus.ACTIVE);
 	}
 	
 	Project(String description) {

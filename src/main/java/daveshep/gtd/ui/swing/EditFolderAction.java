@@ -45,7 +45,7 @@ public class EditFolderAction extends AbstractAction {
 			((ListItem)selectedItems[i]).setFolder(newFolder);
 		}
 		
-		frame.refreshList();
+//		frame.refreshList();
 		frame.getItemList().setSelectedIndices(selectedIndices);
 		
 		System.out.println(newFolder);

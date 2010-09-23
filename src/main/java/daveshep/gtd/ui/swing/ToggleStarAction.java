@@ -32,6 +32,7 @@ public class ToggleStarAction extends AbstractAction {
 			System.out.print("Toggle star... ");
 		}
 
+		int[] selectedIndices = frame.getItemList().getSelectedIndices();
 		Object[] selectedItems = frame.getItemList().getSelectedValues();
 		for (int i=0;i<selectedItems.length;i++) {
 			ListItem listItem = (ListItem)selectedItems[i];
@@ -49,8 +50,11 @@ public class ToggleStarAction extends AbstractAction {
 				}
 			}
 		}
+		
+		frame.getItemList().setSelectedIndices(selectedIndices);
+
 		System.out.println(selectedItems.length + " items");
 		
-		frame.refreshList();
+//		frame.refreshList();
 	}
 }

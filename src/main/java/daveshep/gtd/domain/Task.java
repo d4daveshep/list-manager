@@ -25,6 +25,8 @@ public class Task extends ListItem {
 		this.setType(ListItemType.TASK);
 		this.setEnergy(TaskEnergy.NORMAL);
 		this.setStatus(TaskStatus.NONE);
+		this.setStatus(TaskStatus.NEXT_ACTION);
+		this.setContext("@@Inbox");
 	}
 	
 	Task(String description) {
