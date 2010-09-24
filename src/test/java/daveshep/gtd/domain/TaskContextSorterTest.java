@@ -32,16 +32,12 @@ public class TaskContextSorterTest extends TestCase {
     	// tasks should be sorted above non tasks
     	assertTrue(sorter.compare(item1, task1)>0);
     	
-    	// tasks without contexts should be sorted by id
+    	// tasks with default contexts (@@Inbox) should be sorted by id
     	assertTrue(sorter.compare(task1, task2)<0);
 
-    	task2.setContext("@context");
-    	// task with contexts should be above tasks without contexts
-    	assertTrue(sorter.compare(task1, task2)>0);
-    	
     	task1.setContext("@Acontext");
     	// task contexts should be alphabetically sorted 
-    	assertTrue(sorter.compare(task1, task2)<0);
+    	assertTrue(sorter.compare(task1, task2)>0);
     	
     	task2.setContext("@acontext");
     	// task contexts are case insensitive (fall back to natural sorting)

@@ -34,14 +34,14 @@ public class TaskStatusSorterTest extends TestCase {
     	// neither are right type to compare so fall back to natural sorting
     	assertTrue(sorter.compare(item1,item2)<0);
 
-    	// tasks are the same type with same (default NONE) status so use natural sorting
+    	// tasks are the same type with same (default NEXT ACTION = 0) status so use natural sorting
     	assertTrue(sorter.compare(task1,task2)<0);
     	
     	task1.setStatus(TaskStatus.CALENDAR);
-    	assertTrue(sorter.compare(task1,task2)<0);
+    	assertTrue(sorter.compare(task1,task2)>0);
 
-    	task2.setStatus(TaskStatus.NEXT_ACTION);
-    	assertTrue(sorter.compare(task1, task2)>0);
+    	task2.setStatus(TaskStatus.DEPENDS_ON);
+    	assertTrue(sorter.compare(task1, task2)<0);
     	
         	
     }
