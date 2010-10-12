@@ -5,12 +5,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import daveshep.gtd.GtdListException;
 import daveshep.gtd.util.DateUtils;
 
 public class DefaultGtdListItem implements GtdListItem {
 
 	private String description;
 	private Long id;
+	private GtdList owningList;
 	private Date tickleDate;
 	private Date dueDate;
 	private Date completedDate;
@@ -435,6 +437,30 @@ public class DefaultGtdListItem implements GtdListItem {
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public GtdList getOwningList() {
+		return owningList;
+	}
+
+	@Override
+	public void setOwningList(GtdList list) {
+		this.owningList = list;		
+	}
+
+	@Override
+	public void move(GtdList toList) throws GtdListException {
+		if (toList==null) {
+			throw new GtdListException("can't move item to null list");
+		} else {
+			if (getOwningList()!=null) {
+				getOwningList().remove(this);
+				setOwningList(null);
+			}
+			toList.add(this);
+		}
+		
 	}
 
 

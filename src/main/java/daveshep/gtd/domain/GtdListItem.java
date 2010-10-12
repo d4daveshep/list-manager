@@ -3,12 +3,24 @@ package daveshep.gtd.domain;
 import java.util.Date;
 import java.util.Set;
 
+import daveshep.gtd.GtdListException;
+
 public interface GtdListItem extends Comparable<GtdListItem> {
 	public String getDescription();
 	public void setDescription(String description);
 	
 	public Long getId();
 	public void setId(Long id);
+	
+	public GtdList getOwningList();
+	public void setOwningList(GtdList list);
+	
+	/**
+	 * Move this item to another list
+	 * @param toList
+	 * @throws GtdListException if the toList doesn't exist
+	 */
+	public void move(GtdList toList) throws GtdListException;
 	
 	public Date getTickleDate();
 	public void setTickleDate(Date tickleDate);
