@@ -20,11 +20,35 @@ public class ListManagerUseCaseTest extends TestCase {
     }
 
     public void testCreateStaticLists() {
-    	fail();
+    	GtdListManager listManager = InMemoryListManager.getInstance();
+    	try {
+			StaticLists.createStaticLists(listManager);
+			GtdList staticList = listManager.getList(StaticLists.IN);
+			assertNotNull(staticList);
+			assertEquals(0,staticList.size());
+		} catch (GtdListException e) {
+			e.printStackTrace();
+			fail();
+		}
     }
     
     public void testCreateList() {
-    	fail();
+    	GtdListManager listManager = InMemoryListManager.getInstance();
+    	try {
+			GtdList list1 = listManager.createList("list1");
+			assertNotNull(list1);
+			assertEquals(0,list1.size());
+		} catch (GtdListException e) {
+			e.printStackTrace();
+	    	fail();
+		}
+
+		try {
+			GtdList list11 = listManager.createList("list1");
+			fail();
+		} catch (DuplicateListException e) {
+			assertTrue(true);
+		}
     }
     
     public void testGetList() {

@@ -16,8 +16,8 @@ public interface GtdListManager {
 	 * @return a new empty list
 	 * @throws GtdListException if the list already exists
 	 */
-	public GtdList createList(String title) throws GtdListException;
-	public GtdList createList(String title, String subtitle);
+	public GtdList createList(String title) throws DuplicateListException;
+	public GtdList createList(String title, String subtitle) throws DuplicateListException;
 	
 	// list retrieval
 	/**

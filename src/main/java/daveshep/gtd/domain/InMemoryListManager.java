@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.management.ListenerNotFoundException;
 
+import daveshep.gtd.DuplicateListException;
 import daveshep.gtd.GtdListManager;
 import daveshep.gtd.GtdListException;
 import daveshep.gtd.util.IdGenerator;
@@ -48,10 +49,10 @@ public class InMemoryListManager implements GtdListManager {
 	}
 
 	@Override
-	public GtdList createList(String title) throws GtdListException {
+	public GtdList createList(String title) throws DuplicateListException {
 		ListKey listKey = new ListKey(title,"");
 		if (lists.containsKey(listKey)) {
-			throw new GtdListException("List: " + title + " already exists");
+			throw new DuplicateListException("List: " + title + " already exists");
 		} else {
 			GtdList list = new DefaultGtdList(title);
 			lists.put(list.getKey(), list);
