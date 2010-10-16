@@ -18,15 +18,32 @@ public interface GtdListManager {
 	 */
 	public GtdList createList(String title) throws DuplicateListException;
 	public GtdList createList(String title, String subtitle) throws DuplicateListException;
+	public GtdList createTemporaryList(String title);
 	
 	// list retrieval
 	/**
-	 * Get a reference to a list, assumes the list already exists
+	 * Get a reference to a list, assumes the list already exists in the list of lists
 	 * @param list
 	 * @return this list
 	 * @throws GtdListException if the list doesn't exist
 	 */
 	public GtdList getList(GtdList list) throws GtdListException;
-	public GtdList getList(ListKey listkey);
+
+	/**
+	 * Get a reference to a list, creates the list if it doesn't exist and adds it to the list of lists
+	 * @param listkey
+	 * @return the list matching the key, empty list if not found
+	 * @throws IllegalArgumentException if listkey is null
+	 */
+	public GtdList getList(ListKey listkey) throws IllegalArgumentException;
+	
+	/**
+	 * Get a reference to a temporary list containing items from the list requested plus all sub list items
+	 * @param list
+	 * @param includeSubListItems
+	 * @return the list
+	 * @throws GtdListException if the list doesn't exist
+	 */
+	public GtdList getList(GtdList list, boolean includeSubListItems) throws GtdListException;
 	
 }

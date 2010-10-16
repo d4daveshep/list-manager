@@ -4,6 +4,7 @@ import daveshep.gtd.domain.GtdList;
 import daveshep.gtd.domain.GtdListItem;
 import daveshep.gtd.domain.GtdListItemTest;
 import daveshep.gtd.domain.InMemoryListManager;
+import daveshep.gtd.domain.ListKey;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -19,21 +20,16 @@ public class ListManagerUseCaseTest extends TestCase {
         return new TestSuite( ListManagerUseCaseTest.class );
     }
 
-    public void testCreateStaticLists() {
-    	GtdListManager listManager = InMemoryListManager.getInstance();
-    	try {
-			StaticLists.createStaticLists(listManager);
-			GtdList staticList = listManager.getList(StaticLists.IN);
-			assertNotNull(staticList);
-			assertEquals(0,staticList.size());
-		} catch (GtdListException e) {
-			e.printStackTrace();
-			fail();
-		}
-    }
+    GtdListManager listManager = null;
+    
+    @Override
+	protected void setUp() throws Exception {
+		super.setUp();
+    	listManager = InMemoryListManager.getInstance();
+		StaticLists.createStaticLists(listManager);
+	}
     
     public void testCreateList() {
-    	GtdListManager listManager = InMemoryListManager.getInstance();
     	try {
 			GtdList list1 = listManager.createList("list1");
 			assertNotNull(list1);
@@ -51,17 +47,40 @@ public class ListManagerUseCaseTest extends TestCase {
 		}
     }
     
-    public void testGetList() {
-    	fail();
+    public void testGetListByList() {
+		try {
+			GtdList inList = listManager.getList(StaticLists.IN);
+			assertNotNull(inList);
+		} catch (GtdListException e1) {
+			e1.printStackTrace();
+			fail();
+		}
+
+		GtdList findThisList = null;
+		try {
+			GtdList aList = listManager.getList(findThisList);
+			fail();
+		} catch (GtdListException e) {
+		}
+		
+    }
+
+    public void testGetListByKey() {
+    	GtdList inList = listManager.getList(new ListKey("IN"));
+    	assertNotNull(inList);
+    	
+    	GtdList newList = listManager.getList(new ListKey("new list"));
+    	assertNotNull(newList);
+    	
+    	GtdList newListToo = listManager.getList(new ListKey("new list"));
+    	assertEquals(newList, newListToo);
     }
     
     public void testCreateNewListItem() {
     	
-    	GtdListManager listManager = InMemoryListManager.getInstance();
     	GtdList inList = null;
 		GtdList wfList = null;
 		try {
-	    	StaticLists.createStaticLists(listManager);
 			inList = listManager.getList(StaticLists.IN);
 			wfList = listManager.getList(StaticLists.WAITING_FOR);
 		} catch (GtdListException e1) {
@@ -108,6 +127,62 @@ public class ListManagerUseCaseTest extends TestCase {
     	
     }
     
+    public void testDeleteListItem() {
+    	try {
+			GtdList myList = listManager.createList("my list");
+			GtdListItem item1 = listManager.createListItem("item 1");
+			GtdListItem item2 = listManager.createListItem("item 2");
+			GtdListItem item3 = listManager.createListItem("item 3");
+			GtdListItem item4 = listManager.createListItem("item 4");
+			myList.add(item1);
+			myList.add(item2);
+			myList.add(item3);
+			myList.add(item4);
+			assertEquals(4,myList.size());
+			myList.remove(item1);
+			assertEquals(3,myList.size());
+			myList.remove(item1);
+			assertEquals(3,myList.size());
+			
+		} catch (DuplicateListException e) {
+			e.printStackTrace();
+		} catch (GtdListException e) {
+			e.printStackTrace();
+		}
+    	
+    }
 
+    public void testGetListItemsInclSublists() {
+    	
+    	try {
+			// set up a typical @Agenda list structure
+			GtdList agendaTopLevel = listManager.createList("Agenda");
+			GtdList agendaMark = listManager.createList("Agenda","Mark");
+			GtdList agendaSteve = listManager.createList("Agenda","Steve");
+			
+			// add some typical items to the lists
+			agendaTopLevel.add(listManager.createListItem("standard agenda checklist"));
+			GtdListItem mark1 = listManager.createListItem("ISIS BAU progress update"); 
+			agendaMark.add(mark1);
+			agendaMark.add(listManager.createListItem("Is Marcelo happy doing support?"));
+			GtdListItem steve1 = listManager.createListItem("LoyaltyNZ progress update"); 
+			agendaSteve.add(steve1);
+			agendaSteve.add(listManager.createListItem("Is Project21 capitalised?"));
+			
+			// retrieve the @Agenda list (which should include the sublist items
+			assertEquals(1,agendaTopLevel.size());
+			assertEquals(5,agendaTopLevel.sizeInclSublists());
+			
+			GtdList allAgendaItems = listManager.getList(agendaTopLevel,true);
+			assertEquals(5,allAgendaItems.size());
+			assertTrue(allAgendaItems.contains(mark1));
+			assertTrue(allAgendaItems.contains(steve1));
+			
+		} catch (DuplicateListException e) {
+			e.printStackTrace();
+		} catch (GtdListException e) {
+			e.printStackTrace();
+		}    	
+    }
     
 }

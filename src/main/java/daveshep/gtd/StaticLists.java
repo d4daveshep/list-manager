@@ -2,6 +2,7 @@ package daveshep.gtd;
 
 import daveshep.gtd.domain.GtdList;
 import daveshep.gtd.domain.InMemoryListManager;
+import daveshep.gtd.domain.ListKey;
 
 public class StaticLists {
 	
@@ -14,8 +15,8 @@ public class StaticLists {
 	 * @throws GtdListException if any of the static lists already exists
 	 */
 	public static void createStaticLists(GtdListManager listManager) throws GtdListException {
-		IN = listManager.createList("IN");
-		WAITING_FOR = listManager.createList("Waiting For");
+		IN = listManager.getList(new ListKey("IN"));
+		WAITING_FOR = listManager.getList(new ListKey("Waiting For"));
 	}
 	
 }

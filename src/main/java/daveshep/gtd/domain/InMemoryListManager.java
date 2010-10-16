@@ -2,8 +2,10 @@ package daveshep.gtd.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.management.ListenerNotFoundException;
 
@@ -74,9 +76,41 @@ public class InMemoryListManager implements GtdListManager {
 	}
 
 	@Override
-	public GtdList getList(ListKey listkey) {
-		// TODO Auto-generated method stub
-		return null;
+	public GtdList getList(ListKey listkey) throws IllegalArgumentException {
+		if (listkey==null) {
+			throw new IllegalArgumentException("trying to get null list");
+		}
+		GtdList thisList = lists.get(listkey);
+		if (thisList==null) {
+			thisList = new DefaultGtdList(listkey.getTitle(), listkey.getSubtitle());
+			lists.put(listkey, thisList);
+		}
+		return thisList;
+	}
+
+	@Override
+	public GtdList getList(GtdList list, boolean includeSubListItems)
+			throws GtdListException {
+		GtdList theList = getList(list);
+		if (!includeSubListItems) {
+			return theList;
+		} else {
+			GtdList tempList = createTemporaryList(list.getTitle());
+			Set<ListKey> keys = lists.keySet();
+			for (Iterator<ListKey> i=keys.iterator();i.hasNext();) {
+				ListKey key = i.next();
+				if (key.getTitle().equalsIgnoreCase(list.getTitle())) {
+					tempList.addAll(lists.get(key));
+				}
+			}
+			return tempList;
+		}
+	}
+
+	@Override
+	public GtdList createTemporaryList(String title) {
+		GtdList list = new DefaultGtdList(title, "*");
+		return list;
 	}
 
 }

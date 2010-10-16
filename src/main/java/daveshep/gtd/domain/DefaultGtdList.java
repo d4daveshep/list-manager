@@ -73,4 +73,33 @@ public class DefaultGtdList implements GtdList {
 		return listKey;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		GtdList aList = (GtdList)obj;
+		if (aList == null) {
+			return false;
+		} else {
+			return this.getKey().equals(aList.getKey());
+		}
+	}
+
+	@Override
+	public int sizeInclSublists() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean addAll(GtdList theList) throws GtdListException {
+		boolean listChanged = false;
+		for (Iterator<GtdListItem> i=theList.iterator();i.hasNext();) {
+			listChanged = listChanged | this.add(i.next());
+		}
+		return listChanged;
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+
 }
