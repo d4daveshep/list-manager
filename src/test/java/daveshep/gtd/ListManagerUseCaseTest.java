@@ -45,6 +45,15 @@ public class ListManagerUseCaseTest extends TestCase {
 		} catch (DuplicateListException e) {
 			assertTrue(true);
 		}
+		
+		try {
+			GtdList list1 = listManager.createList("title", "subtitle");
+			assertNotNull(list1);
+			assertEquals(0,list1.size());
+		} catch (DuplicateListException e) {
+			e.printStackTrace();
+			fail();
+		}
     }
     
     public void testGetListByList() {
@@ -162,16 +171,16 @@ public class ListManagerUseCaseTest extends TestCase {
 			
 			// add some typical items to the lists
 			agendaTopLevel.add(listManager.createListItem("standard agenda checklist"));
-			GtdListItem mark1 = listManager.createListItem("ISIS BAU progress update"); 
+			GtdListItem mark1 = listManager.createListItem("ISIS BAU progress update");
+			assertNotNull(agendaMark);
+			assertNotNull(mark1);
 			agendaMark.add(mark1);
 			agendaMark.add(listManager.createListItem("Is Marcelo happy doing support?"));
 			GtdListItem steve1 = listManager.createListItem("LoyaltyNZ progress update"); 
 			agendaSteve.add(steve1);
 			agendaSteve.add(listManager.createListItem("Is Project21 capitalised?"));
 			
-			// retrieve the @Agenda list (which should include the sublist items
 			assertEquals(1,agendaTopLevel.size());
-			assertEquals(5,agendaTopLevel.sizeInclSublists());
 			
 			GtdList allAgendaItems = listManager.getList(agendaTopLevel,true);
 			assertEquals(5,allAgendaItems.size());

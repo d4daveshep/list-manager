@@ -31,6 +31,5 @@ public interface GtdList {
 	Iterator<GtdListItem> iterator();
 	boolean remove(Object o);
 	int size();
-	int sizeInclSublists();
 
 }

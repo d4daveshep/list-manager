@@ -84,12 +84,6 @@ public class DefaultGtdList implements GtdList {
 	}
 
 	@Override
-	public int sizeInclSublists() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public boolean addAll(GtdList theList) throws GtdListException {
 		boolean listChanged = false;
 		for (Iterator<GtdListItem> i=theList.iterator();i.hasNext();) {

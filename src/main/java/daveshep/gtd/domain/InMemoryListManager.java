@@ -31,9 +31,15 @@ public class InMemoryListManager implements GtdListManager {
 
 	
 	@Override
-	public GtdList createList(String key1, String key2) {
-		// TODO Auto-generated method stub
-		return null;
+	public GtdList createList(String title, String subtitle) throws DuplicateListException {
+		ListKey listKey = new ListKey(title,subtitle);
+		if (lists.containsKey(listKey)) {
+			throw new DuplicateListException("List: " + title + " | " + subtitle + " already exists");
+		} else {
+			GtdList list = new DefaultGtdList(title,subtitle);
+			lists.put(list.getKey(), list);
+			return list;
+		}
 	}
 
 	@Override
