@@ -195,8 +195,7 @@ public class DefaultGtdListItem implements GtdListItem {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return super.toString();
+		return getDescription();
 	}
 	
 	public boolean isAncestorOf(GtdListItem child) {

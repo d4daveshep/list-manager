@@ -93,6 +93,11 @@ public class DefaultGtdList implements GtdList {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public String getLabel() {
+		return getKey().toString();
+	}
 	
 	
 

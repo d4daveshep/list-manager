@@ -9,6 +9,7 @@ public interface GtdList {
 	String getTitle();
 	String getSubtitle();
 	ListKey getKey();
+	String getLabel();
 
 	/**
 	 * Add an item to a list
