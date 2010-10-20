@@ -35,7 +35,7 @@ public final class ListKey {
 	public String toString() {
 		StringBuffer sb = new StringBuffer(title);
 		if (subtitle!=null && subtitle.length()>0) {
-			sb.append(" | ");
+			sb.append(".");
 			sb.append(subtitle);
 		}
 		return sb.toString();

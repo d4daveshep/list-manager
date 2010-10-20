@@ -3,6 +3,9 @@ package daveshep.gtd.ui.swing;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Iterator;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
@@ -11,12 +14,14 @@ import daveshep.gtd.GtdListManager;
 import daveshep.gtd.StaticLists;
 import daveshep.gtd.domain.GtdList;
 import daveshep.gtd.domain.InMemoryListManager;
+import daveshep.gtd.domain.ListKey;
 
 
 
 public class BasicSwingUI extends JFrame implements KeyListener {
 
 	private GtdListPanel listPanel;
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
 	
 //	private JList itemList; // the main list on the screen
 //	private JLabel statusBar; // the status bar
@@ -194,7 +199,25 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 			in.add(listManager.createListItem("test item 4"));
 			in.add(listManager.createListItem("test item 5"));
 			
-			System.out.println("test data" + in.size());
+			logger.info("created "+in.size()+" items in IN");
+
+			GtdList agendaMark = listManager.createList("@Agenda", "Mark");
+			GtdList agendaSteve = listManager.createList("@Agenda", "Steve");
+			GtdList agendaDave = listManager.createList("@Agenda", "Dave");
+			
+			GtdList homeInside = listManager.createList("@Home","Inside");
+			GtdList homeOutside = listManager.createList("@Home","Outside");
+			GtdList homeGarage = listManager.createList("@Home","Garage");
+			
+			GtdList placeMeehans = listManager.createList("@Place", "Meehans");
+			GtdList placeNapier = listManager.createList("@Place", "Napier");
+			
+			GtdList errandsDickSmith = listManager.createList("@Place", "Dick Smith");
+			GtdList errandsMitre10 = listManager.createList("@Place", "Mitre10");
+			
+			
+			logger.info(listManager.getListCount()+" lists");
+			logger.info(listManager.getListKeys().toString());
 			
 		} catch (GtdListException e) {
 			// TODO Auto-generated catch block

@@ -95,7 +95,7 @@ public class DefaultGtdList implements GtdList {
 	}
 
 	@Override
-	public String getLabel() {
+	public String getName() {
 		return getKey().toString();
 	}
 	

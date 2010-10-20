@@ -119,4 +119,14 @@ public class InMemoryListManager implements GtdListManager {
 		return list;
 	}
 
+	@Override
+	public int getListCount() {
+		return lists.size();
+	}
+
+	@Override
+	public Set<ListKey> getListKeys() {
+		return lists.keySet();
+	}
+
 }

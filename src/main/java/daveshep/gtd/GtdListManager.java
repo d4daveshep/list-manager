@@ -1,5 +1,7 @@
 package daveshep.gtd;
 
+import java.util.Set;
+
 import daveshep.gtd.domain.GtdList;
 import daveshep.gtd.domain.GtdListItem;
 import daveshep.gtd.domain.ListKey;
@@ -46,4 +48,7 @@ public interface GtdListManager {
 	 */
 	public GtdList getList(GtdList list, boolean includeSubListItems) throws GtdListException;
 	
+	// get stats
+	int getListCount();
+	Set<ListKey> getListKeys();
 }

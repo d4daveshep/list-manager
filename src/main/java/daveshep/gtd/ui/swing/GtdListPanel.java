@@ -48,7 +48,7 @@ public class GtdListPanel extends JPanel {
 
 		// add the title to the panel
 		titleLabel.setFont(new Font("SansSerif", Font.BOLD, 32));
-		titleLabel.setText(gtdList.getLabel());
+		titleLabel.setText(gtdList.getName());
 		add(titleLabel,BorderLayout.NORTH);
 		
 		// add the list to the panel
