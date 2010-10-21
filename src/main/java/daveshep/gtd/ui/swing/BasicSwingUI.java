@@ -212,8 +212,8 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 			GtdList placeMeehans = listManager.createList("@Place", "Meehans");
 			GtdList placeNapier = listManager.createList("@Place", "Napier");
 			
-			GtdList errandsDickSmith = listManager.createList("@Place", "Dick Smith");
-			GtdList errandsMitre10 = listManager.createList("@Place", "Mitre10");
+			GtdList errandsDickSmith = listManager.createList("@Errands", "Dick Smith");
+			GtdList errandsMitre10 = listManager.createList("@Errands", "Mitre10");
 			
 			
 			logger.info(listManager.getListCount()+" lists");

@@ -6,6 +6,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.logging.Logger;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -24,6 +25,8 @@ import daveshep.gtd.domain.GtdListItem;
 
 public class GtdListPanel extends JPanel {
 
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
+
 	// GtdListPanel has...
 	// a link to the parent frame
 	private BasicSwingUI parent;
@@ -32,6 +35,9 @@ public class GtdListPanel extends JPanel {
 	// a list
 	private JList itemList;
 	// a status bar?
+	
+	// a list selection panel
+	private SelectListPanel selectListPanel = new SelectListPanel();
 	
 	// a GtdList that it's displaying
 	private GtdList gtdList;
@@ -56,6 +62,11 @@ public class GtdListPanel extends JPanel {
 		scrollPane.getViewport().add(itemList);
 		add(scrollPane,BorderLayout.CENTER);
 
+		// add the list selection panel to the panel
+		selectListPanel.setListKeys(getListManager().getListKeys());
+		selectListPanel.setListKey(gtdList.getKey());
+		add(selectListPanel,BorderLayout.SOUTH);
+		
 		doKeyBindings();
 
 		refreshList();
@@ -97,6 +108,14 @@ public class GtdListPanel extends JPanel {
 	
 	public GtdListManager getListManager() {
 		return parent.getListManager();
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		if (visible) {
+
+		}
+		super.setVisible(visible);
 	}
 	
 }
