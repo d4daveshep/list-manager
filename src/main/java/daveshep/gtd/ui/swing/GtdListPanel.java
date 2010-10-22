@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import daveshep.gtd.GtdListManager;
 import daveshep.gtd.domain.GtdList;
 import daveshep.gtd.domain.GtdListItem;
+import daveshep.gtd.domain.ListKey;
 
 public class GtdListPanel extends JPanel {
 
@@ -37,7 +38,7 @@ public class GtdListPanel extends JPanel {
 	// a status bar?
 	
 	// a list selection panel
-	private SelectListPanel selectListPanel = new SelectListPanel();
+//	private SelectListPanel selectListPanel = new SelectListPanel();
 	
 	// a GtdList that it's displaying
 	private GtdList gtdList;
@@ -63,9 +64,9 @@ public class GtdListPanel extends JPanel {
 		add(scrollPane,BorderLayout.CENTER);
 
 		// add the list selection panel to the panel
-		selectListPanel.setListKeys(getListManager().getListKeys());
-		selectListPanel.setListKey(gtdList.getKey());
-		add(selectListPanel,BorderLayout.SOUTH);
+//		selectListPanel.setListKeys(getListManager().getListKeys());
+//		selectListPanel.setListKey(gtdList.getKey());
+//		add(selectListPanel,BorderLayout.SOUTH);
 		
 		doKeyBindings();
 
@@ -77,11 +78,19 @@ public class GtdListPanel extends JPanel {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_DOWN_MASK),"NewItem");
 		itemList.getActionMap().put("NewItem", new NewItemAction(this));
 		
+		// Ctrl-L = select list
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"SelectList");
+		itemList.getActionMap().put("SelectList", new SelectListAction(this));
+		
 		
 	}
 
 	public GtdList getGtdList() {
 		return gtdList;
+	}
+	
+	public ListKey getListKey() {
+		return gtdList.getKey();
 	}
 
 	public void refreshList() {
@@ -116,6 +125,19 @@ public class GtdListPanel extends JPanel {
 
 		}
 		super.setVisible(visible);
+	}
+
+	public BasicSwingUI getParent() {
+		return parent;
+	}
+
+	public void displayNewList(ListKey newListKey) {
+		
+		this.gtdList = parent.getListManager().getList(newListKey);
+		titleLabel.setText(gtdList.getName());
+
+		refreshList();
+		
 	}
 	
 }

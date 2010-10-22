@@ -31,7 +31,7 @@ public class SelectListPanel extends JPanel implements ActionListener {
 
 	private JComboBox titleComboBox = new JComboBox();
 	private JComboBox subtitleComboBox = new JComboBox();
-	private JButton goButton = new JButton("Go");
+//	private JButton goButton = new JButton("Go");
 	
 	private String title;
 	private String subtitle;
@@ -48,7 +48,7 @@ public class SelectListPanel extends JPanel implements ActionListener {
 		subtitleComboBox.setEditable(true);
 		subtitleComboBox.addActionListener(this);
 		
-		goButton.addActionListener(this);
+//		goButton.addActionListener(this);
 		
 		setLayout(new FlowLayout());
 		setBorder(new EmptyBorder(5,5,5,5));
@@ -57,7 +57,7 @@ public class SelectListPanel extends JPanel implements ActionListener {
 		add(titleComboBox);
 		add(new JLabel("Subtitle"));
 		add(subtitleComboBox);
-		add(goButton);
+//		add(goButton);
 		
 		validate();
 		
@@ -88,17 +88,17 @@ public class SelectListPanel extends JPanel implements ActionListener {
 		
 		if (e.getSource().equals(titleComboBox)) {
 			logger.info("titleComboBox changed to "+titleComboBox.getSelectedItem().toString());
+			title = (String) titleComboBox.getSelectedItem();
 			
 			//populate subtitle combobox
 			updateSubtitleComboBox();
 			
 		} else if (e.getSource().equals(subtitleComboBox)) {
 			logger.info("subtitleComboBox changed to "+subtitleComboBox.getSelectedItem().toString());
-			
-		} else if (e.getSource().equals(goButton)) {
-			title = (String) titleComboBox.getSelectedItem();
 			subtitle = (String) subtitleComboBox.getSelectedItem();
-			logger.info("Go button pushed with title="+title+" and subtitle="+subtitle);
+			
+//		} else if (e.getSource().equals(goButton)) {
+//			logger.info("Go button pushed with title="+title+" and subtitle="+subtitle);
 		}
 		
 	}
@@ -159,7 +159,7 @@ public class SelectListPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	public ListKey getListKey() {
-		return listKey;
+	public ListKey getNewListKey() {
+		return new ListKey(title,subtitle);
 	}
 }
