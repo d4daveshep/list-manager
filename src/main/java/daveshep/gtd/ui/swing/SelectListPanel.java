@@ -94,8 +94,11 @@ public class SelectListPanel extends JPanel implements ActionListener {
 			updateSubtitleComboBox();
 			
 		} else if (e.getSource().equals(subtitleComboBox)) {
-			logger.info("subtitleComboBox changed to "+subtitleComboBox.getSelectedItem().toString());
-			subtitle = (String) subtitleComboBox.getSelectedItem();
+			String selectedItem = (String) subtitleComboBox.getSelectedItem();
+			if (selectedItem!=null) {
+				logger.info("subtitleComboBox changed to "+selectedItem);
+				subtitle = selectedItem;
+			}
 			
 //		} else if (e.getSource().equals(goButton)) {
 //			logger.info("Go button pushed with title="+title+" and subtitle="+subtitle);
