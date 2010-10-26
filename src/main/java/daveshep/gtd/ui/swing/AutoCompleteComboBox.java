@@ -6,6 +6,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
@@ -17,6 +18,8 @@ import javax.swing.text.PlainDocument;
 
 
 public class AutoCompleteComboBox extends PlainDocument {
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
+
     JComboBox comboBox;
     ComboBoxModel model;
     JTextComponent editor;
@@ -40,13 +43,22 @@ public class AutoCompleteComboBox extends PlainDocument {
         });
         editor.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-                if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);
+            	if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);
                 hitBackspace=false;
                 switch (e.getKeyCode()) {
                     // determine if the pressed key is backspace (needed by the remove method)
-                    case KeyEvent.VK_BACK_SPACE : hitBackspace=true;
-                    hitBackspaceOnSelection=editor.getSelectionStart()!=editor.getSelectionEnd();
-                    break;
+                    case KeyEvent.VK_BACK_SPACE: 
+                    	hitBackspace=true;
+                    	hitBackspaceOnSelection=editor.getSelectionStart()!=editor.getSelectionEnd();
+                    	break;
+//                    case KeyEvent.VK_ENTER:
+//                    	logger.info(e.paramString());
+//                    	// fire event to parent 
+//                    	break;
+                    case KeyEvent.VK_ESCAPE:
+                    	logger.info(e.paramString());
+                    	break;
+                    	
                 }
             }
         });

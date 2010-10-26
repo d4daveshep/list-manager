@@ -59,6 +59,8 @@ public class SelectListPanel extends JPanel implements ActionListener {
 		add(subtitleComboBox);
 //		add(goButton);
 		
+		
+		
 		validate();
 		
 	}
@@ -85,6 +87,9 @@ public class SelectListPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		logger.info(e.paramString());
+		if (e.getActionCommand().equalsIgnoreCase("comboBoxEdited")) {
+			logger.info("*** Enter detected");
+		}
 		
 		if (e.getSource().equals(titleComboBox)) {
 			logger.info("titleComboBox changed to "+titleComboBox.getSelectedItem().toString());
