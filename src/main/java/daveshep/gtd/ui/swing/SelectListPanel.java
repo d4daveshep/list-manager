@@ -46,10 +46,12 @@ public class SelectListPanel extends JPanel implements ActionListener {
 		new AutoCompleteComboBox(titleComboBox);
 		titleComboBox.setEditable(true);
 		titleComboBox.addActionListener(this);
+		titleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(titleComboBox));
 		
 		new AutoCompleteComboBox(subtitleComboBox);
 		subtitleComboBox.setEditable(true);
 		subtitleComboBox.addActionListener(this);
+		subtitleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(subtitleComboBox));
 		
 //		goButton.addActionListener(this);
 		

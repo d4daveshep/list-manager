@@ -28,7 +28,7 @@ public class SelectListAction extends AbstractAction {
 		
 		dialog.setVisible(true);
 		
-		ListKey newListKey = dialog.getListKey();
+		ListKey newListKey = dialog.getNewListKey();
 		if (parent.getListKey().equals(newListKey)) {
 			return;
 		} else {
