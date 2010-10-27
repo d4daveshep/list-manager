@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -16,19 +17,21 @@ import daveshep.gtd.domain.ListKey;
 
 public class SelectListDialog extends JDialog implements ActionListener {
 
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
+
 	private JButton okButton = new JButton("OK");
 	private JButton cancelButton = new JButton("Cancel");
 	private KeyAction okAction;
 	private KeyAction cancelAction;
 
-	private SelectListPanel selectListPanel = new SelectListPanel();
+	private SelectListPanel selectListPanel;
 	private BasicSwingUI parent;
 	private ListKey listKey;
 
 	SelectListDialog(BasicSwingUI parent) {
 		super(parent,"Select List",true);
 		this.parent = parent;
-		
+		selectListPanel = new SelectListPanel(this);
 		selectListPanel.setListKeys(parent.getListManager().getListKeys());
 
 		getContentPane().add(selectListPanel,BorderLayout.CENTER);
@@ -60,6 +63,7 @@ public class SelectListDialog extends JDialog implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		logger.info(e.paramString());
 		
 		if (e.getSource().equals(okButton)) {
 			this.listKey = selectListPanel.getNewListKey();

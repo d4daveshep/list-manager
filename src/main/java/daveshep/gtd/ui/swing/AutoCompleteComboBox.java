@@ -1,5 +1,6 @@
 package daveshep.gtd.ui.swing;
 
+import java.awt.AWTEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -43,7 +44,9 @@ public class AutoCompleteComboBox extends PlainDocument {
         });
         editor.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
-            	if (comboBox.isDisplayable()) comboBox.setPopupVisible(true);
+            	if (comboBox.isDisplayable()) {
+            		comboBox.setPopupVisible(true);
+            	}
                 hitBackspace=false;
                 switch (e.getKeyCode()) {
                     // determine if the pressed key is backspace (needed by the remove method)
@@ -51,12 +54,10 @@ public class AutoCompleteComboBox extends PlainDocument {
                     	hitBackspace=true;
                     	hitBackspaceOnSelection=editor.getSelectionStart()!=editor.getSelectionEnd();
                     	break;
-//                    case KeyEvent.VK_ENTER:
-//                    	logger.info(e.paramString());
-//                    	// fire event to parent 
-//                    	break;
+                    case KeyEvent.VK_ENTER:
                     case KeyEvent.VK_ESCAPE:
                     	logger.info(e.paramString());
+                    	comboBox.dispatchEvent(e);
                     	break;
                     	
                 }

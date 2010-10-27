@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -29,8 +30,9 @@ public class SelectListPanel extends JPanel implements ActionListener {
 	private static Logger logger = Logger.getLogger("daveshep.gtd");
 	private Set<ListKey> listKeys;
 
-	private JComboBox titleComboBox = new JComboBox();
-	private JComboBox subtitleComboBox = new JComboBox();
+	private JDialog parent;
+	private MyJComboBox titleComboBox = new MyJComboBox();
+	private MyJComboBox subtitleComboBox = new MyJComboBox();
 //	private JButton goButton = new JButton("Go");
 	
 	private String title;
@@ -38,7 +40,8 @@ public class SelectListPanel extends JPanel implements ActionListener {
 	private ListKey listKey;
 	private SortedMap<String,Set<String>> keyMap;
 	
-	public SelectListPanel(/*JFrame parent*/) {
+	public SelectListPanel(JDialog parent) {
+		this.parent = parent;
 		
 		new AutoCompleteComboBox(titleComboBox);
 		titleComboBox.setEditable(true);
@@ -169,5 +172,9 @@ public class SelectListPanel extends JPanel implements ActionListener {
 
 	public ListKey getNewListKey() {
 		return new ListKey(title,subtitle);
+	}
+
+	public JDialog getDialog() {
+		return parent;
 	}
 }
