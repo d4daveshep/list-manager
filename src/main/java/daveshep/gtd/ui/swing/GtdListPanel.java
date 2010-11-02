@@ -96,6 +96,7 @@ public class GtdListPanel extends JPanel {
 	public void refreshList() {
 		// refresh the screen according to filter, sort & view settings and find string (if there is one)
 
+		titleLabel.setText(gtdList.getName());
 
 		// clear the list
 
@@ -103,7 +104,7 @@ public class GtdListPanel extends JPanel {
 		model.removeAllElements();
 
 		// get items for the current view
-		for (Iterator<GtdListItem> i=getGtdList().iterator();i.hasNext();) {
+		for (Iterator<GtdListItem> i=gtdList.iterator();i.hasNext();) {
 			GtdListItem item = i.next();
 			model.addElement(item);
 		}
@@ -134,7 +135,6 @@ public class GtdListPanel extends JPanel {
 	public void displayNewList(ListKey newListKey) {
 		
 		this.gtdList = parent.getListManager().getList(newListKey);
-		titleLabel.setText(gtdList.getName());
 
 		refreshList();
 		

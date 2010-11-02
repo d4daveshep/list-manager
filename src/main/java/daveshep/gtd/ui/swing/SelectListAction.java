@@ -2,6 +2,7 @@ package daveshep.gtd.ui.swing;
 
 import java.awt.event.ActionEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -11,6 +12,7 @@ import daveshep.gtd.domain.ListKey;
 
 public class SelectListAction extends AbstractAction {
 
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
 	private GtdListPanel parent;
 
 	SelectListAction(GtdListPanel parent) {
@@ -29,12 +31,12 @@ public class SelectListAction extends AbstractAction {
 		dialog.setVisible(true);
 		
 		ListKey newListKey = dialog.getNewListKey();
+		logger.info("newListKey= "+newListKey.toString());
+		
 		if (parent.getListKey().equals(newListKey)) {
-			return;
+			parent.refreshList();
 		} else {
-
 			parent.displayNewList(newListKey);
-			
 		}
 		
 		

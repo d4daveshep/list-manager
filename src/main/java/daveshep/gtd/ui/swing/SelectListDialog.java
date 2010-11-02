@@ -33,7 +33,7 @@ public class SelectListDialog extends JDialog implements ActionListener {
 	
 	private String title;
 	private String subtitle;
-	private ListKey listKey;
+	private ListKey origListKey;
 	private SortedMap<String,Set<String>> keyMap;
 
 	private JButton okButton = new JButton("OK");
@@ -55,12 +55,12 @@ public class SelectListDialog extends JDialog implements ActionListener {
 //		new AutoCompleteComboBox(titleComboBox);
 		titleComboBox.setEditable(true);
 		titleComboBox.addActionListener(this);
-		titleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(titleComboBox));
+//		titleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(titleComboBox));
 		
 //		new AutoCompleteComboBox(subtitleComboBox);
 		subtitleComboBox.setEditable(true);
 		subtitleComboBox.addActionListener(this);
-		subtitleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(subtitleComboBox));
+//		subtitleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(subtitleComboBox));
 		
 		comboPanel.add(new JLabel("Title"));
 		comboPanel.add(titleComboBox);
@@ -106,16 +106,19 @@ public class SelectListDialog extends JDialog implements ActionListener {
 		if (e.getSource().equals(okButton)||e.getActionCommand().equalsIgnoreCase("OK")) {
 			title = (String) titleComboBox.getSelectedItem();
 			subtitle = (String) subtitleComboBox.getSelectedItem();
+			logger.info("title="+title+", subtitle="+subtitle);
 			if (subtitle==null) {
 				subtitle = "";
 			}
-			setListKey(getNewListKey());
+			ListKey newListKey = getNewListKey();
+			logger.info("newListKey="+newListKey.toString());
+//			setListKey(newListKey);
 			setVisible(false);			
 			
 		} else if (e.getSource().equals(cancelButton)||e.getActionCommand().equalsIgnoreCase("Cancel")) {
 			logger.info("closing");
-			this.title = this.listKey.getTitle();
-			this.subtitle = this.listKey.getSubtitle();
+			this.title = this.origListKey.getTitle();
+			this.subtitle = this.origListKey.getSubtitle();
 			setVisible(false);
 			
 		} else if (e.getSource().equals(titleComboBox)) {
@@ -178,10 +181,13 @@ public class SelectListDialog extends JDialog implements ActionListener {
 
 	public void setListKey(ListKey listKey) {
 		if (listKey!=null) {
-			this.listKey = listKey;
+			this.origListKey = listKey;
 			this.title = listKey.getTitle();
 			this.subtitle = listKey.getSubtitle();
-			titleComboBox.setSelectedItem(listKey.getTitle());
+			titleComboBox.setSelectedItem(this.title);
+			if(this.subtitle!=null) {
+				subtitleComboBox.setSelectedItem(this.subtitle);
+			}
 		}
 	}
 
@@ -189,9 +195,9 @@ public class SelectListDialog extends JDialog implements ActionListener {
 		return new ListKey(title,subtitle);
 	}
 
-	public ListKey getListKey() {
-		return listKey;
-	}
+//	public ListKey getListKey() {
+//		return listKey;
+//	}
 
 //	@Override
 //	public void setVisible(boolean visible) {
