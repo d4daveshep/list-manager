@@ -97,6 +97,7 @@ public class GtdListPanel extends JPanel {
 		// refresh the screen according to filter, sort & view settings and find string (if there is one)
 
 		titleLabel.setText(gtdList.getName());
+		titleLabel.repaint();
 
 		// clear the list
 
@@ -109,6 +110,7 @@ public class GtdListPanel extends JPanel {
 			model.addElement(item);
 		}
 
+		itemList.repaint();
 
 	}
 
