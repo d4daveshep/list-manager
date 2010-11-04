@@ -9,9 +9,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
 
+// TODO this class can be deleted 
 public class ActivateDefaultButtonListener extends KeyAdapter implements ActionListener
 {
 	private static Logger logger = Logger.getLogger("daveshep.gtd");
@@ -26,6 +28,7 @@ public class ActivateDefaultButtonListener extends KeyAdapter implements ActionL
 
 	public void keyPressed(KeyEvent e)
 	{
+		logger.info(e.paramString());
 		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
 			// Simulate click on default button.
 			doClick(e);
@@ -40,7 +43,8 @@ public class ActivateDefaultButtonListener extends KeyAdapter implements ActionL
 		JRootPane rootPane = SwingUtilities.getRootPane(c);
 		if(rootPane != null) {
 			SelectListDialog dialog = (SelectListDialog)rootPane.getParent();
-			dialog.setVisible(false);
+			JButton button = dialog.getCancelButton();
+			button.doClick();
 		}
 		
 	}

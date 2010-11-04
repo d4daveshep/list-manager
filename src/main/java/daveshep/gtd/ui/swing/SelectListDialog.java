@@ -52,15 +52,15 @@ public class SelectListDialog extends JDialog implements ActionListener {
 		comboPanel.setLayout(new FlowLayout());
 		comboPanel.setBorder(new EmptyBorder(5,5,5,5));
 		
-//		new AutoCompleteComboBox(titleComboBox);
+		new AutoCompleteComboBox(titleComboBox);
 		titleComboBox.setEditable(true);
 		titleComboBox.addActionListener(this);
-//		titleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(titleComboBox));
+		titleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(titleComboBox));
 		
-//		new AutoCompleteComboBox(subtitleComboBox);
+		new AutoCompleteComboBox(subtitleComboBox);
 		subtitleComboBox.setEditable(true);
 		subtitleComboBox.addActionListener(this);
-//		subtitleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(subtitleComboBox));
+		subtitleComboBox.getEditor().getEditorComponent().addKeyListener(new ActivateDefaultButtonListener(subtitleComboBox));
 		
 		comboPanel.add(new JLabel("Title"));
 		comboPanel.add(titleComboBox);
@@ -193,6 +193,10 @@ public class SelectListDialog extends JDialog implements ActionListener {
 
 	public ListKey getNewListKey() {
 		return new ListKey(title,subtitle);
+	}
+
+	public JButton getCancelButton() {
+		return cancelButton;
 	}
 
 //	public ListKey getListKey() {
