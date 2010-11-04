@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Iterator;
 import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
@@ -52,7 +53,7 @@ public class BasicSwingUI extends JFrame implements KeyListener {
 	public BasicSwingUI() {
 		super("GTD List Manager - Basic Swing UI");
 		setSize(1000, 700);
-
+		
 		try {
 			// create the static lists
 			StaticLists.createStaticLists(listManager);

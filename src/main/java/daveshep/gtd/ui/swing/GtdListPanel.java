@@ -78,6 +78,10 @@ public class GtdListPanel extends JPanel {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_N,InputEvent.CTRL_DOWN_MASK),"NewItem");
 		itemList.getActionMap().put("NewItem", new NewItemAction(this));
 		
+		// D = edit item
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D,0),"EditDescription");
+		itemList.getActionMap().put("EditDescription", new EditDescriptionAction(this));
+		
 		// Ctrl-L = select list
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"SelectList");
 		itemList.getActionMap().put("SelectList", new SelectListAction(this));
