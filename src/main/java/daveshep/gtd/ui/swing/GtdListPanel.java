@@ -36,6 +36,8 @@ public class GtdListPanel extends JPanel {
 	// a list
 	private JList itemList;
 	// a status bar?
+	private ListCellPanel cellPanel;
+	
 	
 	// a list selection panel
 //	private SelectListPanel selectListPanel = new SelectListPanel();
@@ -112,6 +114,9 @@ public class GtdListPanel extends JPanel {
 		for (Iterator<GtdListItem> i=gtdList.iterator();i.hasNext();) {
 			GtdListItem item = i.next();
 			model.addElement(item);
+			
+			// for testing purposes only
+			add(new ListCellPanel(item),BorderLayout.SOUTH);
 		}
 
 		itemList.repaint();
