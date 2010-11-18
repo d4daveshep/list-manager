@@ -1,5 +1,6 @@
 package daveshep.gtd;
 
+import java.util.Collection;
 import java.util.Set;
 
 import daveshep.gtd.domain.GtdList;
@@ -46,9 +47,23 @@ public interface GtdListManager {
 	 * @return the list
 	 * @throws GtdListException if the list doesn't exist
 	 */
-	public GtdList getList(GtdList list, boolean includeSubListItems) throws GtdListException;
+//	public GtdList getList(GtdList list, boolean includeSubListItems) throws GtdListException;
 	
 	// get stats
 	int getListCount();
 	Set<ListKey> getListKeys();
+	
+	// find methods
+	/**
+	 * @param findString
+	 * @return Collection of items found containing findString
+	 */
+	
+	public Collection<GtdListItem> findItemsByString(String findString);
+	
+	/**
+	 * Remove all lists and list items
+	 */
+	public void removeAll();
+	
 }

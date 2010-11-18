@@ -1,23 +1,28 @@
 package daveshep.gtd.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.management.ListenerNotFoundException;
 
 import daveshep.gtd.DuplicateListException;
 import daveshep.gtd.GtdListManager;
 import daveshep.gtd.GtdListException;
+import daveshep.gtd.StaticLists;
 import daveshep.gtd.util.IdGenerator;
 
 public class InMemoryListManager implements GtdListManager {
 
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
+
 	private static GtdListManager listManager = new InMemoryListManager();
-	private List<GtdListItem> items;
+//	private List<GtdListItem> items;
 	private Map<ListKey,GtdList> lists;
 	
 	public static GtdListManager getInstance() {
@@ -25,7 +30,7 @@ public class InMemoryListManager implements GtdListManager {
 	}
 	
 	private InMemoryListManager() {
-		items = new ArrayList<GtdListItem>();
+//		items = new ArrayList<GtdListItem>();
 		lists = new HashMap<ListKey,GtdList>();
 	}
 
@@ -94,6 +99,7 @@ public class InMemoryListManager implements GtdListManager {
 		return thisList;
 	}
 
+	/*
 	@Override
 	public GtdList getList(GtdList list, boolean includeSubListItems)
 			throws GtdListException {
@@ -112,6 +118,7 @@ public class InMemoryListManager implements GtdListManager {
 			return tempList;
 		}
 	}
+	*/
 
 	@Override
 	public GtdList createTemporaryList(String title) {
@@ -127,6 +134,30 @@ public class InMemoryListManager implements GtdListManager {
 	@Override
 	public Set<ListKey> getListKeys() {
 		return lists.keySet();
+	}
+
+	@Override
+	public Collection<GtdListItem> findItemsByString(String findString) {
+		logger.info("textToFind = " + findString);
+
+		List<GtdListItem> foundItems = new ArrayList<GtdListItem>();
+		
+		// call findItemsByString on each list, adding the results to foundItems
+		
+		return foundItems;
+	}
+
+	@Override
+	public void removeAll() {
+		
+		try {
+			lists.clear();
+			StaticLists.createStaticLists(this);
+		} catch (GtdListException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 }

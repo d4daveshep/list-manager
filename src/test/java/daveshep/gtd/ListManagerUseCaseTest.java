@@ -1,13 +1,14 @@
 package daveshep.gtd;
 
-import daveshep.gtd.domain.GtdList;
-import daveshep.gtd.domain.GtdListItem;
-import daveshep.gtd.domain.GtdListItemTest;
-import daveshep.gtd.domain.InMemoryListManager;
-import daveshep.gtd.domain.ListKey;
+import java.util.Collection;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import daveshep.gtd.domain.GtdList;
+import daveshep.gtd.domain.GtdListItem;
+import daveshep.gtd.domain.InMemoryListManager;
+import daveshep.gtd.domain.ListKey;
 
 
 public class ListManagerUseCaseTest extends TestCase {
@@ -161,7 +162,7 @@ public class ListManagerUseCaseTest extends TestCase {
     	
     }
 
-    public void testGetListItemsInclSublists() {
+/*    public void testGetListItemsInclSublists() {
     	
     	try {
 			// set up a typical @Agenda list structure
@@ -189,9 +190,54 @@ public class ListManagerUseCaseTest extends TestCase {
 			
 		} catch (DuplicateListException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 		} catch (GtdListException e) {
 			e.printStackTrace();
+			fail(e.getMessage());
 		}    	
     }
+*/
     
+    public void testFindByString() {
+    	
+    	listManager.removeAll();
+    	
+    	// set up three lists (one of which is a sub list)
+		try {
+			GtdList in = listManager.getList(StaticLists.IN);
+			GtdList home = listManager.createList("Home");
+			GtdList homeGarden = listManager.createList("Home","Garden");
+
+	    	// add some items to the lists
+			in.add(listManager.createListItem("this is item1 - isn't it good"));
+			in.add(listManager.createListItem("this is item2 - isn't it fine"));
+	    	
+	    	home.add(listManager.createListItem("this is item3 - isn't it fine and swell"));
+	    	home.add(listManager.createListItem("this is item4 - isn't it oh so nice"));
+	    	
+	    	homeGarden.add(listManager.createListItem("this is item5 - home good home"));
+	    	homeGarden.add(listManager.createListItem("this is item6 - home swell home"));
+
+	    	// search and check results
+	    	Collection<GtdListItem> find1 = listManager.findItemsByString("swell");
+	    	assertEquals(2,find1.size());
+	    	
+	    	Collection<GtdListItem> find2 = listManager.findItemsByString("fine");
+	    	assertTrue(find2.size()==2);
+	    	
+	    	Collection<GtdListItem> find3 = listManager.findItemsByString("item");
+	    	assertTrue(find3.size()==6);
+
+			
+			
+			
+		} catch (DuplicateListException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (GtdListException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+    }
 }

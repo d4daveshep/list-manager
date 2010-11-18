@@ -19,6 +19,7 @@ public class StaticListsTest extends TestCase {
 
 	public void testCreateStaticLists() {
 		GtdListManager listManager = InMemoryListManager.getInstance();
+		listManager.removeAll();
     	try {
 			GtdList staticList = listManager.getList(StaticLists.IN);
 			staticList = listManager.getList(StaticLists.IN);

@@ -88,6 +88,11 @@ public class GtdListPanel extends JPanel {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"SelectList");
 		itemList.getActionMap().put("SelectList", new SelectListAction(this));
 		
+		// Ctrl-L = find
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK),"Find");
+		itemList.getActionMap().put("Find", new FindAction(this));
+		
+		
 		
 	}
 
@@ -116,7 +121,7 @@ public class GtdListPanel extends JPanel {
 			model.addElement(item);
 			
 			// for testing purposes only
-			add(new ListCellPanel(item),BorderLayout.SOUTH);
+//			add(new ListCellPanel(item),BorderLayout.SOUTH);
 		}
 
 		itemList.repaint();
