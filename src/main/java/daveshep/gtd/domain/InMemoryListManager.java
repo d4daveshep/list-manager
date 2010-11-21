@@ -143,6 +143,10 @@ public class InMemoryListManager implements GtdListManager {
 		List<GtdListItem> foundItems = new ArrayList<GtdListItem>();
 		
 		// call findItemsByString on each list, adding the results to foundItems
+		for (Iterator<GtdList> iterator=lists.values().iterator();iterator.hasNext();) {
+			GtdList list = iterator.next();
+			foundItems.addAll(list.findItemsByString(findString));
+		}
 		
 		return foundItems;
 	}

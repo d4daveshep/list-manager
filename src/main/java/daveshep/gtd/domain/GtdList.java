@@ -1,5 +1,6 @@
 package daveshep.gtd.domain;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import daveshep.gtd.GtdListException;
@@ -32,5 +33,12 @@ public interface GtdList {
 	Iterator<GtdListItem> iterator();
 	boolean remove(Object o);
 	int size();
+
+	/**
+	 * Perform a case-insensitive search of all items in the list for the specified string
+	 * @param findString
+	 * @return a collection of items containing the specified string
+	 */
+	Collection<GtdListItem> findItemsByString(String findString);
 
 }

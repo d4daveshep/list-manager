@@ -27,6 +27,7 @@ public class ListManagerUseCaseTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
     	listManager = InMemoryListManager.getInstance();
+    	listManager.removeAll();
 		StaticLists.createStaticLists(listManager);
 	}
     

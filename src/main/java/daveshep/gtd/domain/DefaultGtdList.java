@@ -3,6 +3,7 @@ package daveshep.gtd.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import daveshep.gtd.GtdListException;
 
@@ -97,6 +98,29 @@ public class DefaultGtdList implements GtdList {
 	@Override
 	public String getName() {
 		return getKey().toString();
+	}
+
+	@Override
+	public Collection<GtdListItem> findItemsByString(String findString) {
+
+		List<GtdListItem> foundItems = new ArrayList<GtdListItem>();
+		
+		for (Iterator<GtdListItem> iterator = list.iterator();iterator.hasNext();) {
+			GtdListItem item = iterator.next();
+
+			// empty find string matches all
+			if (findString.length()==0 ) {
+				foundItems.add(item);
+				
+			} else
+				
+			// case insensitive
+			if (item.getDescription().toLowerCase().contains(findString.toLowerCase())) {
+				foundItems.add(item);
+			}
+		}
+		return foundItems;
+
 	}
 	
 	

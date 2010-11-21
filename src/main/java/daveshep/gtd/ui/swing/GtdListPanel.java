@@ -88,11 +88,27 @@ public class GtdListPanel extends JPanel {
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_L,InputEvent.CTRL_DOWN_MASK),"SelectList");
 		itemList.getActionMap().put("SelectList", new SelectListAction(this));
 		
-		// Ctrl-L = find
-		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK),"Find");
-		itemList.getActionMap().put("Find", new FindAction(this));
+		// Ctrl-F = local find
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK),"Local Find");
+		itemList.getActionMap().put("Local Find", new FindAction(this,FindType.LOCAL));
 		
+		// Ctrl-G = global find
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_G,InputEvent.CTRL_DOWN_MASK),"Global Find");
+		itemList.getActionMap().put("Global Find", new FindAction(this,FindType.GLOBAL));
 		
+		// Ctrl-Shift-F = local find + add
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F,InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK),"Local Find+Add");
+		itemList.getActionMap().put("Local Find+Add", new FindAction(this,FindType.LOCAL));
+		
+		// Ctrl-Shift-G = global find + add
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_G,InputEvent.CTRL_DOWN_MASK|InputEvent.SHIFT_DOWN_MASK),"Global Find+Add");
+		itemList.getActionMap().put("Global Find+Add", new FindAction(this,FindType.GLOBAL));
+		
+		// F5 = refresh screen
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
+		itemList.getActionMap().put("Refresh", new RefreshAction(this));
+
+
 		
 	}
 
@@ -156,4 +172,11 @@ public class GtdListPanel extends JPanel {
 		
 	}
 	
+	public void setTitleText(String newTitle) {
+		titleLabel.setText(newTitle);
+	}
+
+	public String getTitleText() {
+		return titleLabel.getText();
+	}
 }
