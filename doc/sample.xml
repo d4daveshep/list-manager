@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<id-generator>
+<gtd-lists>
+	<list title="@Errands" subtitle="Birkenhead">
+		<item id="123" created="2010-11-01" updated="2010-11-12">
+			<description>Return library books</description>
+			<children>
+				<child id="456"/>
+				<child id="789"/>
+			</children>
+		</item>
+		<item id="456" created="2010-11-02" updated="">
+			<description>Return GTD book</description>
+			<parent id="123"/>
+		</item>
+	</list>
+	<list title="@HomePC" subtitle="">
+		<item id="789">
+			<description>Pay overdue library fine</description>
+			<parent id="123"/>
+			<completed-date>2010-11-22</completed-date>
+		</item>
+	</list>
+</gtd-lists>
