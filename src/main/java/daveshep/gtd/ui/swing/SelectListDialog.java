@@ -43,6 +43,8 @@ public class SelectListDialog extends JDialog implements ActionListener {
 
 	private BasicSwingUI parent;
 
+	private boolean isCancelled = false;
+
 	SelectListDialog(BasicSwingUI parent) {
 		super(parent,"Select List",true);
 		this.parent = parent;
@@ -113,12 +115,14 @@ public class SelectListDialog extends JDialog implements ActionListener {
 			ListKey newListKey = getNewListKey();
 			logger.info("newListKey="+newListKey.toString());
 //			setListKey(newListKey);
+			this.isCancelled  = false;
 			setVisible(false);			
 			
 		} else if (e.getSource().equals(cancelButton)||e.getActionCommand().equalsIgnoreCase("Cancel")) {
 			logger.info("closing");
 			this.title = this.origListKey.getTitle();
 			this.subtitle = this.origListKey.getSubtitle();
+			this.isCancelled = true;
 			setVisible(false);
 			
 		} else if (e.getSource().equals(titleComboBox)) {
@@ -197,6 +201,10 @@ public class SelectListDialog extends JDialog implements ActionListener {
 
 	public JButton getCancelButton() {
 		return cancelButton;
+	}
+
+	public boolean isCancelled() {
+		return this.isCancelled;
 	}
 
 //	public ListKey getListKey() {

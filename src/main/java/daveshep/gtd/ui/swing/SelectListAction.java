@@ -22,12 +22,12 @@ public class SelectListAction extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// show description dialog
 		
 		SelectListDialog dialog = new SelectListDialog(parent.getParent());
 		
 		dialog.setListKey(parent.getListKey());
-		
+		dialog.setLocationRelativeTo(parent);
+
 		dialog.setVisible(true);
 		
 		ListKey newListKey = dialog.getNewListKey();

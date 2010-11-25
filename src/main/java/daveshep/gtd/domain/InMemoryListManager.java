@@ -164,4 +164,40 @@ public class InMemoryListManager implements GtdListManager {
 		
 	}
 
+	@Override
+	public void copyTo(GtdListItem item, ListKey listKey) {
+
+		// make a copy of the item
+		GtdListItem newItem = item.copy();
+		
+		// add it to the list (will create list if necessary)
+		GtdList list = getList(listKey);
+		try {
+			list.add(newItem);
+		} catch (GtdListException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void moveTo(GtdListItem item, ListKey listKey) {
+
+		// remove the item from it's current list
+		item.getOwningList().remove(item);
+		item.setOwningList(null);
+		
+		// get the list to move to (will create the list if necessary)
+		GtdList list = getList(listKey);
+		
+		// add the item to it's new list
+		try {
+			list.add(item);
+		} catch (GtdListException e) {
+			e.printStackTrace();
+			logger.severe("cloned item was already on list - check IDs");
+		}
+		
+	}
+
 }

@@ -66,4 +66,18 @@ public interface GtdListManager {
 	 */
 	public void removeAll();
 	
+	/**
+	 * Copy an item to another list
+	 * @param item
+	 * @param listKey
+	 */
+	public void copyTo(GtdListItem item, ListKey listKey);
+	
+	/**
+	 * Move an item to another list
+	 * @param item
+	 * @param listKey
+	 */
+	public void moveTo(GtdListItem item, ListKey listKey);
+	
 }

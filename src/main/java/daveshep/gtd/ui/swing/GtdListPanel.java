@@ -107,6 +107,14 @@ public class GtdListPanel extends JPanel {
 		// F5 = refresh screen
 		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_F5,0),"Refresh");
 		itemList.getActionMap().put("Refresh", new RefreshAction(this));
+		
+		// Ctrl-C = clone
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_C,InputEvent.CTRL_DOWN_MASK), "Clone");
+		itemList.getActionMap().put("Clone", new CloneAction(this));
+
+		// Ctrl-M = move
+		itemList.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_M,InputEvent.CTRL_DOWN_MASK), "Move");
+		itemList.getActionMap().put("Move", new MoveAction(this));
 
 
 		

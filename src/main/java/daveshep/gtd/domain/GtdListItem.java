@@ -5,7 +5,7 @@ import java.util.Set;
 
 import daveshep.gtd.GtdListException;
 
-public interface GtdListItem extends Comparable<GtdListItem> {
+public interface GtdListItem extends Comparable<GtdListItem>, Cloneable {
 	public String getDescription();
 	public void setDescription(String description);
 	
@@ -97,5 +97,13 @@ public interface GtdListItem extends Comparable<GtdListItem> {
 	public boolean hasDependent(GtdListItem dependee);
 	public boolean hasDependors();
 	public boolean hasDependents();
+	
+	/**
+	 * Make a copy of this item.  A new ID value is assigned and the owningList is set to null
+	 * @return a copy of this item
+	 */
+	public GtdListItem copy();
+	
+	public String dumpValues();
 	
 }

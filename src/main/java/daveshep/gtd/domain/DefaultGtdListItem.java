@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import daveshep.gtd.GtdListException;
 import daveshep.gtd.util.DateUtils;
+import daveshep.gtd.util.IdGenerator;
 
 public class DefaultGtdListItem implements GtdListItem {
+	private static Logger logger = Logger.getLogger("daveshep.gtd");
 
 	private String description;
 	private Long id;
@@ -196,6 +199,15 @@ public class DefaultGtdListItem implements GtdListItem {
 	@Override
 	public String toString() {
 		return getDescription();
+	}
+	
+	public String dumpValues() {
+		StringBuffer buf = new StringBuffer();
+		
+		buf.append("id:"+id+"\n");
+		buf.append("description:"+description+"\n");
+		
+		return buf.toString();
 	}
 	
 	public boolean isAncestorOf(GtdListItem child) {
@@ -460,6 +472,22 @@ public class DefaultGtdListItem implements GtdListItem {
 			toList.add(this);
 		}
 		
+	}
+
+	@Override
+	public GtdListItem copy() {
+		try {
+			// clone the item
+			GtdListItem newItem = (GtdListItem) this.clone();
+			// generate a new ID
+			newItem.setId(IdGenerator.getInstance().generateId());
+			// set the owningList to null
+			newItem.setOwningList(null);
+			return newItem;
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 
